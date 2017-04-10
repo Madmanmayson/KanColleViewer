@@ -15,7 +15,7 @@
 				  PanningMode="Both">
 		<DockPanel Margin="8,0,8,8">
 			<TextBlock DockPanel.Dock="Bottom"
-					   Text="※アプリケーションが起動している間に発生した回数のみをカウントしています。"
+					   Text="※ The plugin only counts the number of times that occured while the application is running."
 					   Style="{DynamicResource DefaultTextStyleKey}"
 					   Margin="4"
 					   Padding="0,8,0,0" />
@@ -53,7 +53,7 @@
 									 Style="{DynamicResource EmphaticTextElementStyleKey}" />
 								</TextBlock>
 								<metro2:CallMethodButton Grid.Column="2"
-														 Content="リセット"
+														 Content="Reset"
 														 MethodName="Reset" />
 							</Grid>
 						</Border>
