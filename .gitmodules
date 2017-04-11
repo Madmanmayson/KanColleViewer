@@ -4,3 +4,9 @@
 [submodule "source/MetroTrilithon"]
 	path = source/MetroTrilithon
 	url = https://github.com/Grabacr07/MetroTrilithon
+[submodule "source/Plugins/BattleInfoPlugin"]
+	path = source/Plugins/BattleInfoPlugin
+	url = https://github.com/Madmanmayson/BattleInfoPlugin
+[submodule "source/Plugins/EventMapHpViewer"]
+	path = source/Plugins/EventMapHpViewer
+	url = https://github.com/Madmanmayson/EventMapHpViewer
