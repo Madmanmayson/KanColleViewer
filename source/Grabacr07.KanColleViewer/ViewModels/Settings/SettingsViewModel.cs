@@ -13,7 +13,6 @@ using Grabacr07.KanColleWrapper.Models;
 using Livet;
 using Livet.EventListeners;
 using MetroTrilithon.Mvvm;
-using Livet;
 
 namespace Grabacr07.KanColleViewer.ViewModels.Settings
 {
