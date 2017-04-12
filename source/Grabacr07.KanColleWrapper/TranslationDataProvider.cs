@@ -129,7 +129,10 @@ namespace Grabacr07.KanColleWrapper
 			// Determine look-up fields and queries
 			switch (type)
 			{
-				case TranslationType.Ships:
+                case TranslationType.DropShip:
+                    lookupData = (rawData as kcsapi_combined_battle_battleresult).api_get_ship.api_ship_name;
+                    break;
+                case TranslationType.Ships:
 					lookupData = (rawData as kcsapi_mst_ship).api_name;
 					break;
 				case TranslationType.ShipTypes:
@@ -190,6 +193,10 @@ namespace Grabacr07.KanColleWrapper
 				case TranslationType.QuestTitle:
 					result = (translationSets[accessor] as QuestTranslationSet)?.quests?.FirstOrDefault(x => x.id.ToString() == key)?.title;
 					break;
+                case TranslationType.DropShip:
+                    accessor = Tuple.Create(TypeToProviderType(TranslationType.Ships), culture);
+                    result = (translationSets[accessor] as ShipTranslationSet)?.ships?.FirstOrDefault(x => x.name_ja == key)?.name;
+                    break;
 				//case TranslationType.OperationMaps:
 				//	return (translationSets[accessor] as OperationTranslationSet).operations.FirstOrDefault(x => x.name_ja == key).name;
 				//case TranslationType.OperationSortie:
@@ -411,6 +418,8 @@ namespace Grabacr07.KanColleWrapper
 				case TranslationType.ExpeditionTitle:
 				case TranslationType.ExpeditionDetail:
 					return TranslationProviderType.Expeditions;
+                case TranslationType.DropShip:
+                    return TranslationProviderType.Ships;
 				default:
 					throw new ArgumentOutOfRangeException(nameof(type), type, null);
 			}

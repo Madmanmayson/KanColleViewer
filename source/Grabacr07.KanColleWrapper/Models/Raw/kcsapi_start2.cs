@@ -15,6 +15,7 @@ namespace Grabacr07.KanColleWrapper.Models.Raw
 		public kcsapi_mst_useitem[] api_mst_useitem { get; set; }
 		public kcsapi_mst_maparea[] api_mst_maparea { get; set; }
 		public kcsapi_mst_mapinfo[] api_mst_mapinfo { get; set; }
+        public kcsapi_mst_mapcell[] api_mst_mapcell { get; set; }
 		public kcsapi_mission[] api_mst_mission { get; set; }
 	}
 

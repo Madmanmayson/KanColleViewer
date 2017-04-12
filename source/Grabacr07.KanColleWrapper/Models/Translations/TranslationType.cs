@@ -75,5 +75,10 @@ namespace Grabacr07.KanColleWrapper.Models.Translations
 		/// Expedition details translations only
 		/// </summary>
 		ExpeditionDetail = 12,
+
+        /// <summary>
+        /// Dropship names
+        /// </summary>
+        DropShip = 13,
 	}
 }
