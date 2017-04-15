@@ -862,7 +862,7 @@
 							<controls:CollapsibleGridViewColumn Width="64" Visibility="{Binding ShowAdditionalStats, Converter={StaticResource BooleanToVisibilityConverterKey}}">
 								<GridViewColumnHeader>
 									<metro2:SortButton MethodName="Sort"
-													   MethodParameter="{x:Static viewModels:ShipCatalogSortWorker.AntiSubColumn}">
+													   MethodParameter="{x:Static viewModels:ShipCatalogSortWorker.ASWColumn}">
 										<TextBlock Text="{Binding Resources.ShipCatalog_Column_ASW, Source={x:Static models:ResourceService.Current}, Mode=OneWay}" />
 									</metro2:SortButton>
 								</GridViewColumnHeader>
@@ -899,7 +899,7 @@
 							<GridViewColumn Width="45">
 								<GridViewColumn.Header>
 									<metro2:SortButton MethodName="Sort"
-													   MethodParameter="{x:Static viewModels:ShipCatalogSortWorker.ASWColumn}">
+													   MethodParameter="{x:Static viewModels:ShipCatalogSortWorker.SpeedColumn}">
 										<TextBlock Text="{Binding Resources.ShipCatalog_Column_Speed, Source={x:Static models:ResourceService.Current}, Mode=OneWay}"
 												   ToolTip="{Binding Resources.ShipCatalog_Column_Speed_ToolTip, Source={x:Static models:ResourceService.Current}, Mode=OneWay}" />
 									</metro2:SortButton>
