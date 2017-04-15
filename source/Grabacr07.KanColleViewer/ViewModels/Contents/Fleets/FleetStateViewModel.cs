@@ -1,8 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Grabacr07.KanColleViewer.Properties;
 using Grabacr07.KanColleWrapper.Models;
 using Livet;
 using Livet.EventListeners;
@@ -17,29 +15,15 @@ namespace Grabacr07.KanColleViewer.ViewModels.Contents.Fleets
 
 		public string TotalLevel => this.Source.TotalLevel.ToString("###0");
 
-		public string AirSuperiorityPotential => this.Source.AirSuperiorityPotential.ToString("##0");
-
 		public string MinAirSuperiorityPotential => this.Source.MinAirSuperiorityPotential.ToString("##0");
 
 		public string MaxAirSuperiorityPotential => this.Source.MaxAirSuperiorityPotential.ToString("##0");
 
-		public string ViewRange => this.Source.ViewRange.ToString("##0.##");
+		public string ViewRange => (Math.Floor(this.Source.ViewRange * 100) / 100).ToString("##0.##");
 
-		public string Speed
-		{
-			get
-			{
-				switch (this.Source.Speed)
-				{
-					case FleetSpeed.Fast:
-						return Resources.Fleets_Speed_Fast;
-					case FleetSpeed.Low:
-						return Resources.Fleets_Speed_Slow;
-					default:
-						return "速度混成艦隊";
-				}
-			}
-		}
+		public string Speed => this.Source.Speed.IsMixed
+			? $"速度混成艦隊 ({this.Source.Speed.Min.ToDisplayString()} ～ {this.Source.Speed.Max.ToDisplayString()})"
+			: $"{this.Source.Speed.Min.ToDisplayString()}艦隊";
 
 		public HomeportViewModel Homeport { get; }
 

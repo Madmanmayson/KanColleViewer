@@ -1,4 +1,4 @@
-﻿<metro:MetroWindow x:Class="Grabacr07.KanColleViewer.Views.Catalogs.ShipCatalogWindow"
+<metro:MetroWindow x:Class="Grabacr07.KanColleViewer.Views.Catalogs.ShipCatalogWindow"
 				   x:Name="GlowMetroWindow"
 				   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 				   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -13,7 +13,7 @@
 				   xmlns:kcvc="http://schemes.grabacr.net/winfx/2015/kancolleviewer/controls"
 				   xmlns:kcvi="http://schemes.grabacr.net/winfx/2015/kancolleviewer/interactivity"
 				   xmlns:kcvv="http://schemes.grabacr.net/winfx/2015/kancolleviewer/converters"
-				   xmlns:metro2="clr-namespace:MetroTrilithon.Controls;assembly=MetroTrilithon.Desktop"
+				   xmlns:metro2="clr-namespace:MetroTrilithon.UI.Controls;assembly=MetroTrilithon.Desktop"
 				   xmlns:properties="clr-namespace:Grabacr07.KanColleViewer.Properties"
 				   xmlns:views="clr-namespace:Grabacr07.KanColleViewer.Views"
 				   xmlns:behaviors="clr-namespace:Grabacr07.KanColleViewer.Views.Behaviors"
@@ -27,7 +27,7 @@
 				   mc:Ignorable="d"
 				   d:DataContext="{d:DesignInstance viewModels:ShipCatalogWindowViewModel}"
 				   Title="{Binding Title}"
-				   Width="950"
+				   Width="1020"
 				   Height="800"
 				   FontSize="12"
 				   Topmost="{Binding Settings.TopMost.Value}"
@@ -107,7 +107,7 @@
 							   Foreground="{DynamicResource ActiveForegroundBrushKey}" />
 				</Expander.Header>
 				<StackPanel Grid.IsSharedSizeScope="True">
-					<Border BorderThickness="1"
+					<Border BorderThickness=".99"
 							BorderBrush="{DynamicResource BorderBrushKey}"
 							Padding="5"
 							Margin="0,8,0,0">
@@ -229,7 +229,7 @@
 						</Grid>
 					</Border>
 
-					<Border BorderThickness="1"
+					<Border BorderThickness=".99"
 							BorderBrush="{DynamicResource BorderBrushKey}"
 							Margin="0,8,0,0"
 							Padding="5">
@@ -247,7 +247,7 @@
 								</Style>
 								<Style TargetType="{x:Type StackPanel}">
 									<Setter Property="Margin"
-											Value="0,0,40,0" />
+											Value="0,0,25,0" />
 									<Setter Property="Grid.IsSharedSizeScope"
 											Value="True" />
 								</Style>
@@ -331,12 +331,14 @@
 										<Run Text=":" />
 									</TextBlock>
 									<WrapPanel Grid.Column="2">
-										<RadioButton Content="すべて"
-													 IsChecked="{Binding Both, Mode=TwoWay}" />
-										<RadioButton Content="高速"
-													 IsChecked="{Binding Fast, Mode=TwoWay}" />
-										<RadioButton Content="低速"
-													 IsChecked="{Binding Low, Mode=TwoWay}" />
+										<CheckBox Content="最速"
+												  IsChecked="{Binding Fastest, Mode=TwoWay}" />
+										<CheckBox Content="高速+"
+												  IsChecked="{Binding Faster, Mode=TwoWay}" />
+										<CheckBox Content="高速"
+												  IsChecked="{Binding Fast, Mode=TwoWay}" />
+										<CheckBox Content="低速"
+												  IsChecked="{Binding Slow, Mode=TwoWay}" />
 									</WrapPanel>
 								</Grid>
 
@@ -384,35 +386,80 @@
 									</WrapPanel>
 								</Grid>
 							</StackPanel>
+
+							<StackPanel>
+								<Grid DataContext="{Binding ShipDamagedFilter}">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto"
+														  SharedSizeGroup="FilterName" />
+										<ColumnDefinition Width="10" />
+										<ColumnDefinition Width="*" />
+									</Grid.ColumnDefinitions>
+									<TextBlock Margin="0,2"
+											   HorizontalAlignment="Right">
+										<Run Text="損傷" />
+										<Run Text=":" />
+									</TextBlock>
+									<WrapPanel Grid.Column="2">
+										<RadioButton Content="すべて"
+													 IsChecked="{Binding Both, Mode=TwoWay}" />
+										<RadioButton Content="損傷あり"
+													 IsChecked="{Binding Damaged, Mode=TwoWay}" />
+										<RadioButton Content="損傷なし"
+													 IsChecked="{Binding Undamaged, Mode=TwoWay}" />
+									</WrapPanel>
+								</Grid>
+
+								<Grid DataContext="{Binding ShipConditionFilter}">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto"
+														  SharedSizeGroup="FilterName" />
+										<ColumnDefinition Width="10" />
+										<ColumnDefinition Width="*" />
+									</Grid.ColumnDefinitions>
+									<TextBlock Margin="0,2"
+											   HorizontalAlignment="Right">
+										<Run Text="condition" />
+										<Run Text=":" />
+									</TextBlock>
+									<WrapPanel Grid.Column="2">
+										<RadioButton Content="すべて"
+													 IsChecked="{Binding Both, Mode=TwoWay}" />
+										<RadioButton Content="50 以上"
+													 IsChecked="{Binding Brilliant, Mode=TwoWay}" />
+										<RadioButton Content="50 未満"
+													 IsChecked="{Binding Unbrilliant, Mode=TwoWay}" />
+									</WrapPanel>
+								</Grid>
+							</StackPanel>
 						</WrapPanel>
 					</Border>
 
-					<Border BorderThickness="1"
+					<Border BorderThickness=".99"
 							BorderBrush="{DynamicResource BorderBrushKey}"
 							Margin="0,8,0,0"
-							Padding="5">
-						<WrapPanel DataContext="{Binding ShipSallyAreaFilter}">
+							Padding="5"
+							Visibility="{Binding ShipSallyAreaFilter.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+						<DockPanel>
 							<TextBlock Margin="0,2">
 								<Run Text="出撃海域" />
 								<Run Text=":" />
 							</TextBlock>
-
-							<CheckBox Content="作戦出撃なし"
-									  IsChecked="{Binding None}"
-									  Margin="10,0" />
-							<CheckBox Content="初動作戦参加済み"
-									  IsChecked="{Binding E1And2}"
-									  Margin="10,0" />
-							<CheckBox Content="機動部隊参加済み"
-									  IsChecked="{Binding E3And6}"
-									  Margin="10,0" />
-							<CheckBox Content="挺身部隊参加済み"
-									  IsChecked="{Binding E4}"
-									  Margin="10,0" />
-							<CheckBox Content="西部方面参加済み"
-									  IsChecked="{Binding E5}"
-									  Margin="10,0" />
-						</WrapPanel>
+							<ItemsControl ItemsSource="{Binding ShipSallyAreaFilter.SallyAreas}">
+								<ItemsControl.ItemsPanel>
+									<ItemsPanelTemplate>
+										<WrapPanel />
+									</ItemsPanelTemplate>
+								</ItemsControl.ItemsPanel>
+								<ItemsControl.ItemTemplate>
+									<DataTemplate>
+										<CheckBox Content="{Binding Name}"
+												  IsChecked="{Binding IsChecked}"
+												  Margin="10,2,10,0" />
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
+						</DockPanel>
 					</Border>
 				</StackPanel>
 			</Expander>
@@ -427,7 +474,7 @@
 							   Foreground="{DynamicResource ActiveForegroundBrushKey}" />
 				</Expander.Header>
 
-				<Border BorderThickness="1"
+				<Border BorderThickness=".99"
 						BorderBrush="{DynamicResource BorderBrushKey}"
 						Padding="5"
 						Margin="0,8,0,0">
@@ -510,7 +557,7 @@
 
 			<Border Grid.Row="2"
 					BorderBrush="{DynamicResource BorderBrushKey}"
-					BorderThickness="1"
+					BorderThickness=".99"
 					Margin="8">
 
 				<ListView ItemsSource="{Binding Ships}"
@@ -525,7 +572,7 @@
 							<Setter Property="OverridesDefaultStyle"
 									Value="True" />
 							<Setter Property="BorderThickness"
-									Value="0,0,0,1" />
+									Value="0,0,0,.99" />
 							<Setter Property="BorderBrush"
 									Value="{DynamicResource BorderBrushKey}" />
 							<Setter Property="Background"
@@ -547,7 +594,7 @@
 													<ControlTemplate TargetType="{x:Type Thumb}">
 														<Border Background="Transparent"
 																Width="13">
-															<Rectangle Width="1"
+															<Rectangle Width=".99"
 																	   Stroke="{TemplateBinding BorderBrush}" />
 														</Border>
 													</ControlTemplate>
@@ -606,7 +653,7 @@
 								</GridViewColumn.CellTemplate>
 							</GridViewColumn>
 
-							<GridViewColumn Width="100">
+							<GridViewColumn Width="102">
 								<GridViewColumn.Header>
 									<metro2:SortButton MethodName="Sort"
 													   MethodParameter="{x:Static viewModels:ShipCatalogSortWorker.NameColumn}">
@@ -622,7 +669,7 @@
 								</GridViewColumn.CellTemplate>
 							</GridViewColumn>
 
-							<GridViewColumn Width="110">
+							<GridViewColumn Width="114">
 								<GridViewColumn.Header>
 									<metro2:SortButton MethodName="Sort"
 													   MethodParameter="{x:Static viewModels:ShipCatalogSortWorker.LevelColumn}">
@@ -770,7 +817,64 @@
 								</GridViewColumn.CellTemplate>
 							</GridViewColumn>
 
-							<GridViewColumn Width="65">
+							<GridViewColumn Width="45">
+								<GridViewColumn.Header>
+									<metro2:SortButton MethodName="Sort"
+													   MethodParameter="{x:Static viewModels:ShipCatalogSortWorker.ASWColumn}">
+										<TextBlock Text="対潜"
+												   ToolTip="装備によるステータス上昇を含んだ値です" />
+									</metro2:SortButton>
+								</GridViewColumn.Header>
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding Ship.ASW, Mode=OneWay}"
+												   Foreground="{DynamicResource ActiveForegroundBrushKey}"
+												   Margin="0,3" />
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+
+							<GridViewColumn Width="45">
+								<GridViewColumn.Header>
+									<metro2:SortButton MethodName="Sort"
+													   MethodParameter="{x:Static viewModels:ShipCatalogSortWorker.ASWColumn}">
+										<TextBlock Text="速力"
+												   ToolTip="装備によるステータス上昇を含んだ値です" />
+									</metro2:SortButton>
+								</GridViewColumn.Header>
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<TextBlock x:Name="Text"
+												   Text="{Binding Speed, Mode=OneWay}"
+												   Foreground="{DynamicResource ActiveForegroundBrushKey}"
+												   Margin="-5,0"
+												   Padding="5,3"
+												   MinWidth="45" />
+										<DataTemplate.Triggers>
+											<DataTrigger Binding="{Binding Ship.Speed}"
+														 Value="Fastest">
+												<Setter TargetName="Text"
+														Property="Background"
+														Value="RoyalBlue" />
+											</DataTrigger>
+											<DataTrigger Binding="{Binding Ship.Speed}"
+														 Value="Faster">
+												<Setter TargetName="Text"
+														Property="Background"
+														Value="SteelBlue" />
+											</DataTrigger>
+											<DataTrigger Binding="{Binding Ship.Speed}"
+														 Value="Slow">
+												<Setter TargetName="Text"
+														Property="Opacity"
+														Value="0.5" />
+											</DataTrigger>
+										</DataTemplate.Triggers>
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+
+							<GridViewColumn Width="{Binding ShipSallyAreaFilter.ColumnWidth}">
 								<GridViewColumn.Header>
 									<TextBlock Text="出撃海域" />
 								</GridViewColumn.Header>
@@ -778,54 +882,35 @@
 									<DataTemplate>
 										<Border x:Name="Border"
 												Margin="-2,0">
-											<TextBlock x:Name="Text"
-													   Text=""
+											<Border.Background>
+												<SolidColorBrush Color="{Binding SallyArea.Color}" />
+											</Border.Background>
+											<TextBlock Text="{Binding SallyArea.Name}"
 													   Foreground="{DynamicResource ActiveForegroundBrushKey}"
 													   Margin="5,3" />
 										</Border>
-										<DataTemplate.Triggers>
-											<DataTrigger Binding="{Binding Ship.SallyArea}"
-														 Value="1">
-												<Setter TargetName="Text"
-														Property="Text"
-														Value="初動作戦" />
-												<Setter TargetName="Border"
-														Property="Background"
-														Value="#FF3C677F" />
-											</DataTrigger>
-											<DataTrigger Binding="{Binding Ship.SallyArea}"
-														 Value="2">
-												<Setter TargetName="Text"
-														Property="Text"
-														Value="機動部隊" />
-												<Setter TargetName="Border"
-														Property="Background"
-														Value="#FF3B662A" />
-											</DataTrigger>
-											<DataTrigger Binding="{Binding Ship.SallyArea}"
-														 Value="3">
-												<Setter TargetName="Text"
-														Property="Text"
-														Value="挺身部隊" />
-												<Setter TargetName="Border"
-														Property="Background"
-														Value="#FF839842" />
-											</DataTrigger>
-											<DataTrigger Binding="{Binding Ship.SallyArea}"
-														 Value="4">
-												<Setter TargetName="Text"
-														Property="Text"
-														Value="西部方面" />
-												<Setter TargetName="Border"
-														Property="Background"
-														Value="#FF906736" />
-											</DataTrigger>
-										</DataTemplate.Triggers>
 									</DataTemplate>
 								</GridViewColumn.CellTemplate>
 							</GridViewColumn>
 
-							<GridViewColumn Width="140">
+							<GridViewColumn Width="64">
+								<GridViewColumn.Header>
+									<metro2:SortButton MethodName="Sort"
+													   MethodParameter="{x:Static viewModels:ShipCatalogSortWorker.TimeToRepairColumn}">
+										<TextBlock Text="修復時間"
+												   ToolTip="入渠にかかる時間です" />
+									</metro2:SortButton>
+								</GridViewColumn.Header>
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding TimeToRepair, Mode=OneWay}"
+												   Foreground="{DynamicResource ActiveForegroundBrushKey}"
+												   Margin="0,3" />
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+
+							<GridViewColumn Width="96">
 								<GridViewColumn.Header>
 									<TextBlock Text="装備" />
 								</GridViewColumn.Header>
@@ -886,7 +971,7 @@
 			<Border Grid.Row="2"
 					Background="{DynamicResource ThemeBrushKey}"
 					BorderBrush="{DynamicResource BorderBrushKey}"
-					BorderThickness="1"
+					BorderThickness=".99"
 					Opacity="0.75"
 					Margin="8"
 					Padding="20"

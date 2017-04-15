@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
-using Grabacr07.KanColleWrapper.Internal;
-using Grabacr07.KanColleWrapper.Models;
 using Grabacr07.KanColleWrapper.Models.Raw;
 
 namespace Grabacr07.KanColleWrapper
@@ -99,35 +96,38 @@ namespace Grabacr07.KanColleWrapper
 		public void Initialieze()
 		{
 			var proxy = this.Proxy ?? (this.Proxy = new KanColleProxy());
-			var basic = proxy.api_get_member_basic.TryParse<kcsapi_basic>().FirstAsync().ToTask();
-			var kdock = proxy.api_get_member_kdock.TryParse<kcsapi_kdock[]>().FirstAsync().ToTask();
-			var sitem = proxy.api_get_member_slot_item.TryParse<kcsapi_slotitem[]>().FirstAsync().ToTask();
 
-			proxy.api_start2.FirstAsync().Subscribe(async session =>
+			var start2Source = proxy.api_start2.TryParse<kcsapi_start2>();
+			var requireInfoSource = proxy.api_get_member_require_info.TryParse<kcsapi_require_info>();
+			var firstTime = start2Source
+				.CombineLatest(requireInfoSource, (start2, requireInfo) => new { start2, requireInfo, })
+				.FirstAsync();
+
+			// Homeport の初期化と require_info の適用に Master のインスタンスが必要なため、初回のみ足並み揃えて実行
+			// 2 回目以降は受信したタイミングでそれぞれ更新すればよい
+
+			firstTime.Subscribe(x =>
 			{
-				var timeout = Task.Delay(TimeSpan.FromSeconds(20));
-				var canInitialize = await Task.WhenAny(new Task[] { basic, kdock, sitem }.WhenAll(), timeout) != timeout;
-
-				// タイムアウト仕掛けてるのは、今後のアップデートで basic, kdock, slot_item のいずれかが来なくなったときに
-				// 起動できなくなる (IsStarted を true にできなくなる) のを防ぐため
-				// -----
-				// ま、そんな規模の変更があったらそもそもまともに動作せんだろうがな ☝(◞‸◟)☝ 野良ツールはつらいよ
-
-				SvData<kcsapi_start2> svd;
-				if (!SvData.TryParse(session, out svd)) return;
-
-				this.Master = new Master(svd.Data);
-				if (this.Homeport == null) this.Homeport = new Homeport(proxy);
-
-				if (canInitialize)
-				{
-					this.Homeport.UpdateAdmiral((await basic).Data);
-					this.Homeport.Itemyard.Update((await sitem).Data);
-					this.Homeport.Dockyard.Update((await kdock).Data);
-				}
-
+				this.Master = new Master(x.start2.Data);
+				this.Homeport = new Homeport(proxy);
+				this.SetRequireInfo(x.requireInfo.Data);
 				this.IsStarted = true;
 			});
+
+			start2Source
+				.SkipUntil(firstTime)
+				.Subscribe(x => this.Master = new Master(x.Data));
+
+			requireInfoSource
+				.SkipUntil(firstTime)
+				.Subscribe(x => this.SetRequireInfo(x.Data));
+		}
+
+		private void SetRequireInfo(kcsapi_require_info data)
+		{
+			this.Homeport.UpdateAdmiral(data.api_basic);
+			this.Homeport.Itemyard.Update(data.api_slot_item);
+			this.Homeport.Dockyard.Update(data.api_kdock);
 		}
 	}
 }

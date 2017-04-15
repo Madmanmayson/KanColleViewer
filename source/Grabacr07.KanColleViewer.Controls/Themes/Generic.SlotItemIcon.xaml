@@ -638,21 +638,21 @@
 						<ControlTemplate TargetType="{x:Type controls:SlotItemIcon}">
 							<Viewbox>
 								<Grid>
-									<Path Width="33" 
-									      Height="25.972"
-									      HorizontalAlignment="Left" 
-									      VerticalAlignment="Top" 
-									      Margin="4.99996, 17.0089, 0, 0"
-									      Stretch="Uniform" 
-									      Fill="#FFBFDD9A"
-									      Data="M 30.5467,19.8049L 21.5,40.8689L 12.4533,19.8049C 11.8853,18.4823 12.856,17.0089 14.296,17.0089L 28.704,17.0089C 30.144,17.0089 31.1146,18.4823 30.5467,19.8049 Z M 37.9999,42.981L 4.99996,42.981L 4.99996,40.8703L 37.9999,40.8703L 37.9999,42.981 Z "/>
-									<Ellipse Width="15.4584" 
-									         Height="15.4584" 
-									         HorizontalAlignment="Left"
-									         VerticalAlignment="Top" 
-									         Margin="13.7707, 0.0191078, 0, 0" 
-									         Stretch="Uniform" 
-									         Fill="#FFBFDD9A"/>
+									<Path Width="33"
+										  Height="25.972"
+										  HorizontalAlignment="Left"
+										  VerticalAlignment="Top"
+										  Margin="4.99996, 17.0089, 0, 0"
+										  Stretch="Uniform"
+										  Fill="#FFBFDD9A"
+										  Data="M 30.5467,19.8049L 21.5,40.8689L 12.4533,19.8049C 11.8853,18.4823 12.856,17.0089 14.296,17.0089L 28.704,17.0089C 30.144,17.0089 31.1146,18.4823 30.5467,19.8049 Z M 37.9999,42.981L 4.99996,42.981L 4.99996,40.8703L 37.9999,40.8703L 37.9999,42.981 Z " />
+									<Ellipse Width="15.4584"
+											 Height="15.4584"
+											 HorizontalAlignment="Left"
+											 VerticalAlignment="Top"
+											 Margin="13.7707, 0.0191078, 0, 0"
+											 Stretch="Uniform"
+											 Fill="#FFBFDD9A" />
 								</Grid>
 							</Viewbox>
 						</ControlTemplate>
@@ -679,8 +679,25 @@
 						<ControlTemplate TargetType="{x:Type controls:SlotItemIcon}">
 							<Viewbox>
 								<Grid>
-									<Path Width="50.4377" Height="41.3333" HorizontalAlignment="Center" VerticalAlignment="Bottom" Stretch="Fill" StrokeThickness="1.33333" StrokeLineJoin="Round" Stroke="#606060" Fill="#FFFFFFFF" Data="M 8.07964,41C 1.97201,41 -0.340562,36.7825 2.93952,31.6443L 20.0353,4.85508C 23.3154,-0.283161 28.6832,-0.285927 31.9647,4.85231L 49.0605,31.6457C 52.3405,36.7853 50.028,41 43.9203,41L 8.07964,41 Z "/>
-									<Rectangle Width="21.3333" Height="15.3333" HorizontalAlignment="Center" VerticalAlignment="Bottom" Stretch="Fill" StrokeThickness="1.33333" StrokeLineJoin="Round" Stroke="#606060" Fill="#606060"/>
+									<Path Width="50.4377"
+										  Height="41.3333"
+										  HorizontalAlignment="Center"
+										  VerticalAlignment="Bottom"
+										  Stretch="Fill"
+										  StrokeThickness="1.33333"
+										  StrokeLineJoin="Round"
+										  Stroke="#606060"
+										  Fill="#FFFFFFFF"
+										  Data="M 8.07964,41C 1.97201,41 -0.340562,36.7825 2.93952,31.6443L 20.0353,4.85508C 23.3154,-0.283161 28.6832,-0.285927 31.9647,4.85231L 49.0605,31.6457C 52.3405,36.7853 50.028,41 43.9203,41L 8.07964,41 Z " />
+									<Rectangle Width="21.3333"
+											   Height="15.3333"
+											   HorizontalAlignment="Center"
+											   VerticalAlignment="Bottom"
+											   Stretch="Fill"
+											   StrokeThickness="1.33333"
+											   StrokeLineJoin="Round"
+											   Stroke="#606060"
+											   Fill="#606060" />
 								</Grid>
 							</Viewbox>
 						</ControlTemplate>
@@ -723,6 +740,143 @@
 										  Stretch="Fill"
 										  VerticalAlignment="Top"
 										  Width="240.92" />
+								</Grid>
+							</Viewbox>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Trigger>
+			<Trigger Property="Type"
+					 Value="AmphibiousLandingCraft">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type controls:SlotItemIcon}">
+							<Path Stretch="Uniform"
+								  Data="M56,278L56 375 69 389 83 389 97 417 97 444 125 472 153 472 153 458 167 403 181 403 194 458 153 458 153 472 222 472 222 458 222 403 264 403 250 458 222 458 222 472 278 472 278 458 278 403 306 403 319 458 278 458 278 472 347 472 347 458 333 403 361 403 375 458 347 458 347 472 403 472 403 458 389 403 417 403 431 444 403 458 403 472 431 458 444 458 486 431 542 431 583 389 597 361 611 319 611 306 347 319 389 292 444 292 444 264 347 264 319 208 264 208 236 292 208 292 194 264 208 250 194 222 181 222 194 181 181 181 167 222 153 222 139 250 167 250 153 264 139 292 z"
+								  Fill="#FF9AA55D" />
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Trigger>
+			<Trigger Property="Type"
+					 Value="LandBasedAttacker">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type controls:SlotItemIcon}">
+							<Viewbox>
+								<Grid>
+									<Path Data="M0,347L28 292 69 264 42 250 83 250 14 208 14 181 153 222 194 194 194 222 208 222 208 181 222 181 250 222 278 222 306 208 306 181 375 194 417 111 431 111 431 167 444 208 472 222 500 236 500 250 458 236 444 236 361 264 333 278 347 292 500 347 500 375 486 375 333 333 264 375 236 375 236 347 250 306 83 375 14 361 z"
+										  Fill="#FF39B74E"
+										  HorizontalAlignment="Left"
+										  Height="139"
+										  Stretch="Uniform"
+										  VerticalAlignment="Top"
+										  Width="235" />
+									<ed:RegularPolygon PointCount="6"
+													   InnerRadius="1"
+													   Stretch="Fill"
+													   Stroke="Black"
+													   StrokeThickness="2"
+													   Fill="#FF39B74E"
+													   Width="126"
+													   Height="146"
+													   HorizontalAlignment="Left"
+													   VerticalAlignment="Top"
+													   Margin="91.033,50.606,0,0" />
+								</Grid>
+							</Viewbox>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Trigger>
+			<Trigger Property="Type"
+					 Value="LandBasedFighter">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type controls:SlotItemIcon}">
+							<Viewbox>
+								<Grid>
+									<Path Data="M28,181L28 194 14 236 42 208 56 236 83 250 125 264 167 278 181 306 139 319 181 319 236 431 264 431 278 333 264 292 319 292 361 306 403 306 458 375 472 375 472 347 444 306 500 264 500 236 472 236 431 250 417 264 375 208 361 208 375 236 347 236 333 222 361 167 319 208 278 194 236 194 208 167 181 83 153 56 125 56 139 139 111 153 74 153 83 111 56 153 42 167 0 139 z"
+										  Fill="#FF39B74E"
+										  HorizontalAlignment="Left"
+										  Height="139"
+										  Stretch="Uniform"
+										  VerticalAlignment="Top"
+										  Width="235" />
+									<ed:RegularPolygon PointCount="6"
+													   InnerRadius="1"
+													   Stretch="Fill"
+													   Stroke="Black"
+													   StrokeThickness="2"
+													   Fill="#FF39B74E"
+													   Width="126"
+													   Height="146"
+													   HorizontalAlignment="Left"
+													   VerticalAlignment="Top"
+													   Margin="91.033,50.606,0,0" />
+								</Grid>
+							</Viewbox>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Trigger>
+			<Trigger Property="Type"
+					 Value="JetPowerededBomber1">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type controls:SlotItemIcon}">
+							<Viewbox>
+								<Grid>
+									<Path Data="M7,6C5.628,5.355,5.289,3.855,3.55,3.791c-0.26-.01-0.907.667-1.133,0.678C0.91,4.542.07,4.288,0.088,5.154-1.049,6.854,4.048,8.8,4,10c-0.06,1.5-2.406-1.031-3,1s1.921,1.787,1.529,2.271C1.538,14.493-.136,16.3.537,17.613c1.076,2.1,4.816-4.208,7.268-4.113,1.372,0.053.491-1.358,1.788-2.816A34.566,34.566,0,0,1,15,12a16.239,16.239,0,0,0,3,0c2.281-.125,1.219-2.875,2-3s0.406-1.937-1-2-1.083,2.008-3,2c-0.982,0-4.186-.994-4.124-1.556S13.67,6.836,12,6c-1.18-.556,1.461-1.553,1.233-4.238-0.244-2.875-1.05-1.51-3.033.881C7.688,4.752,7.932,2.01,7,3,6.16,3.96,8.19,4.712,7,6Z"
+										  Fill="#FF48B38F"
+										  HorizontalAlignment="Left"
+										  Width="207"
+										  Height="129"
+										  Stretch="Uniform"
+										  VerticalAlignment="Top" />
+									<ed:RegularPolygon PointCount="6"
+													   InnerRadius="1"
+													   Stretch="Fill"
+													   Stroke="Black"
+													   StrokeThickness="2"
+													   Fill="#FFFDC313"
+													   Width="126"
+													   Height="146"
+													   HorizontalAlignment="Left"
+													   VerticalAlignment="Top"
+													   Margin="61.033,60.606,0,0" />
+								</Grid>
+							</Viewbox>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Trigger>
+			<Trigger Property="Type"
+					 Value="JetPowerededBomber2">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type controls:SlotItemIcon}">
+							<Viewbox>
+								<Grid>
+									<Path Data="M21,14a24.414,24.414,0,0,1-5-1c0.032,0.047-3.741-2.217-4.645-1.674s-0.858,1.34-1.766,2.595C9.4,14.177,10.8,15.23,9.86,16s-1.379.1-2.678,0.125C5.96,17.321,4.026,19.3,3.238,19.162c-0.557-.095.793-2.653,1.372-4.648C3.053,13.429,1.2,11,2,11H3a7.764,7.764,0,0,1,3.236.381c0.2-.322.392-0.639,0.594-0.932C3.435,9.348.553,6.894,1,6,1.583,4.833,6.333,7.167,8,7c0.3-.03-0.75-1,2-1a3.549,3.549,0,0,1,.4.052c0.1-.139.205-0.28,0.308-0.42C9.457,4.809,8.211,3,9,3h1a10.314,10.314,0,0,1,2.5.217C13.556,1.852,14.472.859,15,1c0.251,0.067,1.289-.3,1,0a11.407,11.407,0,0,0-1.6,3.427c1.147,1.292.466,1.448-.525,1.461a1.688,1.688,0,0,0-.553,1.457C14.486,8.143,15.608,9,17,9c1.917,0,1.432.166,3-1,2.093-1.556,1.8.864,1.755,3.346C21.728,12.7,21.61,13.962,21,14Z"
+										  Fill="#FF48B38F"
+										  HorizontalAlignment="Left"
+										  Width="207"
+										  Height="129"
+										  Stretch="Uniform"
+										  VerticalAlignment="Top" />
+									<ed:RegularPolygon PointCount="6"
+													   InnerRadius="1"
+													   Stretch="Fill"
+													   Stroke="Black"
+													   StrokeThickness="2"
+													   Fill="#FFFDC313"
+													   Width="126"
+													   Height="146"
+													   HorizontalAlignment="Left"
+													   VerticalAlignment="Top"
+													   Margin="61.033,60.606,0,0" />
+									<!-- Margin="91.033,50.606,0,0" /> -->
 								</Grid>
 							</Viewbox>
 						</ControlTemplate>
