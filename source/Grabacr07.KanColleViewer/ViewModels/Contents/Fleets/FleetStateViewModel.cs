@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Grabacr07.KanColleViewer.Properties;
 using Grabacr07.KanColleWrapper.Models;
 using Livet;
 using Livet.EventListeners;
+using Grabacr07.KanColleViewer.Properties;
 
 namespace Grabacr07.KanColleViewer.ViewModels.Contents.Fleets
 {
@@ -23,21 +22,9 @@ namespace Grabacr07.KanColleViewer.ViewModels.Contents.Fleets
 
 		public string ViewRange => (Math.Floor(this.Source.ViewRange * 100) / 100).ToString("##0.##");
 
-		public string Speed
-		{
-			get
-			{
-				switch (this.Source.Speed)
-				{
-					case FleetSpeed.Fast:
-						return Resources.Fleets_Speed_Fast;
-					case FleetSpeed.Low:
-						return Resources.Fleets_Speed_Slow;
-					default:
-						return Resources.Fleets_Speed_Hybrid;
-				}
-			}
-		}
+		public string Speed => this.Source.Speed.IsMixed
+			? $"{Resources.Fleets_Speed_Hybrid} ({this.Source.Speed.Min.ToDisplayString()} ～ {this.Source.Speed.Max.ToDisplayString()})"
+			: $"{this.Source.Speed.Min.ToDisplayString()}{Resources.Fleets_Speed_Suffix}";
 
 		public HomeportViewModel Homeport { get; }
 
