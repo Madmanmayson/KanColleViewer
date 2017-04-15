@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using System.Linq;
 using Grabacr07.KanColleWrapper.Models;
+using Grabacr07.KanColleViewer.Properties;
 
 namespace Grabacr07.KanColleViewer.ViewModels.Contents
 {
@@ -13,13 +14,13 @@ namespace Grabacr07.KanColleViewer.ViewModels.Contents
 			switch (speed)
 			{
 				case ShipSpeed.Fastest:
-					return "最速";
+					return Resources.Fleets_Speed_Fastest;
 				case ShipSpeed.Faster:
-					return "高速+";
+					return Resources.Fleets_Speed_Faster;
 				case ShipSpeed.Fast:
-					return "高速";
+					return Resources.Fleets_Speed_Fast;
 				case ShipSpeed.Slow:
-					return "低速";
+					return Resources.Fleets_Speed_Slow;
 				default:
 					return "";
 			}

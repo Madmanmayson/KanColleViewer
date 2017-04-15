@@ -430,10 +430,10 @@
     <value>準備完了</value>
   </data>
   <data name="Fleets_Speed_Fast" xml:space="preserve">
-    <value>高速艦隊</value>
+    <value>高速</value>
   </data>
   <data name="Fleets_Speed_Slow" xml:space="preserve">
-    <value>低速艦隊</value>
+    <value>低速</value>
   </data>
   <data name="ZoomAction_OutOfRange" xml:space="preserve">
     <value>ズーム {0} % はサポートされていません。</value>
@@ -1434,6 +1434,21 @@ HTTP プロトコルの通信は自動構成も含め「インターネット �
     <value>第2艦隊</value>
   </data>
   <data name="ShipCatalog_Column_ASW_Tooltip" xml:space="preserve">
+    <value>装備によるステータス上昇を含んだ値です</value>
+  </data>
+  <data name="Fleets_Speed_Faster" xml:space="preserve">
+    <value>高速+</value>
+  </data>
+  <data name="Fleets_Speed_Fastest" xml:space="preserve">
+    <value>最速</value>
+  </data>
+  <data name="Fleets_Speed_Suffix" xml:space="preserve">
+    <value>艦隊</value>
+  </data>
+  <data name="ShipCatalog_Column_Speed" xml:space="preserve">
+    <value>速力</value>
+  </data>
+  <data name="ShipCatalog_Column_Speed_ToolTip" xml:space="preserve">
     <value>装備によるステータス上昇を含んだ値です</value>
   </data>
 </root>
