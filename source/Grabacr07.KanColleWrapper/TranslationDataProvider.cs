@@ -130,6 +130,10 @@ namespace Grabacr07.KanColleWrapper
 			switch (type)
 			{
                 case TranslationType.DropShip:
+                    if((rawData as kcsapi_combined_battle_battleresult).api_get_ship == null)
+                    {
+                        return null;
+                    }
                     lookupData = (rawData as kcsapi_combined_battle_battleresult).api_get_ship.api_ship_name;
                     break;
                 case TranslationType.Ships:
