@@ -86,6 +86,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskbarProgress", "Plugins\
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleInfoPlugin", "Plugins\BattleInfoPlugin\BattleInfoPlugin\BattleInfoPlugin.csproj", "{F8664ABC-AA36-421E-B3D7-287091224B1B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C5F0111F-3F68-4A74-BB20-BB762564D080} = {C5F0111F-3F68-4A74-BB20-BB762564D080}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventMapHpViewer", "Plugins\EventMapHpViewer\EventMapHpViewer\EventMapHpViewer.csproj", "{912029C5-C147-459B-A735-3D559B2F193D}"
 EndProject

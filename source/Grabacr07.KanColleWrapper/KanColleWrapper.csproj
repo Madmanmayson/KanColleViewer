@@ -118,7 +118,6 @@
     <Compile Include="DisposableNotifier.cs" />
     <Compile Include="Dockyard.cs" />
     <Compile Include="EnumerableEx.cs" />
-    <Compile Include="Models\BattleResult.cs" />
     <Compile Include="Models\CombinedFleet.cs" />
     <Compile Include="Models\FleetSpeed.cs" />
     <Compile Include="Models\FleetState.cs" />
