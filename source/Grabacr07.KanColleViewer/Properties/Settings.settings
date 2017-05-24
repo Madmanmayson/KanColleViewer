@@ -35,7 +35,7 @@
       <Value Profile="(Default)">http://shatteredskies.blob.core.windows.net/kancolle/sally.json</Value>
     </Setting>
     <Setting Name="KcvApiUrl" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://kcvapi.koumakan.jp/version/</Value>
+      <Value Profile="(Default)">http://api.lolicode.moe/v1/version</Value>
     </Setting>
   </Settings>
 </SettingsFile>

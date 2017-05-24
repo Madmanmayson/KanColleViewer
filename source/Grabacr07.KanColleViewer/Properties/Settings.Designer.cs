@@ -72,7 +72,7 @@ namespace Grabacr07.KanColleViewer.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://kcvapi.koumakan.jp/version/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://api.lolicode.moe/v1/version")]
         public string KcvApiUrl {
             get {
                 return ((string)(this["KcvApiUrl"]));
