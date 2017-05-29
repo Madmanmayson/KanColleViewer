@@ -71,8 +71,8 @@
 				<LineBreak />
 
 				<Run Text="Source code:" />
-				<metro2:HyperlinkEx Uri="https://github.com/Yuubari/KanColleViewer">
-					<Run Text="https://github.com/Yuubari/KanColleViewer" />
+				<metro2:HyperlinkEx Uri="https://github.com/Madmanmayson/KanColleViewer">
+					<Run Text="https://github.com/Madmanmayson/KanColleViewer" />
 				</metro2:HyperlinkEx>
 
 				<LineBreak />
