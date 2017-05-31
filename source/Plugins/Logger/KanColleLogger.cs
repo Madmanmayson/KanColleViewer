@@ -12,14 +12,26 @@ namespace Logger
 {
 	[Export(typeof(IPlugin))]
 	[Export(typeof(ISettings))]
+    [Export(typeof(ITool))]
 	[ExportMetadata("Guid", "B33A80D8-F529-430C-AB56-1B6C486AA4D9")]
 	[ExportMetadata("Title", "KanColleLogger")]
 	[ExportMetadata("Description", "File logging back-end")]
 	[ExportMetadata("Version", "2.0")]
 	[ExportMetadata("Author", "@Xiatian")]
-	public class KanColleLogger : IPlugin, ISettings
+	public class KanColleLogger : IPlugin, ISettings, ITool
 	{
-		public static bool IsWindows8OrGreater { get; set; }
+        private readonly ToolViewModel vm;
+
+        public KanColleLogger()
+        {
+            this.vm = new ToolViewModel();
+        }
+
+        public string Name => "Logger";
+
+        public object View => new ToolView { DataContext = this.vm, };
+
+        public static bool IsWindows8OrGreater { get; set; }
 
 		public static LoggerSettings Settings { get; private set; }
 

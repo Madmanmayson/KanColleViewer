@@ -10,10 +10,11 @@
 		<ResourceDictionary Source="pack://application:,,,/MetroTrilithon.Desktop;component/Styles/Controls.xaml" />
 		<ResourceDictionary Source="pack://application:,,,/KanColleViewer.Controls;component/Styles/Colors.xaml" />
 		<ResourceDictionary Source="pack://application:,,,/KanColleViewer.Controls;component/Styles/Controls.xaml" />
-		<ResourceDictionary Source="pack://application:,,,/KanColleViewer;component/Styles/Controls.xaml" />
-	</ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/KanColleViewer;component/Styles/Controls.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
-	<Style TargetType="{x:Type TextBlock}"
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <Style TargetType="{x:Type TextBlock}"
 		   BasedOn="{StaticResource DefaultTextStyleKey}">
 		<Setter Property="Foreground"
 				Value="{DynamicResource ActiveForegroundBrushKey}" />
