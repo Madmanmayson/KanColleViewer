@@ -10,12 +10,25 @@ using Livet.EventListeners;
 using Grabacr07.KanColleWrapper;
 using Grabacr07.KanColleWrapper.Models;
 using Grabacr07.KanColleViewer.ViewModels.Catalogs;
+using System.Reactive.Subjects;
+using System.Reactive;
+using System.Reactive.Linq;
 
 namespace Calculator.ViewModels
 {
     class ToolViewModel : ViewModel
     {
+        private readonly ShipCatalogWindowViewModel ShipVM = new ShipCatalogWindowViewModel();
+
+        private readonly Subject<Unit> updateSource = new Subject<Unit>();
+        private readonly Homeport homeport = KanColleClient.Current.Homeport;
+
         public ExperienceCalculator calculator;
+
+        public IEnumerable<string> MapList { get; private set; }
+        public IEnumerable<string> ResultList { get; private set; }
+
+        public ShipCatalogSortWorker SortWorker { get; private set; }
 
         #region Ships
 
@@ -151,7 +164,7 @@ namespace Calculator.ViewModels
             get { return this._RemianingExperience; }
             set
             {
-                if(this._RemianingExperience != value)
+                if (this._RemianingExperience != value)
                 {
                     this._RemianingExperience = value;
                     RaisePropertyChanged();
@@ -180,9 +193,67 @@ namespace Calculator.ViewModels
 
         #endregion
 
+        #region IsReloading 変更通知プロパティ
+
+        private bool _IsReloading;
+
+        public bool IsReloading
+        {
+            get { return this._IsReloading; }
+            set
+            {
+                if (this._IsReloading != value)
+                {
+                    this._IsReloading = value;
+                    this.RaisePropertyChanged();
+                    this.calculator.UpdateExperience();
+                }
+            }
+        }
+
+        #endregion
+
+        #region SelectedMap
+
+        private string _SelectedMap;
+
+        public string SelectedMap
+        {
+            get { return this._SelectedMap; }
+            set
+            {
+                if (this._SelectedMap != value)
+                {
+                    this._SelectedMap = value;
+                    this.calculator.selectedMap = _SelectedMap;
+                    this.calculator.UpdateExperience();
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        #endregion
+
         public ToolViewModel(Calculator plugin)
         {
             calculator = new ExperienceCalculator();
+            this.MapList = this.calculator.sortieExperienceTable.Keys.ToList();
+            this.ResultList = this.calculator.battleResults.ToList();
+
+            //this.SortWorker = new ShipCatalogSortWorker();
+            //this.SortWorker.SetFirst(ShipCatalogSortWorker.LevelColumn);
+
+            this.updateSource
+                .Do(_ => this.IsReloading = true)
+                .Throttle(TimeSpan.FromMilliseconds(7.0))
+                .Do(_ => this.Update())
+                .Subscribe(_ => this.IsReloading = false);
+
+            if (homeport != null)
+                this.CompositeDisposable.Add(new PropertyChangedEventListener(homeport)
+            {
+                { () => homeport.Organization.Ships, (sender, args) => this.Update() },
+            });
 
             this.CompositeDisposable.Add(new PropertyChangedEventListener(this.calculator)
             {
@@ -197,6 +268,10 @@ namespace Calculator.ViewModels
             });
         }
 
-
+        public void Update()
+        {
+            this.RaisePropertyChanged("AllShipTypes");
+            this.Ships = ShipVM.Ships;
+        }
     }
 }

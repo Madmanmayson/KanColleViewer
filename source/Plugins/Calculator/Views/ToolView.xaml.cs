@@ -24,5 +24,10 @@ namespace Calculator.Views
         {
             InitializeComponent();
         }
+
+        private void Border_GiveFeedback(object sender, GiveFeedbackEventArgs e)
+        {
+
+        }
     }
 }

@@ -18,8 +18,7 @@ namespace Calculator.Models
 
         private int[] experienceTable;
 
-        private IEnumerable<string> sortieList;
-        private Dictionary<string, int> sortieExperienceTable;
+        public Dictionary<string, int> sortieExperienceTable;
 
         public string[] battleResults = { "S", "A", "B", "C", "D", "E" };
         private int sortieExperience;
@@ -28,17 +27,19 @@ namespace Calculator.Models
 
         #region CurrentShip
 
+        private Ship _CurrentShip;
+
         public Ship CurrentShip
         {
-            get { return this.CurrentShip; }
+            get { return this._CurrentShip; }
             set
             {
-                if(this.CurrentShip != value)
+                if(this._CurrentShip != value)
                 {
-                    this.CurrentShip = value;
-                    this.targetLevel = Math.Min(this.CurrentShip.Level + 1, 155);
-                    this.currentLevel = CurrentShip.Level;
-                    this.currentExperience = CurrentShip.Exp;
+                    this._CurrentShip = value;
+                    this.targetLevel = Math.Min(this._CurrentShip.Level + 1, 155);
+                    this.currentLevel = _CurrentShip.Level;
+                    this.currentExperience = _CurrentShip.Exp;
                     this.UpdateExperience();
                 }
             }
@@ -46,23 +47,7 @@ namespace Calculator.Models
 
         #endregion
 
-        #region TargetLevel
-
-        public int targetLevel
-        {
-            get { return this.targetLevel; }
-            set
-            {
-                if(this.targetLevel != value)
-                {
-                    this.targetLevel = value;
-                    this.target
-                }
-            }
-        }
-
-        #endregion
-
+        public int targetLevel;
         public string selectedMap;
         public bool isFlagship;
         public bool isMVP;
@@ -74,9 +59,8 @@ namespace Calculator.Models
         {
             this.experienceTable = ExperienceTable.experienceByLevel;
             this.sortieExperienceTable = SortieExperienceTable.SortieExperience;
-            this.sortieList = sortieExperienceTable.Keys;
 
-            this.CurrentShip = KanColleClient.Current.Homeport.Organization.Ships.Values.First();
+            //this.CurrentShip = KanColleClient.Current.Homeport.Organization.Ships.Values.First();
 
             this.isFlagship = true;
             this.isMVP = true;
