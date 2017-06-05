@@ -35,171 +35,182 @@
 				   TextOptions.TextFormattingMode="Display"
 				   UseLayoutRounding="True">
 
-	<i:Interaction.Behaviors>
-		<livet:WindowCloseCancelBehavior CloseCanceledCallbackMethodTarget="{Binding}"
+        <i:Interaction.Behaviors>
+            <livet:WindowCloseCancelBehavior CloseCanceledCallbackMethodTarget="{Binding}"
 										 CloseCanceledCallbackMethodName="CloseCanceledCallback"
 										 CanClose="{Binding CanClose}" />
-	</i:Interaction.Behaviors>
+        </i:Interaction.Behaviors>
 
-	<i:Interaction.Triggers>
-		<i:EventTrigger EventName="ContentRendered">
-			<livet:LivetCallMethodAction MethodTarget="{Binding}"
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="ContentRendered">
+                <livet:LivetCallMethodAction MethodTarget="{Binding}"
 										 MethodName="Initialize" />
-		</i:EventTrigger>
-		<i:EventTrigger EventName="Closed">
-			<livet:DataContextDisposeAction />
-		</i:EventTrigger>
+            </i:EventTrigger>
+            <i:EventTrigger EventName="Closed">
+                <livet:DataContextDisposeAction />
+            </i:EventTrigger>
 
-		<livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
+            <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
 										 MessageKey="Window.Location">
-			<behaviors:SetWindowLocationAction InvokeActionOnlyWhenWindowIsActive="False" />
-		</livet:InteractionMessageTrigger>
-		<livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
+                <behaviors:SetWindowLocationAction InvokeActionOnlyWhenWindowIsActive="False" />
+            </livet:InteractionMessageTrigger>
+            <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
 										 MessageKey="Window.WindowAction">
-			<livet:WindowInteractionMessageAction InvokeActionOnlyWhenWindowIsActive="False" />
-		</livet:InteractionMessageTrigger>
-		<livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
+                <livet:WindowInteractionMessageAction InvokeActionOnlyWhenWindowIsActive="False" />
+            </livet:InteractionMessageTrigger>
+            <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
 										 MessageKey="Window.Transition">
-			<livet:TransitionInteractionMessageAction InvokeActionOnlyWhenWindowIsActive="False"
+                <livet:TransitionInteractionMessageAction InvokeActionOnlyWhenWindowIsActive="False"
 													  IsOwned="False" />
-		</livet:InteractionMessageTrigger>
-		<livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
+            </livet:InteractionMessageTrigger>
+            <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
 										 MessageKey="Window.Transition.Child">
-			<livet:TransitionInteractionMessageAction InvokeActionOnlyWhenWindowIsActive="False"
+                <livet:TransitionInteractionMessageAction InvokeActionOnlyWhenWindowIsActive="False"
 													  IsOwned="True" />
-		</livet:InteractionMessageTrigger>
-		<livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
+            </livet:InteractionMessageTrigger>
+            <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
 										 MessageKey="Window.UpdateTaskbar">
-			<mtti:TaskbarMessageAction InvokeActionOnlyWhenWindowIsActive="False" />
-		</livet:InteractionMessageTrigger>
-	</i:Interaction.Triggers>
+                <mtti:TaskbarMessageAction InvokeActionOnlyWhenWindowIsActive="False" />
+            </livet:InteractionMessageTrigger>
+        </i:Interaction.Triggers>
 
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
-			<RowDefinition Height="Auto" />
-		</Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-		<!-- #region Caption area -->
-		<DockPanel x:Name="captionBar"
+            <!-- #region Caption area -->
+            <DockPanel x:Name="captionBar"
 				   x:FieldModifier="private"
 				   metro:MetroWindow.IsCaptionBar="True">
-			<Border DockPanel.Dock="Bottom"
+                <Border DockPanel.Dock="Bottom"
 					Height="4" />
-			<kcvc:AppIcon Width="36"
+                <kcvc:AppIcon Width="36"
 						  Height="36"
 						  Background="Transparent"
 						  AnchorVisibility="Collapsed"
 						  BandVisibility="Collapsed" />
 
-			<StackPanel DockPanel.Dock="Right"
+                <StackPanel DockPanel.Dock="Right"
 						Orientation="Horizontal"
 						HorizontalAlignment="Right"
 						VerticalAlignment="Top"
 						WindowChrome.IsHitTestVisibleInChrome="True">
-				<controls:ZoomFactorSelector ZoomFactor="{Binding ZoomFactor}"
+                    <controls:ZoomFactorSelector ZoomFactor="{Binding ZoomFactor}"
 											 ToolTip="{Binding Source={x:Static models:ResourceService.Current}, Path=Resources.ZoomFactorSelector_Tooltip}"
 											 Margin="4,0" />
-				<metro:CaptionButton IsChecked="{Binding Settings.TopMost.Value, Mode=TwoWay}"
+                    <metro:CaptionButton IsChecked="{Binding Settings.TopMost.Value, Mode=TwoWay}"
 									 ToolTip="{Binding Resources.Settings_Window_TopMost, Source={x:Static models:ResourceService.Current}, Mode=OneWay}"
 									 Style="{DynamicResource PinButtonStyleKey}" />
-				<metro:SystemButtons />
-			</StackPanel>
-			<TextBlock Text="{Binding Title}"
+                    <metro:SystemButtons />
+                </StackPanel>
+                <TextBlock Text="{Binding Title}"
 					   Style="{DynamicResource CaptionTextStyleKey}"
 					   Margin="2,0,8,0" />
-		</DockPanel>
-		<!-- #endregion -->
+            </DockPanel>
+            <!-- #endregion -->
 
 
-		<DockPanel Grid.Row="1">
-			<DockPanel DockPanel.Dock="{Binding BrowserDock}">
-				<controls:KanColleHost x:Name="kanColleHost"
+            <DockPanel Grid.Row="1">
+                <DockPanel DockPanel.Dock="{Binding BrowserDock}">
+                    <controls:KanColleHost x:Name="kanColleHost"
 									   x:FieldModifier="private"
 									   DockPanel.Dock="{Binding BrowserDock2}"
 									   ZoomFactor="{Binding ZoomFactor.Current}"
 									   UserStyleSheet="{Binding Source={x:Static settings:GeneralSettings.UserStyleSheet}, Path=Value}"
 									   OwnerSizeChangeRequested="HandleKanColleHostSizeChangeRequested">
-					<i:Interaction.Triggers>
-						<livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
+                        <i:Interaction.Triggers>
+                            <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
 														 MessageKey="WebBrowser.Zoom">
-							<behaviors:ZoomAction />
-						</livet:InteractionMessageTrigger>
-					</i:Interaction.Triggers>
-					<WebBrowser Source="about:blank">
-						<i:Interaction.Behaviors>
-							<behaviors:NavigatorBehavior Navigator="{Binding Navigator}" />
-							<mtti:TaskbarThumbnailBehavior />
-						</i:Interaction.Behaviors>
-						<i:Interaction.Triggers>
-							<livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
+                                <behaviors:ZoomAction />
+                            </livet:InteractionMessageTrigger>
+                        </i:Interaction.Triggers>
+                        <WebBrowser Source="about:blank" Name="kancolle">
+                            <i:Interaction.Behaviors>
+                                <behaviors:NavigatorBehavior Navigator="{Binding Navigator}" />
+                                <mtti:TaskbarThumbnailBehavior />
+                            </i:Interaction.Behaviors>
+                            <i:Interaction.Triggers>
+                                <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
 															 MessageKey="Screenshot.Save">
-								<behaviors:ScreenshotAction />
-							</livet:InteractionMessageTrigger>
-						</i:Interaction.Triggers>
-					</WebBrowser>
-				</controls:KanColleHost>
+                                    <behaviors:ScreenshotAction />
+                                </livet:InteractionMessageTrigger>
+                            </i:Interaction.Triggers>
+                        </WebBrowser>
+                    </controls:KanColleHost>
+                <views:PopupNonTopmost PlacementTarget="{Binding ElementName=kancolle}" 
+                                       Placement="Center" 
+                                       x:Name="myPopup" 
+                                       AllowsTransparency="True" 
+                                       IsHitTestVisible="False"
+                                       IsOpen="true">
+                    <TextBlock Background="Transparent" 
+                               Height="200" 
+                               Width="200"
+                               IsHitTestVisible="False"/>
+                </views:PopupNonTopmost>
 
-				<DockPanel x:Name="toolbarArea"
+                <DockPanel x:Name="toolbarArea"
 						   x:FieldModifier="private"
 						   DockPanel.Dock="Top"
 						   MaxWidth="{Binding ToolAreaMaxWidth}">
-					<views:KanColleWindowButtons DockPanel.Dock="Right"
+                        <views:KanColleWindowButtons DockPanel.Dock="Right"
 												 Margin="8,4,4,4" />
-					<ContentControl Content="{Binding Content}">
-						<ContentControl.Resources>
-							<DataTemplate DataType="{x:Type viewModels:StartContentViewModel}">
-								<views:BrowserNavigator DataContext="{Binding Navigator}"
+                        <ContentControl Content="{Binding Content}">
+                            <ContentControl.Resources>
+                                <DataTemplate DataType="{x:Type viewModels:StartContentViewModel}">
+                                    <views:BrowserNavigator DataContext="{Binding Navigator}"
 														Margin="6,-5,6,10"
 														VerticalAlignment="Top" />
-							</DataTemplate>
-							<DataTemplate DataType="{x:Type viewModels:InformationViewModel}">
-								<DockPanel>
-									<contents:Homeport Margin="0,8" />
-								</DockPanel>
-							</DataTemplate>
-						</ContentControl.Resources>
-					</ContentControl>
-				</DockPanel>
+                                </DataTemplate>
+                                <DataTemplate DataType="{x:Type viewModels:InformationViewModel}">
+                                    <DockPanel>
+                                        <contents:Homeport Margin="0,8" />
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ContentControl.Resources>
+                        </ContentControl>
+                    </DockPanel>
 
-				<Border />
-			</DockPanel>
+                    <Border />
+                </DockPanel>
 
-			<ContentControl x:Name="informationArea"
+                <ContentControl x:Name="informationArea"
 							x:FieldModifier="private"
 							Content="{Binding Content}"
 							Visibility="{Binding ContentVisibility}">
-				<ContentControl.Resources>
-					<DataTemplate DataType="{x:Type viewModels:StartContentViewModel}">
-						<views:StartContent />
-					</DataTemplate>
-					<DataTemplate DataType="{x:Type viewModels:InformationViewModel}">
-						<views:Information />
-					</DataTemplate>
-				</ContentControl.Resources>
-			</ContentControl>
-		</DockPanel>
+                    <ContentControl.Resources>
+                        <DataTemplate DataType="{x:Type viewModels:StartContentViewModel}">
+                            <views:StartContent />
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type viewModels:InformationViewModel}">
+                            <views:Information />
+                        </DataTemplate>
+                    </ContentControl.Resources>
+                </ContentControl>
+            </DockPanel>
 
-		<!-- region Status area -->
-		<DockPanel x:Name="statusBar"
+            <!-- region Status area -->
+            <DockPanel x:Name="statusBar"
 				   x:FieldModifier="private"
 				   Grid.Row="2"
 				   Height="{DynamicResource StatusbarHeight}"
 				   Background="{DynamicResource AccentBrushKey}"
 				   Visibility="{Binding IsMainWindow, Converter={StaticResource BooleanToVisibilityConverter}}">
-			<Border DockPanel.Dock="Right"
+                <Border DockPanel.Dock="Right"
 					Width="{Binding ActualWidth, ElementName=resizeGrip}" />
-			<views:StatusBar DataContext="{Binding StatusBar}" />
-		</DockPanel>
-		<!-- endregion -->
+                <views:StatusBar DataContext="{Binding StatusBar}" />
+            </DockPanel>
+            <!-- endregion -->
 
-		<metro:ResizeGrip Grid.Row="1"
+            <metro:ResizeGrip Grid.Row="1"
 						  Grid.RowSpan="2"
 						  x:Name="resizeGrip"
 						  x:FieldModifier="private"
 						  HorizontalAlignment="Right"
 						  VerticalAlignment="Bottom"
 						  WindowChrome.ResizeGripDirection="BottomRight" />
-	</Grid>
+        </Grid>
 </metro:MetroWindow>

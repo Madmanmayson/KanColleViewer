@@ -8,6 +8,8 @@ using Grabacr07.KanColleViewer.Models.Settings;
 using Livet;
 using MetroTrilithon.Lifetime;
 using MetroTrilithon.UI.Controls;
+using System.Windows.Interop;
+using System.Windows.Input;
 
 namespace Grabacr07.KanColleViewer.Views
 {
@@ -19,17 +21,61 @@ namespace Grabacr07.KanColleViewer.Views
 		private Size? previousBrowserSize;
 		private Dock? previousDock;
 
-
-		public KanColleWindow()
+        public KanColleWindow()
 		{
 			this.InitializeComponent();
+
+            kancolle.CaptureMouse();
 
 			this.settings = SettingsHost.Instance<KanColleWindowSettings>();
 			this.settings.IsSplit.Subscribe(_ => this.ChangeSizeByDock()).AddTo(this);
 			this.settings.Dock.Subscribe(_ => this.ChangeSizeByDock()).AddTo(this);
-		}
 
-		private void HandleKanColleHostSizeChangeRequested(object sender, Size size)
+            this.Loaded += new RoutedEventHandler(View1_Loaded);
+
+            myPopup.MouseDown += new MouseButtonEventHandler(Popup_Click);
+        }
+
+        void Popup_Click(object sender, MouseButtonEventArgs e)
+        {
+        }
+
+        void View1_Loaded(object sender, RoutedEventArgs e)
+        {
+            Window w = Window.GetWindow(kancolle);
+            // w should not be Null now!
+            if (null != w)
+            {
+                w.LocationChanged += delegate (object sender2, EventArgs args)
+                {
+                    var offset = myPopup.HorizontalOffset;
+                    // "bump" the offset to cause the popup to reposition itself
+                    //   on its own
+                    myPopup.HorizontalOffset = offset + 1;
+                    myPopup.HorizontalOffset = offset;
+                };
+                // Also handle the window being resized (so the popup's position stays
+                //  relative to its target element if the target element moves upon 
+                //  window resize)
+                w.SizeChanged += delegate (object sender3, SizeChangedEventArgs e2)
+                {
+                    var offset = myPopup.HorizontalOffset;
+                    myPopup.HorizontalOffset = offset + 1;
+                    myPopup.HorizontalOffset = offset;
+                };
+                w.LayoutUpdated += delegate (object sender2, EventArgs args)
+                {
+                    var offset = myPopup.HorizontalOffset;
+                    // "bump" the offset to cause the popup to reposition itself
+                    //   on its own
+                    myPopup.HorizontalOffset = offset + 1;
+                    myPopup.HorizontalOffset = offset;
+                };
+            }
+        }
+
+
+        private void HandleKanColleHostSizeChangeRequested(object sender, Size size)
 		{
 			this.ChangeSizeByBrowser(size);
 		}
