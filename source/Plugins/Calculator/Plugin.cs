@@ -20,14 +20,14 @@ namespace Calculator
 
     public class Calculator : ITool, IPlugin
     {
-        private readonly ToolViewModel toolVM;
+        private ToolViewModel toolVM;
 
         public string Name => "Exp Calculator";
         public object View => new ToolView { DataContext = this.toolVM };
 
         public Calculator()
         {
-            this.toolVM = new ToolViewModel(this);
+            this.toolVM = new ToolViewModel();
         }
 
         public void Initialize()

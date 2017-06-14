@@ -60,7 +60,6 @@
 							          HorizontalAlignment="Left"
 							          Prompt="Select a Ship Girl"
 							          ItemsSource="{Binding Ships}"
-							          SelectedValuePath="Ship"
 							          SelectedValue="{Binding CurrentShip, Mode=TwoWay}"
 							          IsReadOnly="True"
 							          MinWidth="220"
@@ -68,7 +67,7 @@
                                       Grid.Column="0">
                         <metro:PromptComboBox.ItemTemplate>
                             <DataTemplate>
-                                <Grid DataContext="{Binding Ship}">
+                                <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
@@ -117,7 +116,6 @@
                                Text="Remaining Exp"/>
 
                     <TextBlock Grid.Column="4" 
-                               Grid.Row="0" 
                                Text="{Binding RemainingExperience, Mode=OneWay}" 
                                Margin="5,5"/>
             

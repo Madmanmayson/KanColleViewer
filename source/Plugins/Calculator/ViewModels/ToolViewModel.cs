@@ -4,37 +4,40 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Livet;
-using Calculator;
-using Calculator.Models;
 using Livet.EventListeners;
-using Grabacr07.KanColleWrapper;
-using Grabacr07.KanColleWrapper.Models;
-using Grabacr07.KanColleViewer.ViewModels.Catalogs;
-using System.Reactive.Subjects;
+using Calculator.Models;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
+using System.Reactive.Threading.Tasks;
+using Grabacr07.KanColleWrapper;
+using Grabacr07.KanColleWrapper.Models;
+using Grabacr07.KanColleViewer.Models;
+using Grabacr07.KanColleViewer.ViewModels.Catalogs;
+using MetroTrilithon.Mvvm;
 
 namespace Calculator.ViewModels
 {
     class ToolViewModel : ViewModel
     {
-        private readonly ShipCatalogWindowViewModel ShipVM = new ShipCatalogWindowViewModel();
+        private Homeport homeport = KanColleClient.Current.Homeport;
 
-        private readonly Subject<Unit> updateSource = new Subject<Unit>();
-        private readonly Homeport homeport = KanColleClient.Current.Homeport;
-
-        public ExperienceCalculator calculator;
-
+        public Dictionary<string, int> sortieExperienceTable = SortieExperienceTable.SortieExperience;
+        public int[] experienceTable = ExperienceTable.experienceByLevel;
+        private int[] experiencetable = ExperienceTable.experienceByLevel;
         public IEnumerable<string> MapList { get; private set; }
         public IEnumerable<string> ResultList { get; private set; }
+        private string[] battleResults = { "S", "A", "B", "C", "D", "E" };
+        private int sortieExperience = 0;
+
 
         public ShipCatalogSortWorker SortWorker { get; private set; }
 
         #region Ships
 
-        private IReadOnlyCollection<ShipViewModel> _Ships;
+        private IEnumerable<Ship> _Ships;
 
-        public IReadOnlyCollection<ShipViewModel> Ships
+        public IEnumerable<Ship> Ships
         {
             get { return this._Ships; }
             set
@@ -63,7 +66,8 @@ namespace Calculator.ViewModels
                     this._CurrentShip = value;
                     if (value != null)
                     {
-                        this.calculator.CurrentShip = this._CurrentShip;
+                        this._CurrentShip = value;
+                        this.TargetLevel = Math.Min(this._CurrentShip.Level + 1, 155);
                         this.RaisePropertyChanged();
                     }
                 }
@@ -84,9 +88,8 @@ namespace Calculator.ViewModels
                 if (this._SelectedResult != value)
                 {
                     this._SelectedResult = value;
-                    this.calculator.battleResult = _SelectedResult;
+                    this.UpdateExperience();
                     this.RaisePropertyChanged();
-                    this.calculator.UpdateExperience();
                 }
             }
         }
@@ -105,9 +108,8 @@ namespace Calculator.ViewModels
                 if (this._IsFlagship != value)
                 {
                     this._IsFlagship = value;
+                    this.UpdateExperience();
                     this.RaisePropertyChanged();
-                    this.calculator.isFlagship = _IsFlagship;
-                    this.calculator.UpdateExperience();
                 }
             }
         }
@@ -126,9 +128,8 @@ namespace Calculator.ViewModels
                 if (this._IsMVP != value)
                 {
                     this._IsMVP = value;
+                    this.UpdateExperience();
                     this.RaisePropertyChanged();
-                    this.calculator.isMVP = _IsMVP;
-                    this.calculator.UpdateExperience();
                 }
             }
         }
@@ -144,11 +145,11 @@ namespace Calculator.ViewModels
             get { return this._TargetLevel; }
             set
             {
-                if (this._TargetLevel != value && value >= 1 && value <= 150)
+                if (this._TargetLevel != value && value >= 1 && value <= 155)
                 {
                     this._TargetLevel = value;
+                    this.UpdateExperience();
                     this.RaisePropertyChanged();
-                    this.calculator.UpdateExperience();
                 }
             }
         }
@@ -159,7 +160,7 @@ namespace Calculator.ViewModels
 
         private int _RemianingExperience;
 
-        public int RemainingExpereince
+        public int RemainingExperience
         {
             get { return this._RemianingExperience; }
             set
@@ -206,7 +207,7 @@ namespace Calculator.ViewModels
                 {
                     this._IsReloading = value;
                     this.RaisePropertyChanged();
-                    this.calculator.UpdateExperience();
+                    this.UpdateExperience();
                 }
             }
         }
@@ -225,8 +226,7 @@ namespace Calculator.ViewModels
                 if (this._SelectedMap != value)
                 {
                     this._SelectedMap = value;
-                    this.calculator.selectedMap = _SelectedMap;
-                    this.calculator.UpdateExperience();
+                    this.UpdateExperience();
                     RaisePropertyChanged();
                 }
             }
@@ -234,44 +234,44 @@ namespace Calculator.ViewModels
 
         #endregion
 
-        public ToolViewModel(Calculator plugin)
+        public ToolViewModel()
         {
-            calculator = new ExperienceCalculator();
-            this.MapList = this.calculator.sortieExperienceTable.Keys.ToList();
-            this.ResultList = this.calculator.battleResults.ToList();
+            this.MapList = this.sortieExperienceTable.Keys.ToList();
+            this.ResultList = this.battleResults.ToList();
 
-            //this.SortWorker = new ShipCatalogSortWorker();
-            //this.SortWorker.SetFirst(ShipCatalogSortWorker.LevelColumn);
+            this.SortWorker = new ShipCatalogSortWorker();
+            this.SortWorker.SetFirst(ShipCatalogSortWorker.LevelColumn);
 
-            this.updateSource
-                .Do(_ => this.IsReloading = true)
-                .Throttle(TimeSpan.FromMilliseconds(7.0))
-                .Do(_ => this.Update())
-                .Subscribe(_ => this.IsReloading = false);
+            KanColleClient.Current.Proxy.api_start2.Subscribe(_ => this.InitializeHomeport());
 
-            if (homeport != null)
-                this.CompositeDisposable.Add(new PropertyChangedEventListener(homeport)
-            {
-                { () => homeport.Organization.Ships, (sender, args) => this.Update() },
-            });
+            SelectedResult = battleResults.FirstOrDefault();
+            SelectedMap = MapList.FirstOrDefault();
+        }
 
-            this.CompositeDisposable.Add(new PropertyChangedEventListener(this.calculator)
-            {
-                {
-                    () => this.calculator.remainingBattles,
-                    (_, __) => this.RaisePropertyChanged(() => this.RemainingExpereince)
-                },
-                {
-                    () => this.calculator.remainingBattles,
-                    (_, __) => this.RaisePropertyChanged(() => this.RemainingBattles)
-                },
-            });
+        private void InitializeHomeport()
+        {
+            this.homeport = KanColleClient.Current.Homeport;
+            KanColleClient.Current.Proxy.api_port.Throttle(TimeSpan.FromMilliseconds(50)).Subscribe(_ => this.Update());
         }
 
         public void Update()
         {
-            this.RaisePropertyChanged("AllShipTypes");
-            this.Ships = ShipVM.Ships;
+            this.homeport = KanColleClient.Current.Homeport;
+            var list = this.homeport.Organization.Ships.Values;
+            this.Ships = this.SortWorker.Sort(list).Reverse();
+        }
+
+        private void UpdateExperience()
+        {
+
+            if(CurrentShip != null) { 
+            //taken from YunYun's calculator plugin
+            double multiplier = (this.IsFlagship ? 1.5 : 1) * (this.IsMVP ? 2 : 1) * (this.SelectedResult == "S" ? 1.2 : (this.SelectedResult == "C" ? 0.8 : (this.SelectedResult == "D" ? 0.7 : (this.SelectedResult == "E" ? 0.5 : 1))));
+
+            this.sortieExperience = (int)Math.Round(sortieExperienceTable[SelectedMap] * multiplier);
+            this.RemainingExperience = this.experienceTable[TargetLevel] - this.CurrentShip.Exp;
+            this.RemainingBattles = (int)Math.Ceiling(this.RemainingExperience / (double)this.sortieExperience);
+            }
         }
     }
 }
