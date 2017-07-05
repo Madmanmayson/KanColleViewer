@@ -1,14 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Calculator.Models.Raw;
+using Calculator.Models;
+using Grabacr07.KanColleWrapper;
 using Livet;
+using System.IO;
+using Livet.EventListeners;
+using System.Reactive;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
+using Newtonsoft.Json;
 
 namespace Calculator.ViewModels
 {
     class ToolViewModel : ViewModel
     {
+        private static string dataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Smooth and Flat", "KanColleViewer", "Data");
+        public Homeport homeport = KanColleClient.Current?.Homeport;
+        private readonly Subject<Unit> updateSource = new Subject<Unit>();
+
+        public Dictionary<string, int> sortieExperienceTable = SortieExperienceTable.SortieExperience;
+        public int[] experienceTable = ExperienceTable.experienceByLevel;
+
         #region Calculator
 
         private CalculatorViewModel _Calculator;
@@ -28,9 +45,113 @@ namespace Calculator.ViewModels
 
         #endregion
 
+        #region Tracked Ships
+
+        private ObservableCollection<TrackedShip> _TrackedShips;
+
+        public ObservableCollection<TrackedShip> TrackedShips
+        {
+            get { return this._TrackedShips; }
+            set
+            {
+                if(this._TrackedShips != value)
+                {
+                    this._TrackedShips = value;
+                    this.RaisePropertyChanged();
+                    this.SaveData();
+                }
+            }
+        }
+
+        #endregion
+
+        #region IsReloading 変更通知プロパティ
+
+        private bool _IsReloading;
+
+        public bool IsReloading
+        {
+            get { return this._IsReloading; }
+            set
+            {
+                if (this._IsReloading != value)
+                {
+                    this._IsReloading = value;
+                    this.RaisePropertyChanged();
+                }
+            }
+        }
+
+        #endregion
+
         public ToolViewModel()
         {
-            this.Calculator = CalculatorViewModel.Current;
+            this.LoadData();
+            this.Calculator = new CalculatorViewModel(this);
+
+            this.updateSource
+                .Do(_ => this.IsReloading = true)
+                .Throttle(TimeSpan.FromMilliseconds(100))
+                .Do(_ => this.UpdateCore())
+                .Subscribe(_ => this.IsReloading = false);
+            this.CompositeDisposable.Add(this.updateSource);
+
+            KanColleClient.Current.Proxy.api_start2.Throttle(TimeSpan.FromSeconds(2)).Subscribe(_ => this.InitializePlugin());
+
+            
+        }
+
+        private void InitializePlugin()
+        {
+            this.homeport = KanColleClient.Current.Homeport;
+            this.CompositeDisposable.Add(new PropertyChangedEventListener(this.homeport.Organization)
+            {
+                { () => this.homeport.Organization.Ships, (sender, args) => this.Update() },
+            });
+        }
+
+        private void Update()
+        {
+            this.updateSource.OnNext(Unit.Default);
+        }
+
+        private void UpdateCore()
+        {
+            this.Calculator.Update();
+            foreach(var track in TrackedShips)
+            {
+                track.Update();
+            };
+        }
+
+        public void SaveData()
+        {
+            Directory.CreateDirectory(dataPath);
+
+            using (StreamWriter dataWriter = new StreamWriter(dataPath + "ExpTracking.json"))
+            {
+                List<SavedShip> exportData = new List<SavedShip>();
+
+                foreach(var ship in TrackedShips)
+                {
+                    exportData.Add(ship.export_data);
+                }
+
+                string output = JsonConvert.SerializeObject(exportData);
+
+                dataWriter.Write(output);
+            }
+        }
+
+        private void LoadData()
+        {
+            this.TrackedShips = new ObservableCollection<TrackedShip>();
+            if (File.Exists(dataPath + "ExpTracking.json"))
+            {
+                using(FileStream dataStream = new FileStream(dataPath + "ExpTracking.json", FileMode.Open)){
+
+                }       
+            }
         }
     }
 }

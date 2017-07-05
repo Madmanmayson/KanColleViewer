@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Livet;
-using Livet.EventListeners;
 using Calculator.Models;
-using System.Reactive;
+using Calculator.Models.Raw;
 using System.Reactive.Linq;
-using System.Reactive.Subjects;
-using System.Reactive.Threading.Tasks;
 using Grabacr07.KanColleWrapper;
 using Grabacr07.KanColleWrapper.Models;
-using Grabacr07.KanColleViewer.Models;
 using Grabacr07.KanColleViewer.ViewModels.Catalogs;
 using MetroTrilithon.Mvvm;
 
@@ -20,18 +14,15 @@ namespace Calculator.ViewModels
 {
     class CalculatorViewModel : ViewModel
     {
-        public static CalculatorViewModel Current { get; } = new CalculatorViewModel();
-
         private Homeport homeport = KanColleClient.Current.Homeport;
 
-        public Dictionary<string, int> sortieExperienceTable = SortieExperienceTable.SortieExperience;
-        public int[] experienceTable = ExperienceTable.experienceByLevel;
-        private int[] experiencetable = ExperienceTable.experienceByLevel;
+        
         public IEnumerable<string> MapList { get; private set; }
         public IEnumerable<string> ResultList { get; private set; }
         private string[] battleResults = { "S", "A", "B", "C", "D", "E" };
         private int sortieExperience = 0;
 
+        private ToolViewModel masterData;
 
         public ShipCatalogSortWorker SortWorker { get; private set; }
 
@@ -236,24 +227,17 @@ namespace Calculator.ViewModels
 
         #endregion
 
-        public CalculatorViewModel()
+        public CalculatorViewModel(ToolViewModel masterData)
         {
-            this.MapList = this.sortieExperienceTable.Keys.ToList();
+            this.masterData = masterData;
+            this.MapList = this.masterData.sortieExperienceTable.Keys.ToList();
             this.ResultList = this.battleResults.ToList();
 
             this.SortWorker = new ShipCatalogSortWorker();
             this.SortWorker.SetFirst(ShipCatalogSortWorker.LevelColumn);
 
-            KanColleClient.Current.Proxy.api_start2.Subscribe(_ => this.InitializeHomeport());
-
             SelectedResult = battleResults.FirstOrDefault();
             SelectedMap = MapList.FirstOrDefault();
-        }
-
-        private void InitializeHomeport()
-        {
-            this.homeport = KanColleClient.Current.Homeport;
-            KanColleClient.Current.Proxy.api_port.Throttle(TimeSpan.FromMilliseconds(50)).Subscribe(_ => this.Update());
         }
 
         public void Update()
@@ -261,6 +245,10 @@ namespace Calculator.ViewModels
             this.homeport = KanColleClient.Current.Homeport;
             var list = this.homeport.Organization.Ships.Values;
             this.Ships = this.SortWorker.Sort(list).Reverse();
+            if(CurrentShip != null)
+            {
+                this.CurrentShip = homeport.Organization.Ships[CurrentShip.Id];
+            }
         }
 
         private void UpdateExperience()
@@ -270,10 +258,16 @@ namespace Calculator.ViewModels
             //taken from YunYun's calculator plugin
             double multiplier = (this.IsFlagship ? 1.5 : 1) * (this.IsMVP ? 2 : 1) * (this.SelectedResult == "S" ? 1.2 : (this.SelectedResult == "C" ? 0.8 : (this.SelectedResult == "D" ? 0.7 : (this.SelectedResult == "E" ? 0.5 : 1))));
 
-            this.sortieExperience = (int)Math.Round(sortieExperienceTable[SelectedMap] * multiplier);
-            this.RemainingExperience = this.experienceTable[TargetLevel] - this.CurrentShip.Exp;
+            this.sortieExperience = (int)Math.Round(masterData.sortieExperienceTable[SelectedMap] * multiplier);
+            this.RemainingExperience = this.masterData.experienceTable[TargetLevel] - this.CurrentShip.Exp;
             this.RemainingBattles = (int)Math.Ceiling(this.RemainingExperience / (double)this.sortieExperience);
             }
+        }
+
+        private void Save()
+        {
+            this.masterData.TrackedShips.Add(new TrackedShip(CurrentShip.Id, TargetLevel, SelectedMap, SelectedResult, IsFlagship, IsMVP, masterData));
+            this.masterData.SaveData();
         }
     }
 }

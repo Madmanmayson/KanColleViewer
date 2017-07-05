@@ -3,12 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
              xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
+             xmlns:metro2="http://schemes.grabacr.net/winfx/2015/personal/controls"
              xmlns:viewModels="clr-namespace:Calculator.ViewModels"
              xmlns:views="clr-namespace:Calculator.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" 
-             d:DesignWidth="600"
+             d:DesignWidth="800"
              d:DataContext="{d:DesignInstance viewModels:ToolViewModel}"
              Background="{DynamicResource ThemeBrushKey}">
 
@@ -21,7 +24,74 @@
     </UserControl.Resources>
 
     <DockPanel>
+        <Button DockPanel.Dock="Right"
+                Margin="10"
+                Content="Open in New Window"
+                Height="30"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Right">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <ei:CallMethodAction TargetObject="{Binding}"
+                                             MethodName="OpenEnemyWindow" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+        
         <views:CalculatorView DataContext="{Binding Calculator}" 
                               DockPanel.Dock="Top"/>
+
+        <Grid DockPanel.Dock="Bottom">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <Border Margin="8"
+			    BorderThickness="0,.99,0,0"
+			    BorderBrush="{DynamicResource BorderBrushKey}">
+            <TextBlock Margin="17,8"
+                   Text="Tracked Ships:"
+                   Grid.Row="0"
+                   VerticalAlignment="Top"
+                   Style="{DynamicResource EmphaticTextStyleKey}"/>
+        </Border>
+
+        <ItemsControl DockPanel.Dock="Bottom" 
+                      Grid.Row="1"
+                      ItemsSource="{Binding TrackedShips}"
+                      Grid.IsSharedSizeScope="True">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="4"
+								Padding="0,0,0,8"
+								BorderThickness="0,0,0,.99"
+								BorderBrush="{DynamicResource BorderBrushKey}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"
+													  SharedSizeGroup="Text" />
+                                    <ColumnDefinition Width="32" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock>
+								<Run Text="{Binding ship_id, Mode=OneWay}" />
+								<Run Text=":" />
+								<Run Text="{Binding Count}"
+									 Style="{DynamicResource EmphaticTextElementStyleKey}" />
+                                </TextBlock>
+                                <metro2:CallMethodButton Grid.Column="2"
+														 Content="D"
+														 MethodName="Delete" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            
+
+        </Grid>
+
     </DockPanel>
 </UserControl>

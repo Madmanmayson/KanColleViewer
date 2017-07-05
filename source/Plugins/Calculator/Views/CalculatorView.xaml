@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
              xmlns:livet="http://schemas.livet-mvvm.net/2011/wpf"
 			 xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
              xmlns:metro2="http://schemes.grabacr.net/winfx/2015/personal/controls"
@@ -146,6 +148,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
             <TextBlock Text="Map: "
@@ -177,6 +180,20 @@
 
             <CheckBox Grid.Column="4" VerticalAlignment="Center" Content="Flagship" IsChecked="{Binding IsFlagship}" Height="17" Margin="5,5,15,5"/>
             <CheckBox Grid.Column="5" VerticalAlignment="Center" Content="MVP" IsChecked="{Binding IsMVP}" Height="17" Margin="5"/>
+
+            <Button Grid.Column="6" 
+                    VerticalAlignment="Center" 
+                    Width="Auto" 
+                    Margin="30,5,5,5" 
+                    Height="Auto" 
+                    Content="Save">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <ei:CallMethodAction TargetObject="{Binding}"
+                                             MethodName="Save" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
 
         </Grid>
     </Grid>
