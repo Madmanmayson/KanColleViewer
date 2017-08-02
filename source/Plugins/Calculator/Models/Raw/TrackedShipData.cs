@@ -23,6 +23,7 @@ namespace Calculator.Models.Raw
         private ToolViewModel plugin;
         private Ship CurrentShip;
 
+        //Constructor for adding a new ship
         public TrackedShip(int ship_id, int target_level, string selected_map, string selected_rank, bool is_flagship, bool is_mvp, ToolViewModel plugin)
         {
             this.export_data.ship_id = ship_id;
@@ -32,6 +33,13 @@ namespace Calculator.Models.Raw
             this.export_data.is_flagship = is_flagship;
             this.export_data.is_mvp = is_mvp;
             this.plugin = plugin;   
+        }
+
+        //Loading constructor
+        public TrackedShip(SavedShip loadedData, ToolViewModel plugin)
+        {
+            this.export_data = loadedData;
+            this.plugin = plugin;
         }
 
         public void Delete()

@@ -10,8 +10,8 @@
              xmlns:viewModels="clr-namespace:Calculator.ViewModels"
              xmlns:views="clr-namespace:Calculator.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="300" 
-             d:DesignWidth="800"
+             d:DesignHeight="500" 
+             d:DesignWidth="900"
              d:DataContext="{d:DesignInstance viewModels:ToolViewModel}"
              Background="{DynamicResource ThemeBrushKey}">
 
@@ -43,11 +43,11 @@
 
         <Grid DockPanel.Dock="Bottom">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             
-            <Border Margin="8"
+            <Border Margin="8,15,0,0"
 			    BorderThickness="0,.99,0,0"
 			    BorderBrush="{DynamicResource BorderBrushKey}">
             <TextBlock Margin="17,8"
@@ -57,8 +57,7 @@
                    Style="{DynamicResource EmphaticTextStyleKey}"/>
         </Border>
 
-        <ItemsControl DockPanel.Dock="Bottom" 
-                      Grid.Row="1"
+        <ItemsControl Grid.Row="1"
                       ItemsSource="{Binding TrackedShips}"
                       Grid.IsSharedSizeScope="True">
                 <ItemsControl.ItemTemplate>
@@ -69,20 +68,56 @@
 								BorderBrush="{DynamicResource BorderBrushKey}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"
-													  SharedSizeGroup="Text" />
-                                    <ColumnDefinition Width="32" />
-                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
 
-                                <TextBlock>
-								<Run Text="{Binding ship_id, Mode=OneWay}" />
-								<Run Text=":" />
-								<Run Text="{Binding Count}"
-									 Style="{DynamicResource EmphaticTextElementStyleKey}" />
-                                </TextBlock>
-                                <metro2:CallMethodButton Grid.Column="2"
-														 Content="D"
+                                <TextBlock Margin="17,0,25,0" Text="{Binding CurrentShip.Info.Name, Mode=OneWay}" MinWidth="100"/>
+                                <TextBlock Grid.Row="1" Text="{Binding CurrentShip.Info.ShipType, Mode=OneWay}"/>
+
+                                <TextBlock Grid.Column="1" Margin="17,0,0,0" Text="Current"/>
+                                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding CurrentShip.Level, Mode=OneWay}" Width="Auto"/>
+
+                                <TextBlock Grid.Column="2" Margin="25,0,0,0" Text="Target"/>
+                                <TextBlock Grid.Column="2" Grid.Row="1" Text="{Binding export_data.target_level, Mode=OneWay}" Width="Auto"/>
+
+                                <TextBlock Grid.Column="3" Margin="25,0,0,0" Text="EXP Left"/>
+                                <TextBlock Grid.Column="3" Grid.Row="1" Text="{Binding remaining_Exp, Mode=OneWay}" Width="Auto"/>
+
+                                <TextBlock Grid.Column="4" Margin="25,0,0,0" Text="Battles"/>
+                                <TextBlock Grid.Column="4" Grid.Row="1" Text="{Binding remaining_Battles, Mode=OneWay}" Width="Auto"/>
+
+                                <TextBlock Grid.Column="5" Margin="25,0,0,0" Text="Map"/>
+                                <TextBlock Grid.Column="5" Grid.Row="1" Text="{Binding remaining_Battles, Mode=OneWay}" Width="Auto"/>
+
+                                <TextBlock Grid.Column="6" Margin="25,0,0,0" Text="Rank"/>
+                                <TextBlock Grid.Column="6" Grid.Row="1" Text="{Binding remaining_Battles, Mode=OneWay}" Width="Auto"/>
+
+                                <TextBlock Grid.Column="7" Margin="25,0,0,0" Text="Flagship"/>
+                                <TextBlock Grid.Column="7" Grid.Row="1" Text="{Binding remaining_Battles, Mode=OneWay}" Width="Auto"/>
+
+                                <TextBlock Grid.Column="8" Margin="25,0,0,0" Text="MVP"/>
+                                <TextBlock Grid.Column="8" Grid.Row="1" Text="{Binding remaining_Battles, Mode=OneWay}" Width="Auto"/>
+
+
+                                <TextBlock Grid.Column="1" />
+                                <metro2:CallMethodButton Margin="25,0,0,0"
+                                                         Grid.Column="9"
+                                                         Width="Auto"
+                                                         Height="22"
+														 Content="Delete"
 														 MethodName="Delete" />
                             </Grid>
                         </Border>
