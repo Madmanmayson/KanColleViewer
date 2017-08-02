@@ -264,7 +264,7 @@ namespace Calculator.ViewModels
             }
         }
 
-        private void Save()
+        public void Save()
         {
             this.masterData.TrackedShips.Add(new TrackedShip(CurrentShip.Id, TargetLevel, SelectedMap, SelectedResult, IsFlagship, IsMVP, masterData));
             this.masterData.SaveData();

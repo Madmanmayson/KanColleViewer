@@ -96,7 +96,7 @@ namespace Calculator.ViewModels
                 .Subscribe(_ => this.IsReloading = false);
             this.CompositeDisposable.Add(this.updateSource);
 
-            KanColleClient.Current.Proxy.api_start2.Throttle(TimeSpan.FromSeconds(2)).Subscribe(_ => this.InitializePlugin());
+            KanColleClient.Current.Proxy.api_start2.Throttle(TimeSpan.FromSeconds(5)).Subscribe(_ => this.InitializePlugin());
 
             
         }
