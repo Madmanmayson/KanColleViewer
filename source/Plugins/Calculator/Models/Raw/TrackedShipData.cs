@@ -217,13 +217,20 @@ namespace Calculator.Models.Raw
         {
             if(this.plugin.homeport.Organization.Ships != null)
             {
-                this.CurrentShip = this.plugin.homeport.Organization.Ships[export_data.ship_id];
+                if (CurrentShip.Level >= export_data.target_level)
+                {
+                    this.Delete();
+                }
+                else
+                {
+                    this.CurrentShip = this.plugin.homeport.Organization.Ships[export_data.ship_id];
 
-                double multiplier = (this.export_data.is_flagship ? 1.5 : 1) * (this.export_data.is_mvp ? 2 : 1) * (this.export_data.selected_rank == "S" ? 1.2 : (this.export_data.selected_rank == "C" ? 0.8 : (this.export_data.selected_rank == "D" ? 0.7 : (this.export_data.selected_rank == "E" ? 0.5 : 1))));
+                    double multiplier = (this.export_data.is_flagship ? 1.5 : 1) * (this.export_data.is_mvp ? 2 : 1) * (this.export_data.selected_rank == "S" ? 1.2 : (this.export_data.selected_rank == "C" ? 0.8 : (this.export_data.selected_rank == "D" ? 0.7 : (this.export_data.selected_rank == "E" ? 0.5 : 1))));
 
-                var sortieExperience = (int)Math.Round(plugin.sortieExperienceTable[this.export_data.selected_map] * multiplier);
-                this.remaining_Exp = this.plugin.experienceTable[this.export_data.target_level] - this.CurrentShip.Exp;
-                this.remaining_Battles = (int)Math.Ceiling(this.remaining_Exp / (double)sortieExperience);
+                    var sortieExperience = (int)Math.Round(plugin.sortieExperienceTable[this.export_data.selected_map] * multiplier);
+                    this.remaining_Exp = this.plugin.experienceTable[this.export_data.target_level] - this.CurrentShip.Exp;
+                    this.remaining_Battles = (int)Math.Ceiling(this.remaining_Exp / (double)sortieExperience);
+                }
             }
             
         }
