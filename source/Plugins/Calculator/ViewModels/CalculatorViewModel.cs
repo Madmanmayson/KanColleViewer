@@ -138,7 +138,7 @@ namespace Calculator.ViewModels
             get { return this._TargetLevel; }
             set
             {
-                if (this._TargetLevel != value && value >= 1 && value <= 155)
+                if (this._TargetLevel != value && value >= 1 && value <= 165)
                 {
                     this._TargetLevel = value;
                     this.UpdateExperience();
