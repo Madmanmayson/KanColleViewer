@@ -5,6 +5,11 @@ using System;
 
 namespace Calculator.Models.Raw
 {
+    class ImportData
+    {
+        public SavedShip[] imported { get; set; }
+    }
+
     class SavedShip : NotificationObject
     {
         public int ship_id;
@@ -217,7 +222,7 @@ namespace Calculator.Models.Raw
         {
             if(this.plugin.homeport.Organization.Ships != null)
             {
-                if (CurrentShip.Level >= export_data.target_level)
+                if (CurrentShip != null && CurrentShip.Level >= export_data.target_level)
                 {
                     this.Delete();
                 }

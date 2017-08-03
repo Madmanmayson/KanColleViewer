@@ -91,7 +91,7 @@ namespace Calculator.ViewModels
 
             this.updateSource
                 .Do(_ => this.IsReloading = true)
-                .Throttle(TimeSpan.FromMilliseconds(100))
+                .Throttle(TimeSpan.FromMilliseconds(500))
                 .Do(_ => this.UpdateCore())
                 .Subscribe(_ => this.IsReloading = false);
             this.CompositeDisposable.Add(this.updateSource);
@@ -128,7 +128,7 @@ namespace Calculator.ViewModels
         {
             Directory.CreateDirectory(dataPath);
 
-            using (StreamWriter dataWriter = new StreamWriter(dataPath + "ExpTracking.json"))
+            using (StreamWriter dataWriter = new StreamWriter(Path.Combine(dataPath + "ExpTracking.json")))
             {
                 List<SavedShip> exportData = new List<SavedShip>();
 
@@ -145,13 +145,15 @@ namespace Calculator.ViewModels
 
         private void LoadData()
         {
+            string path = Path.Combine(dataPath + "ExpTracking.json");
+            string json = File.ReadAllText(path);
             this.TrackedShips = new ObservableCollection<TrackedShip>();
-            if (File.Exists(dataPath + "ExpTracking.json"))
+            List<SavedShip> exportedData = JsonConvert.DeserializeObject<List<SavedShip>>(json);
+            foreach (SavedShip ship in exportedData)
             {
-                using(FileStream dataStream = new FileStream(dataPath + "ExpTracking.json", FileMode.Open)){
-
-                }       
+                TrackedShips.Add(new TrackedShip(ship, this));
             }
+            SaveData();
         }
     }
 }
