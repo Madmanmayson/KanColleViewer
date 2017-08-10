@@ -95,14 +95,20 @@ namespace Calculator.ViewModels
                 .Subscribe(_ => this.IsReloading = false);
             this.CompositeDisposable.Add(this.updateSource);
 
-            KanColleClient.Current.Proxy.api_start2.Throttle(TimeSpan.FromSeconds(5)).Subscribe(_ => this.InitializePlugin());
+            KanColleClient.Current.Proxy.api_start2.
+                //Throttle(TimeSpan.FromSeconds(5)).
+                Subscribe(_ => this.InitializePlugin());
 
             
         }
 
         private void InitializePlugin()
         {
-            this.homeport = KanColleClient.Current.Homeport;
+            while(this.homeport == null)
+            {
+                System.Threading.Thread.Sleep(1000);
+                this.homeport = KanColleClient.Current.Homeport;
+            }
             this.CompositeDisposable.Add(new PropertyChangedEventListener(this.homeport.Organization)
             {
                 { () => this.homeport.Organization.Ships, (sender, args) => this.Update() },
