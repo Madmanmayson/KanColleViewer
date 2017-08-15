@@ -140,6 +140,7 @@ namespace Calculator.ViewModels
                     else
                     {
                         Application.Current.Dispatcher.Invoke(new Action(() => this.TrackedShips.Remove(track)));
+                        this.SaveData();
                         IsReloading = true;
                         break;
                     }
