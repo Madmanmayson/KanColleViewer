@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -95,9 +96,11 @@ namespace Calculator.ViewModels
                 .Subscribe(_ => this.IsReloading = false);
             this.CompositeDisposable.Add(this.updateSource);
 
+            Thread thread = new Thread(new ThreadStart(InitializePlugin));
+
             KanColleClient.Current.Proxy.api_start2.
                 //Throttle(TimeSpan.FromSeconds(5)).
-                Subscribe(_ => this.InitializePlugin());
+                Subscribe(_ => thread.Start());
 
             
         }
@@ -106,7 +109,7 @@ namespace Calculator.ViewModels
         {
             while(this.homeport == null)
             {
-                System.Threading.Thread.Sleep(1000);
+                Thread.Sleep(1000);
                 this.homeport = KanColleClient.Current.Homeport;
             }
             this.CompositeDisposable.Add(new PropertyChangedEventListener(this.homeport.Organization)
@@ -125,7 +128,15 @@ namespace Calculator.ViewModels
             this.Calculator.Update();
             foreach(var track in TrackedShips)
             {
-                track.Update();
+                if (homeport.Organization.Ships.Keys.Contains(track.export_data.ship_id))
+                {
+                    track.Update();
+                }
+                else
+                {
+                    track.Delete();
+                }
+                
             };
         }
 

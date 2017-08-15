@@ -166,6 +166,8 @@ namespace Calculator.Models.Raw
 
         private ToolViewModel plugin;
 
+        public bool isComplete;
+
         #region CurrentShip
 
         private Ship _CurrentShip;
@@ -201,6 +203,7 @@ namespace Calculator.Models.Raw
             this.export_data.is_flagship = is_flagship;
             this.export_data.is_mvp = is_mvp;
             this.plugin = plugin;
+            this.isComplete = false;
             this.CurrentShip = this.plugin.homeport.Organization.Ships[ship_id];
             this.Update();
         }
@@ -210,6 +213,7 @@ namespace Calculator.Models.Raw
         {
             this.export_data = loadedData;
             this.plugin = plugin;
+            this.isComplete = false;
         }
 
         public void Delete()
@@ -220,11 +224,13 @@ namespace Calculator.Models.Raw
 
         public void Update()
         {
-            if(this.plugin.homeport.Organization.Ships != null)
+            if(this.plugin.homeport.Organization.Ships != null && !isComplete)
             {
                 if (CurrentShip != null && CurrentShip.Level >= export_data.target_level)
                 {
-                    this.Delete();
+                    this.isComplete = true;
+                    this.remaining_Battles = 0;
+                    this.remaining_Exp = 0;
                 }
                 else
                 {
@@ -237,7 +243,6 @@ namespace Calculator.Models.Raw
                     this.remaining_Battles = (int)Math.Ceiling(this.remaining_Exp / (double)sortieExperience);
                 }
             }
-            
         }
     }
 }
