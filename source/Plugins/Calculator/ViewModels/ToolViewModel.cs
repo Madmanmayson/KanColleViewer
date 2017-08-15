@@ -15,6 +15,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using Newtonsoft.Json;
+using Grabacr07.KanColleViewer;
 
 namespace Calculator.ViewModels
 {
@@ -126,18 +127,24 @@ namespace Calculator.ViewModels
         private void UpdateCore()
         {
             this.Calculator.Update();
-            foreach(var track in TrackedShips)
+            IsReloading = true;
+            while (IsReloading)
             {
-                if (homeport.Organization.Ships.Keys.Contains(track.export_data.ship_id))
+                foreach (var track in TrackedShips)
                 {
-                    track.Update();
+                    if (homeport.Organization.Ships.Keys.Contains(track.export_data.ship_id))
+                    {
+                        track.Update();
+                        IsReloading = false;
+                    }
+                    else
+                    {
+                        Application.Current.Dispatcher.Invoke(new Action(() => this.TrackedShips.Remove(track)));
+                        IsReloading = true;
+                        break;
+                    }
                 }
-                else
-                {
-                    track.Delete();
-                }
-                
-            };
+            }            
         }
 
         public void SaveData()
