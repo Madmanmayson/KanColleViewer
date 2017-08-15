@@ -60,7 +60,7 @@ namespace Calculator.ViewModels
                     if (value != null)
                     {
                         this._CurrentShip = value;
-                        this.TargetLevel = Math.Min(this._CurrentShip.Level + 1, 155);
+                        this.TargetLevel = CurrentShip.Info.NextRemodelingLevel ?? (CurrentShip.Level < 100 ? 99 : 165);
                         this.RaisePropertyChanged();
                     }
                 }
