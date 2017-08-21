@@ -8,7 +8,6 @@
              xmlns:livet="http://schemas.livet-mvvm.net/2011/wpf"
 			 xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
              xmlns:metro2="http://schemes.grabacr.net/winfx/2015/personal/controls"
-             xmlns:local="clr-namespace:Calculator.Views"
              xmlns:viewModels="clr-namespace:Calculator.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="300" 

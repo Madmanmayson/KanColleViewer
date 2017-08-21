@@ -100,8 +100,8 @@
                                 <TextBlock Grid.Column="3" Margin="25,0,0,0" Text="EXP Left"/>
                                 <TextBlock Grid.Column="3" Grid.Row="1" Margin="25,0,0,0" Text="{Binding remaining_Exp, Mode=OneWay}" Width="Auto"/>
 
-                                <TextBlock Grid.Column="4" Margin="25,0,0,0" Text="Battles"/>
-                                <TextBlock Grid.Column="4" Grid.Row="1" Margin="25,0,0,0" Text="{Binding remaining_Battles, Mode=OneWay}" Width="Auto"/>
+                                <TextBlock Grid.Column="4" Margin="25,0,0,0" Text="Battles" Foreground="Yellow"/>
+                                <TextBlock Grid.Column="4" Grid.Row="1" Margin="25,0,0,0" Text="{Binding remaining_Battles, Mode=OneWay}" Width="Auto" Foreground="Yellow"/>
 
                                 <TextBlock Grid.Column="5" Margin="25,0,0,0" Text="Map"/>
                                 <TextBlock Grid.Column="5" Grid.Row="1" Margin="25,0,0,0" Text="{Binding export_data.selected_map, Mode=OneWay}" Width="Auto"/>
