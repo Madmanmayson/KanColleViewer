@@ -14,7 +14,7 @@
              d:DesignWidth="900"
              d:DataContext="{d:DesignInstance viewModels:ToolViewModel}"
              Background="{DynamicResource ThemeBrushKey}">
-
+    
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -63,7 +63,8 @@
                       Width="auto"
                       PanningMode="Both">
         <ItemsControl ItemsSource="{Binding TrackedShips}"
-                      Grid.IsSharedSizeScope="True">
+                      Grid.IsSharedSizeScope="True"
+                      Foreground="White">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Margin="4"
