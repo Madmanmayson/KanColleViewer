@@ -181,5 +181,11 @@ namespace Calculator.ViewModels
                 }
             }
         }
+
+        public void OpenNewWindow()
+        {
+            var window = new TrackedShipWindowViewModel(this.TrackedShips);
+            WindowService.Current.MainWindow.Transition(window, typeof(TrackedShipWindowViewModel));
+        }
     }
 }

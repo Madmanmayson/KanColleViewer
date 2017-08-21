@@ -138,10 +138,17 @@ namespace Calculator.ViewModels
             get { return this._TargetLevel; }
             set
             {
-                if (this._TargetLevel != value && value >= 1 && value <= 165)
+                if (this._TargetLevel != value)
                 {
                     this._TargetLevel = value;
-                    this.UpdateExperience();
+                    if(this._TargetLevel > CurrentShip.Level)
+                    {
+                        if(this._TargetLevel > 165)
+                        {
+                            this._TargetLevel = 165;
+                        }
+                        this.UpdateExperience();
+                    }
                     this.RaisePropertyChanged();
                 }
             }

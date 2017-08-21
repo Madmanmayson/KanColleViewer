@@ -71,7 +71,7 @@
 								Padding="0,0,0,8"
 								BorderThickness="0,0,0,.99"
 								BorderBrush="{DynamicResource BorderBrushKey}">
-                            <Grid>
+                            <Grid Panel.ZIndex="1">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
@@ -116,15 +116,33 @@
                                 <TextBlock Grid.Column="8" Margin="25,0,0,0" Text="MVP"/>
                                 <TextBlock Grid.Column="8" Grid.Row="1" Margin="25,0,0,0" Text="{Binding export_data.is_mvp, Mode=OneWay}" Width="Auto"/>
 
-
-                                <TextBlock Grid.Column="1" />
                                 <metro2:CallMethodButton Margin="25,0,0,0"
                                                          Grid.Column="9"
                                                          Height="22"
 														 Content="Delete"
 														 MethodName="Delete" />
-                            </Grid>
+
+                                    <TextBlock Name="CompletedTrack" 
+                                           Panel.ZIndex="100000" 
+                                           Grid.ColumnSpan="8" 
+                                           Grid.Column="1" 
+                                           Grid.RowSpan="2" 
+                                           Background="Gray"
+                                           Visibility="Hidden"
+                                           Text="Completed"
+                                           Opacity="1"/>
+                                </Grid>
+
+                                                        
                         </Border>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding isComplete}"
+                                             Value="True">
+                                    <Setter TargetName="CompletedTrack"
+                                            Property="Visibility"
+                                            Value="Visible"/>
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
