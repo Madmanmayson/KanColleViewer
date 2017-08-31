@@ -16,6 +16,7 @@ namespace Calculator.ViewModels
     {
         private Homeport homeport = KanColleClient.Current.Homeport;
 
+        private TrackingData Tracking { get; } = TrackingData.Current;
         
         public IEnumerable<string> MapList { get; private set; }
         public IEnumerable<string> ResultList { get; private set; }
@@ -60,7 +61,7 @@ namespace Calculator.ViewModels
                     if (value != null)
                     {
                         this._CurrentShip = value;
-                        this.TargetLevel = Math.Min(this._CurrentShip.Level + 1, 155);
+                        this.TargetLevel = CurrentShip.Info.NextRemodelingLevel ?? (CurrentShip.Level < 100 ? 99 : 165);
                         this.RaisePropertyChanged();
                     }
                 }
@@ -138,10 +139,17 @@ namespace Calculator.ViewModels
             get { return this._TargetLevel; }
             set
             {
-                if (this._TargetLevel != value && value >= 1 && value <= 165)
+                if (this._TargetLevel != value)
                 {
                     this._TargetLevel = value;
-                    this.UpdateExperience();
+                    if(this._TargetLevel > CurrentShip.Level)
+                    {
+                        if(this._TargetLevel > 165)
+                        {
+                            this._TargetLevel = 165;
+                        }
+                        this.UpdateExperience();
+                    }
                     this.RaisePropertyChanged();
                 }
             }
@@ -266,8 +274,8 @@ namespace Calculator.ViewModels
 
         public void Save()
         {
-            this.masterData.TrackedShips.Add(new TrackedShip(CurrentShip.Id, TargetLevel, SelectedMap, SelectedResult, IsFlagship, IsMVP, masterData));
-            this.masterData.SaveData();
+            Tracking.TrackedShips.Add(new TrackedShip(CurrentShip.Id, TargetLevel, SelectedMap, SelectedResult, IsFlagship, IsMVP));
+            Tracking.SaveData();
         }
     }
 }

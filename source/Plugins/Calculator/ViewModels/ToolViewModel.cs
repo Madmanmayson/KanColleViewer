@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -14,11 +15,16 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using Newtonsoft.Json;
+using Grabacr07.KanColleViewer;
 
 namespace Calculator.ViewModels
 {
     class ToolViewModel : ViewModel
     {
+        public static ToolViewModel Current { get; } = new ToolViewModel();
+
+        public TrackingData Tracking { get; } = TrackingData.Current;
+        
         private static string dataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Smooth and Flat", "KanColleViewer", "Data");
         public Homeport homeport = KanColleClient.Current?.Homeport;
         private readonly Subject<Unit> updateSource = new Subject<Unit>();
@@ -39,26 +45,6 @@ namespace Calculator.ViewModels
                 {
                     this._Calculator = value;
                     this.RaisePropertyChanged();
-                }
-            }
-        }
-
-        #endregion
-
-        #region Tracked Ships
-
-        private ObservableCollection<TrackedShip> _TrackedShips;
-
-        public ObservableCollection<TrackedShip> TrackedShips
-        {
-            get { return this._TrackedShips; }
-            set
-            {
-                if(this._TrackedShips != value)
-                {
-                    this._TrackedShips = value;
-                    this.RaisePropertyChanged();
-                    this.SaveData();
                 }
             }
         }
@@ -86,7 +72,6 @@ namespace Calculator.ViewModels
 
         public ToolViewModel()
         {
-            this.LoadData();
             this.Calculator = new CalculatorViewModel(this);
 
             this.updateSource
@@ -96,14 +81,20 @@ namespace Calculator.ViewModels
                 .Subscribe(_ => this.IsReloading = false);
             this.CompositeDisposable.Add(this.updateSource);
 
-            KanColleClient.Current.Proxy.api_start2.Throttle(TimeSpan.FromSeconds(5)).Subscribe(_ => this.InitializePlugin());
+            Thread thread = new Thread(new ThreadStart(InitializePlugin));
+
+            KanColleClient.Current.Proxy.api_start2.Subscribe(_ => thread.Start());
 
             
         }
 
         private void InitializePlugin()
         {
-            this.homeport = KanColleClient.Current.Homeport;
+            while(this.homeport == null)
+            {
+                Thread.Sleep(1000);
+                this.homeport = KanColleClient.Current.Homeport;
+            }
             this.CompositeDisposable.Add(new PropertyChangedEventListener(this.homeport.Organization)
             {
                 { () => this.homeport.Organization.Ships, (sender, args) => this.Update() },
@@ -118,42 +109,13 @@ namespace Calculator.ViewModels
         private void UpdateCore()
         {
             this.Calculator.Update();
-            foreach(var track in TrackedShips)
-            {
-                track.Update();
-            };
+            this.Tracking.UpdateCore();  
         }
 
-        public void SaveData()
+        public void OpenNewWindow()
         {
-            Directory.CreateDirectory(dataPath);
-
-            using (StreamWriter dataWriter = new StreamWriter(Path.Combine(dataPath + "ExpTracking.json")))
-            {
-                List<SavedShip> exportData = new List<SavedShip>();
-
-                foreach(var ship in TrackedShips)
-                {
-                    exportData.Add(ship.export_data);
-                }
-
-                string output = JsonConvert.SerializeObject(exportData);
-
-                dataWriter.Write(output);
-            }
-        }
-
-        private void LoadData()
-        {
-            string path = Path.Combine(dataPath + "ExpTracking.json");
-            string json = File.ReadAllText(path);
-            this.TrackedShips = new ObservableCollection<TrackedShip>();
-            List<SavedShip> exportedData = JsonConvert.DeserializeObject<List<SavedShip>>(json);
-            foreach (SavedShip ship in exportedData)
-            {
-                TrackedShips.Add(new TrackedShip(ship, this));
-            }
-            SaveData();
+            // window = new TrackedShipWindowViewModel(this.TrackedShips);
+            //WindowService.Current.MainWindow.Transition(window, typeof(TrackedShipWindowViewModel));
         }
     }
 }

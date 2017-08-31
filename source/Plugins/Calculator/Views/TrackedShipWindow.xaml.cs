@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,25 +10,20 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Calculator.Views
 {
     /// <summary>
-    /// Interaction logic for CalculatorView.xaml
+    /// Interaction logic for TrackedShipWindow.xaml
     /// </summary>
-    public partial class CalculatorView : UserControl
+    public partial class TrackedShipWindow
     {
-        public CalculatorView()
+        public TrackedShipWindow()
         {
             InitializeComponent();
-        }
 
-        private void PromptTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
+            Application.Current.MainWindow.Closed += (sender, args) => this.Close();
         }
     }
 }

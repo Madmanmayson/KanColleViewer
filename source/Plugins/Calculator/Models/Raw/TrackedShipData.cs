@@ -1,5 +1,6 @@
 ﻿using Calculator.ViewModels;
 using Grabacr07.KanColleWrapper.Models;
+using Calculator.Models.Raw;
 using Livet;
 using System;
 
@@ -164,7 +165,26 @@ namespace Calculator.Models.Raw
 
         #endregion
 
-        private ToolViewModel plugin;
+        public TrackingData Tracking = TrackingData.Current;
+
+        #region isComplete
+
+        private bool _isComplete;
+
+        public bool isComplete
+        {
+            get { return _isComplete;  }
+            set
+            {
+                if(this._isComplete != value)
+                {
+                    this._isComplete = value;
+                    this.RaisePropertyChanged();
+                }
+            }
+        }
+
+        #endregion
 
         #region CurrentShip
 
@@ -191,7 +211,7 @@ namespace Calculator.Models.Raw
 
 
         //Constructor for adding a new ship
-        public TrackedShip(int ship_id, int target_level, string selected_map, string selected_rank, bool is_flagship, bool is_mvp, ToolViewModel plugin)
+        public TrackedShip(int ship_id, int target_level, string selected_map, string selected_rank, bool is_flagship, bool is_mvp)
         {
             this.export_data = new SavedShip();
             this.export_data.ship_id = ship_id;
@@ -200,44 +220,50 @@ namespace Calculator.Models.Raw
             this.export_data.selected_rank = selected_rank;
             this.export_data.is_flagship = is_flagship;
             this.export_data.is_mvp = is_mvp;
-            this.plugin = plugin;
-            this.CurrentShip = this.plugin.homeport.Organization.Ships[ship_id];
+            this.isComplete = false;
+            this.CurrentShip = this.Tracking.homeport.Organization.Ships[ship_id];
             this.Update();
         }
 
         //Loading constructor
-        public TrackedShip(SavedShip loadedData, ToolViewModel plugin)
+        public TrackedShip(SavedShip loadedData)
         {
             this.export_data = loadedData;
-            this.plugin = plugin;
+            //this.plugin = ToolViewModel.Current;
+            this.isComplete = false;
         }
 
         public void Delete()
         {
-            this.plugin.TrackedShips.Remove(this);
-            this.plugin.SaveData();
+            this.Tracking.TrackedShips.Remove(this);
+            this.Tracking.SaveData();
         }
 
         public void Update()
         {
-            if(this.plugin.homeport.Organization.Ships != null)
+            if(Tracking == null)
+            {
+                this.Tracking = TrackingData.Current;
+            }
+            if(this.Tracking.homeport.Organization.Ships != null && !isComplete)
             {
                 if (CurrentShip != null && CurrentShip.Level >= export_data.target_level)
                 {
-                    this.Delete();
+                    this.isComplete = true;
+                    this.remaining_Battles = 0;
+                    this.remaining_Exp = 0;
                 }
                 else
                 {
-                    this.CurrentShip = this.plugin.homeport.Organization.Ships[export_data.ship_id];
+                    this.CurrentShip = this.Tracking.homeport.Organization.Ships[export_data.ship_id];
 
                     double multiplier = (this.export_data.is_flagship ? 1.5 : 1) * (this.export_data.is_mvp ? 2 : 1) * (this.export_data.selected_rank == "S" ? 1.2 : (this.export_data.selected_rank == "C" ? 0.8 : (this.export_data.selected_rank == "D" ? 0.7 : (this.export_data.selected_rank == "E" ? 0.5 : 1))));
 
-                    var sortieExperience = (int)Math.Round(plugin.sortieExperienceTable[this.export_data.selected_map] * multiplier);
-                    this.remaining_Exp = this.plugin.experienceTable[this.export_data.target_level] - this.CurrentShip.Exp;
+                    var sortieExperience = (int)Math.Round(SortieExperienceTable.SortieExperience[this.export_data.selected_map] * multiplier);
+                    this.remaining_Exp = ExperienceTable.experienceByLevel[this.export_data.target_level] - this.CurrentShip.Exp;
                     this.remaining_Battles = (int)Math.Ceiling(this.remaining_Exp / (double)sortieExperience);
                 }
             }
-            
         }
     }
 }

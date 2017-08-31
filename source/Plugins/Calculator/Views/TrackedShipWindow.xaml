@@ -1,0 +1,28 @@
+﻿<metro:MetroWindow x:Class="Calculator.Views.TrackedShipWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Calculator.Views"
+        xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
+        xmlns:kcvc="http://schemes.grabacr.net/winfx/2015/kancolleviewer/controls"
+        mc:Ignorable="d"
+        Title="Tracked Ships" 
+        Height="720" 
+        Width="1080"
+        Background="{DynamicResource ThemeBrushKey}"
+        Foreground="{DynamicResource ActiveForegroundBrushKey}"
+        FontFamily="{DynamicResource DefaultFontFamilyKey}">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Styles/PluginStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <Grid>
+        
+    </Grid>
+</metro:MetroWindow>

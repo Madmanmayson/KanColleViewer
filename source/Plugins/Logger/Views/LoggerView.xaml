@@ -12,13 +12,13 @@
 			 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
 			 mc:Ignorable="d"
 			 d:DataContext="{d:DesignInstance viewModels:LoggerViewModel}"
-			 d:DesignHeight="300"
-			 d:DesignWidth="300">
+			 d:DesignHeight="900"
+			 d:DesignWidth="400">
 
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="Common.xaml" />
+				<ResourceDictionary Source="../Styles/Common.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</UserControl.Resources>

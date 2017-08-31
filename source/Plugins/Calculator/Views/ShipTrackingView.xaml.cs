@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,19 +16,13 @@ using System.Windows.Shapes;
 namespace Calculator.Views
 {
     /// <summary>
-    /// Interaction logic for CalculatorView.xaml
+    /// Interaction logic for ShipTrackingView.xaml
     /// </summary>
-    public partial class CalculatorView : UserControl
+    public partial class ShipTrackingView : UserControl
     {
-        public CalculatorView()
+        public ShipTrackingView()
         {
             InitializeComponent();
-        }
-
-        private void PromptTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }
