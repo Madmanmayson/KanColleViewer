@@ -62,7 +62,10 @@
                       HorizontalScrollBarVisibility="Auto"
                       Width="auto"
                       PanningMode="Both">
-        <ItemsControl ItemsSource="{Binding TrackedShips}"
+
+                <views:ShipTrackingView/>
+
+                <!--<ItemsControl ItemsSource="{Binding Tracking.TrackedShips}"
                       Grid.IsSharedSizeScope="True"
                       Foreground="White">
                 <ItemsControl.ItemTemplate>
@@ -71,7 +74,7 @@
 								Padding="0,0,0,8"
 								BorderThickness="0,0,0,.99"
 								BorderBrush="{DynamicResource BorderBrushKey}">
-                            <Grid Panel.ZIndex="1">
+                            <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
@@ -89,7 +92,7 @@
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
 
-                                <TextBlock Margin="17,0,25,0" Text="{Binding CurrentShip.Info.Name, Mode=OneWay}" MinWidth="100" />
+                                <TextBlock Margin="17,0,25,0" Text="{Binding CurrentShip.Info.Name, Mode=OneWay}" MinWidth="100"/>
                                 <TextBlock Grid.Row="1" Margin="17,0,25,0" Text="{Binding CurrentShip.Info.ShipType.Name, Mode=OneWay}"/>
 
                                 <TextBlock Grid.Column="1" Margin="17,0,0,0" Text="Current"/>
@@ -104,7 +107,7 @@
                                 <TextBlock Grid.Column="4" Margin="25,0,0,0" Text="Battles" Foreground="Yellow"/>
                                 <TextBlock Grid.Column="4" Grid.Row="1" Margin="25,0,0,0" Text="{Binding remaining_Battles, Mode=OneWay}" Width="Auto" Foreground="Yellow"/>
 
-                                <TextBlock Grid.Column="5" Margin="25,0,0,0" Text="Map"/>
+                                <TextBlock Grid.Column="5" Margin="25,0,0,0" Text="Map" Background="Transparent"/>
                                 <TextBlock Grid.Column="5" Grid.Row="1" Margin="25,0,0,0" Text="{Binding export_data.selected_map, Mode=OneWay}" Width="Auto"/>
 
                                 <TextBlock Grid.Column="6" Margin="25,0,0,0" Text="Rank"/>
@@ -123,11 +126,10 @@
 														 MethodName="Delete" />
 
                                     <TextBlock Name="CompletedTrack" 
-                                           Panel.ZIndex="100000" 
                                            Grid.ColumnSpan="8" 
                                            Grid.Column="1" 
                                            Grid.RowSpan="2" 
-                                           Background="Gray"
+                                           Background="Blue"
                                            Visibility="Hidden"
                                            Text="Completed"
                                            Opacity="1"/>
@@ -145,7 +147,7 @@
                             </DataTemplate.Triggers>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            </ItemsControl>-->
             </ScrollViewer>
 
         </Grid>

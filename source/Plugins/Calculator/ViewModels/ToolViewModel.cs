@@ -21,6 +21,10 @@ namespace Calculator.ViewModels
 {
     class ToolViewModel : ViewModel
     {
+        public static ToolViewModel Current { get; } = new ToolViewModel();
+
+        public TrackingData Tracking { get; } = TrackingData.Current;
+        
         private static string dataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Smooth and Flat", "KanColleViewer", "Data");
         public Homeport homeport = KanColleClient.Current?.Homeport;
         private readonly Subject<Unit> updateSource = new Subject<Unit>();
@@ -40,25 +44,6 @@ namespace Calculator.ViewModels
                 if(this._Calculator != value)
                 {
                     this._Calculator = value;
-                    this.RaisePropertyChanged();
-                }
-            }
-        }
-
-        #endregion
-
-        #region Tracked Ships
-
-        private ObservableCollection<TrackedShip> _TrackedShips;
-
-        public ObservableCollection<TrackedShip> TrackedShips
-        {
-            get { return this._TrackedShips; }
-            set
-            {
-                if(this._TrackedShips != value)
-                {
-                    this._TrackedShips = value;
                     this.RaisePropertyChanged();
                 }
             }
@@ -87,7 +72,6 @@ namespace Calculator.ViewModels
 
         public ToolViewModel()
         {
-            this.LoadData();
             this.Calculator = new CalculatorViewModel(this);
 
             this.updateSource
@@ -99,9 +83,7 @@ namespace Calculator.ViewModels
 
             Thread thread = new Thread(new ThreadStart(InitializePlugin));
 
-            KanColleClient.Current.Proxy.api_start2.
-                //Throttle(TimeSpan.FromSeconds(5)).
-                Subscribe(_ => thread.Start());
+            KanColleClient.Current.Proxy.api_start2.Subscribe(_ => thread.Start());
 
             
         }
@@ -127,65 +109,13 @@ namespace Calculator.ViewModels
         private void UpdateCore()
         {
             this.Calculator.Update();
-            IsReloading = true;
-            while (IsReloading)
-            {
-                foreach (var track in TrackedShips)
-                {
-                    if (homeport.Organization.Ships.Keys.Contains(track.export_data.ship_id))
-                    {
-                        track.Update();
-                        IsReloading = false;
-                    }
-                    else
-                    {
-                        Application.Current.Dispatcher.Invoke(new Action(() => this.TrackedShips.Remove(track)));
-                        this.SaveData();
-                        IsReloading = true;
-                        break;
-                    }
-                }
-            }            
-        }
-
-        public void SaveData()
-        {
-            Directory.CreateDirectory(dataPath);
-
-            using (StreamWriter dataWriter = new StreamWriter(Path.Combine(dataPath, "ExpTracking.json")))
-            {
-                List<SavedShip> exportData = new List<SavedShip>();
-
-                foreach(var ship in TrackedShips)
-                {
-                    exportData.Add(ship.export_data);
-                }
-
-                string output = JsonConvert.SerializeObject(exportData);
-
-                dataWriter.Write(output);
-            }
-        }
-
-        private void LoadData()
-        {
-            this.TrackedShips = new ObservableCollection<TrackedShip>();
-            var path = Path.Combine(dataPath, "ExpTracking.json");
-            if (File.Exists(path))
-            {
-                string json = File.ReadAllText(Path.Combine(path));
-                List<SavedShip> exportedData = JsonConvert.DeserializeObject<List<SavedShip>>(json);
-                foreach (SavedShip ship in exportedData)
-                {
-                    TrackedShips.Add(new TrackedShip(ship, this));
-                }
-            }
+            this.Tracking.UpdateCore();  
         }
 
         public void OpenNewWindow()
         {
-            var window = new TrackedShipWindowViewModel(this.TrackedShips);
-            WindowService.Current.MainWindow.Transition(window, typeof(TrackedShipWindowViewModel));
+            // window = new TrackedShipWindowViewModel(this.TrackedShips);
+            //WindowService.Current.MainWindow.Transition(window, typeof(TrackedShipWindowViewModel));
         }
     }
 }

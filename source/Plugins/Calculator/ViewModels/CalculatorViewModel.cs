@@ -16,6 +16,7 @@ namespace Calculator.ViewModels
     {
         private Homeport homeport = KanColleClient.Current.Homeport;
 
+        private TrackingData Tracking { get; } = TrackingData.Current;
         
         public IEnumerable<string> MapList { get; private set; }
         public IEnumerable<string> ResultList { get; private set; }
@@ -273,8 +274,8 @@ namespace Calculator.ViewModels
 
         public void Save()
         {
-            this.masterData.TrackedShips.Add(new TrackedShip(CurrentShip.Id, TargetLevel, SelectedMap, SelectedResult, IsFlagship, IsMVP, masterData));
-            this.masterData.SaveData();
+            Tracking.TrackedShips.Add(new TrackedShip(CurrentShip.Id, TargetLevel, SelectedMap, SelectedResult, IsFlagship, IsMVP));
+            Tracking.SaveData();
         }
     }
 }
