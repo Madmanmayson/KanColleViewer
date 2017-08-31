@@ -11,13 +11,13 @@ namespace Counter
 {
 	[Export(typeof(IPlugin))]
 	[Export(typeof(ITool))]
-	[Export(typeof(IRequestNotify))]
+	//[Export(typeof(IRequestNotify))]
 	[ExportMetadata("Guid", "65BE3E80-8EC1-41BD-85E0-78AEFD45A757")]
 	[ExportMetadata("Title", "KanColle Counter")]
 	[ExportMetadata("Description", "Provides a simple counter for various quest objectives.")]
 	[ExportMetadata("Version", "1.1")]
 	[ExportMetadata("Author", "@Grabacr07")]
-	public class KanColleCounter : IPlugin, ITool, IRequestNotify
+	public class KanColleCounter : IPlugin, ITool//, IRequestNotify
 	{
 		private CounterViewModel viewModel;
 
@@ -25,7 +25,7 @@ namespace Counter
 
 		object ITool.View => new CounterView { DataContext = this.viewModel, };
 
-		public event EventHandler<NotifyEventArgs> NotifyRequested;
+		//public event EventHandler<NotifyEventArgs> NotifyRequested;
 
 		public void Initialize()
 		{
