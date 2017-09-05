@@ -1,8 +1,8 @@
 ﻿KanColleViewer!
 --
 
-[![Release](https://img.shields.io/github/release/Yuubari/KanColleViewer.svg?style=flat-square)](https://github.com/Yuubari/KanColleViewer/releases/latest)
-[![Downloads](https://img.shields.io/github/downloads/Yuubari/KanColleViewer/latest/total.svg?style=flat-square)](https://github.com/Yuubari/KanColleViewer/releases/latest)
+[![Release](https://img.shields.io/github/release/Madmanmayson/KanColleViewer.svg?style=flat-square)](https://github.com/Madmanmayson/KanColleViewer/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/Madmanmayson/KanColleViewer/latest/total.svg?style=flat-square)](https://github.com/Madmanmayson/KanColleViewer/releases/latest)
 [![License](https://img.shields.io/github/license/Yuubari/KanColleViewer.svg?style=flat-square)](https://github.com/Yuubari/KanColleViewer/blob/develop/LICENSE.txt)
 
 
