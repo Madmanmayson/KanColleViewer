@@ -15,7 +15,7 @@ namespace Calculator
     [ExportMetadata("Guid", "4eea0aeb-7aa9-4a39-8ac9-ea79f62116ae")]
     [ExportMetadata("Title", "Calculator")]
     [ExportMetadata("Description", "Kancolle Experience Farming Calculator")]
-    [ExportMetadata("Version", "1.0.0")]
+    [ExportMetadata("Version", "1.2.0")]
     [ExportMetadata("Author", "@Madmanmayson, @Zharay")]
 
     public class Calculator : ITool, IPlugin
