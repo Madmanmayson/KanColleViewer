@@ -9,6 +9,7 @@
              xmlns:metro2="http://schemes.grabacr.net/winfx/2015/personal/controls"
              xmlns:viewModels="clr-namespace:Calculator.ViewModels"
              xmlns:views="clr-namespace:Calculator.Views"
+             xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
              mc:Ignorable="d" 
              d:DesignHeight="500" 
              d:DesignWidth="900"
@@ -23,21 +24,25 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
+    <i:Interaction.Triggers>
+        <l:InteractionMessageTrigger Messenger="{Binding Messenger}"
+                                     MessageKey="Show/TrackedWindow">
+            <l:TransitionInteractionMessageAction Mode="NewOrActive"
+                                                  WindowType="views:TrackedShipWindow"
+                                                  IsOwned="False" />
+        </l:InteractionMessageTrigger>
+    </i:Interaction.Triggers>
+    
     <DockPanel>
-        <!--<Button DockPanel.Dock="Right"
+        <metro2:CallMethodButton DockPanel.Dock="Right"
                 Margin="10"
                 Content="Open in New Window"
                 Height="30"
                 VerticalAlignment="Top"
-                HorizontalAlignment="Right">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="Click">
-                    <ei:CallMethodAction TargetObject="{Binding}"
-                                             MethodName="OpenEnemyWindow" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </Button>-->
-        
+                HorizontalAlignment="Right"
+                MethodName="OpenNewWindow"/>
+
+
         <views:CalculatorView DataContext="{Binding Calculator}" 
                               DockPanel.Dock="Top"/>
 
@@ -64,90 +69,6 @@
                       PanningMode="Both">
 
                 <views:ShipTrackingView/>
-
-                <!--<ItemsControl ItemsSource="{Binding Tracking.TrackedShips}"
-                      Grid.IsSharedSizeScope="True"
-                      Foreground="White">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border Margin="4"
-								Padding="0,0,0,8"
-								BorderThickness="0,0,0,.99"
-								BorderBrush="{DynamicResource BorderBrushKey}">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-
-                                <TextBlock Margin="17,0,25,0" Text="{Binding CurrentShip.Info.Name, Mode=OneWay}" MinWidth="100"/>
-                                <TextBlock Grid.Row="1" Margin="17,0,25,0" Text="{Binding CurrentShip.Info.ShipType.Name, Mode=OneWay}"/>
-
-                                <TextBlock Grid.Column="1" Margin="17,0,0,0" Text="Current"/>
-                                <TextBlock Grid.Column="1" Grid.Row="1" Margin="17,0,0,0" Text="{Binding CurrentShip.Level, Mode=OneWay}" Width="Auto"/>
-
-                                <TextBlock Grid.Column="2" Margin="25,0,0,0" Text="Target"/>
-                                <TextBlock Grid.Column="2" Grid.Row="1" Margin="25,0,0,0" Text="{Binding export_data.target_level, Mode=OneWay}" Width="Auto"/>
-
-                                <TextBlock Grid.Column="3" Margin="25,0,0,0" Text="EXP Left"/>
-                                <TextBlock Grid.Column="3" Grid.Row="1" Margin="25,0,0,0" Text="{Binding remaining_Exp, Mode=OneWay}" Width="Auto"/>
-
-                                <TextBlock Grid.Column="4" Margin="25,0,0,0" Text="Battles" Foreground="Yellow"/>
-                                <TextBlock Grid.Column="4" Grid.Row="1" Margin="25,0,0,0" Text="{Binding remaining_Battles, Mode=OneWay}" Width="Auto" Foreground="Yellow"/>
-
-                                <TextBlock Grid.Column="5" Margin="25,0,0,0" Text="Map" Background="Transparent"/>
-                                <TextBlock Grid.Column="5" Grid.Row="1" Margin="25,0,0,0" Text="{Binding export_data.selected_map, Mode=OneWay}" Width="Auto"/>
-
-                                <TextBlock Grid.Column="6" Margin="25,0,0,0" Text="Rank"/>
-                                <TextBlock Grid.Column="6" Grid.Row="1" Margin="25,0,0,0" Text="{Binding export_data.selected_rank, Mode=OneWay}" Width="Auto"/>
-
-                                <TextBlock Grid.Column="7" Margin="25,0,0,0" Text="Flagship"/>
-                                <TextBlock Grid.Column="7" Grid.Row="1" Margin="25,0,0,0" Text="{Binding export_data.is_flagship, Mode=OneWay}" Width="Auto"/>
-
-                                <TextBlock Grid.Column="8" Margin="25,0,0,0" Text="MVP"/>
-                                <TextBlock Grid.Column="8" Grid.Row="1" Margin="25,0,0,0" Text="{Binding export_data.is_mvp, Mode=OneWay}" Width="Auto"/>
-
-                                <metro2:CallMethodButton Margin="25,0,0,0"
-                                                         Grid.Column="9"
-                                                         Height="22"
-														 Content="Delete"
-														 MethodName="Delete" />
-
-                                    <TextBlock Name="CompletedTrack" 
-                                           Grid.ColumnSpan="8" 
-                                           Grid.Column="1" 
-                                           Grid.RowSpan="2" 
-                                           Background="Blue"
-                                           Visibility="Hidden"
-                                           Text="Completed"
-                                           Opacity="1"/>
-                                </Grid>
-
-                                                        
-                        </Border>
-                            <DataTemplate.Triggers>
-                                <DataTrigger Binding="{Binding isComplete}"
-                                             Value="True">
-                                    <Setter TargetName="CompletedTrack"
-                                            Property="Visibility"
-                                            Value="Visible"/>
-                                </DataTrigger>
-                            </DataTemplate.Triggers>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>-->
             </ScrollViewer>
 
         </Grid>
