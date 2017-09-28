@@ -58,7 +58,7 @@ namespace Grabacr07.KanColleWrapper.Models
 		/// <summary>
 		/// この艦娘が最大Lvになるために必要な経験値を取得します。
 		/// </summary>
-		public int ExpForLevelMax => Experience.GetShipExpForSpecifiedLevel(this.Exp, 155);
+		public int ExpForLevelMax => Experience.GetShipExpForSpecifiedLevel(this.Exp, 165);
 
 		public TimeSpan RepairTimeDock => 
 			TimeSpan.FromSeconds(Math.Floor(BaseRepairTime(this.Level) * (this.HP.Maximum - this.HP.Current) * this.Info.ShipType.RepairMultiplier) + 30);
