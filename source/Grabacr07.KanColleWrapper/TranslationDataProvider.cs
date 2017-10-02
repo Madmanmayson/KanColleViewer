@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -38,13 +38,18 @@ namespace Grabacr07.KanColleWrapper
 
 		private static TranslationDatabase translationSets = new TranslationDatabase();
 
-		private static bool EnableSubmission => KanColleClient.Current?.Settings?.EnableAutosubmission ?? false;
+		// private static bool EnableSubmission => KanColleClient.Current?.Settings?.EnableAutosubmission ?? false;
 
-		public static event EventHandler<ProcessUnknownEventArgs> ProcessUnknown;
+		// public static event EventHandler<ProcessUnknownEventArgs> ProcessUnknown;
 
 		static TranslationDataProvider()
 		{
 			translationsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Smooth and Flat", "KanColleViewer", "Translations");
+			if (!Directory.Exists(translationsPath))
+			{
+				translationsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Translations");
+			}
+
 			CurrentCulture = KanColleClient.Current?.Settings?.Culture;
 		}
 
@@ -74,7 +79,7 @@ namespace Grabacr07.KanColleWrapper
 			if (firstRun) return;
 
 			KanColleClient.Current.Translations.ChangeCulture();
-			KanColleClient.Current.Updater.ChangeCulture();
+			// KanColleClient.Current.Updater.ChangeCulture();
 		}
 
 		/// <summary>
@@ -154,10 +159,10 @@ namespace Grabacr07.KanColleWrapper
 			}
 
 			var result = LookupInsideProvider(type, lookupData);
-			if ((result == null) && EnableSubmission)
-			{
-				ProcessUnknown?.Invoke(null, new ProcessUnknownEventArgs(TypeToProviderType(type), culture, rawData));
-			}
+			//if ((result == null) && EnableSubmission)
+			//{
+			//	ProcessUnknown?.Invoke(null, new ProcessUnknownEventArgs(TypeToProviderType(type), culture, rawData));
+			//}
 			return result;
 		}
 
@@ -331,7 +336,7 @@ namespace Grabacr07.KanColleWrapper
 		/// <returns>True if translations are supported</returns>
 		public static bool IsCultureSupported(string culture)
 		{
-			return culture.StartsWith("ja") || (culture == "zh-CN") || (culture == "ko-KR") || culture.StartsWith("en");
+			return culture.StartsWith("ja") || /*(culture == "zh-CN") || (culture == "ko-KR") ||*/ culture.StartsWith("en");
 		}
 
 		public class TranslationDatabase : Dictionary<Tuple<TranslationProviderType, string>, BaseTranslationSet>

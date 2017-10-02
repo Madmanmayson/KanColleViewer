@@ -96,11 +96,11 @@ namespace Grabacr07.KanColleViewer.Models.Settings
 		public static SerializableProperty<bool> EnableTranslations { get; }
 			= new SerializableProperty<bool>(GetKey(), Providers.Roaming, true);
 
-		public static SerializableProperty<bool> EnableUpdates { get; }
-			= new SerializableProperty<bool>(GetKey(), Providers.Roaming, true);
+		//public static SerializableProperty<bool> EnableUpdates { get; }
+		//	= new SerializableProperty<bool>(GetKey(), Providers.Roaming, true);
 
-		public static SerializableProperty<bool> EnableAutosubmission { get; }
-			= new SerializableProperty<bool>(GetKey(), Providers.Roaming, true);
+		//public static SerializableProperty<bool> EnableAutosubmission { get; }
+		//	= new SerializableProperty<bool>(GetKey(), Providers.Roaming, true);
 
 		/// <summary>
 		/// 艦隊の編成が変更されたときに、その艦隊を自動的に選択状態にするかどうかを表す設定値を取得します。
@@ -151,9 +151,9 @@ namespace Grabacr07.KanColleViewer.Models.Settings
 
 		bool IKanColleClientSettings.EnableTranslations => EnableTranslations.Value;
 
-		bool IKanColleClientSettings.EnableUpdates => EnableUpdates.Value;
+		// bool IKanColleClientSettings.EnableUpdates => EnableUpdates.Value;
 
-		bool IKanColleClientSettings.EnableAutosubmission => EnableAutosubmission.Value;
+		// bool IKanColleClientSettings.EnableAutosubmission => EnableAutosubmission.Value;
 
 		bool IKanColleClientSettings.CheckFlagshipIsRepairShip => CheckFlagshipIsNotRepairShip.Value;
 

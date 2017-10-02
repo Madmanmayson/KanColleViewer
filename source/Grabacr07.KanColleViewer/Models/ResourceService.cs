@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -28,8 +28,8 @@ namespace Grabacr07.KanColleViewer.Models
 		{
 			"ja", // Resources.resx
 			"en",
-			"zh-CN",
-			"ko-KR",
+			/*"zh-CN",
+			"ko-KR",*/
 		};
 
 		/// <summary>

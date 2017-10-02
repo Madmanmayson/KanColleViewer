@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -29,9 +29,9 @@ namespace Grabacr07.KanColleWrapper
 
 		bool EnableTranslations { get; }
 
-		bool EnableUpdates { get; }
+		// bool EnableUpdates { get; }
 
-		bool EnableAutosubmission { get; }
+		// bool EnableAutosubmission { get; }
 
 		/// <summary>
 		/// 艦隊ステータスにおいて、旗艦が工作艦かどうかを確認するかどうかを示す値を取得します。

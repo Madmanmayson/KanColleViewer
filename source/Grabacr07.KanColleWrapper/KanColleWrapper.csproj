@@ -256,7 +256,6 @@
     <Compile Include="TimerNotifier.cs" />
     <Compile Include="TranslationDataProvider.cs" />
     <Compile Include="Translations.cs" />
-    <Compile Include="Updater.cs" />
     <Compile Include="ViewerWebClient.cs">
       <SubType>Component</SubType>
     </Compile>

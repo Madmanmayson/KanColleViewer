@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -48,7 +48,7 @@ namespace Grabacr07.KanColleWrapper
 
 		public Translations Translations { get; private set; }
 
-		public Updater Updater { get; private set; }
+		// public Updater Updater { get; private set; }
 
 		public string ApiUrl { get; set; }
 
@@ -156,7 +156,7 @@ namespace Grabacr07.KanColleWrapper
 		{
 			TranslationDataProvider.ChangeCulture(value.Culture, true);
 			this.Translations = new Translations(TranslationDataProvider.CurrentCulture);
-			this.Updater = new Updater(ApiUrl, TranslationDataProvider.CurrentCulture);
+			// this.Updater = new Updater(ApiUrl, TranslationDataProvider.CurrentCulture);
 			TranslationDataProvider.ChangeCulture(value.Culture);
 		}
 	}
