@@ -65,6 +65,7 @@
     <Reference Include="Nekoxy, Version=1.5.2.20, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nekoxy.1.5.2.20\lib\net45\Nekoxy.dll</HintPath>
       <Private>True</Private>
+    </Reference>
     <Reference Include="Nekoxy, Version=1.5.3.21, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nekoxy.1.5.3.21\lib\net45\Nekoxy.dll</HintPath>
     </Reference>
