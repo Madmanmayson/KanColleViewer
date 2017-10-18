@@ -14,10 +14,10 @@ namespace Logger.Models
 {
     class ConstructionJSON : IComparable<ConstructionJSON>
     {
-        int id;
-        string name;
-        int[] mats;
-        string datetime;
+        public int id;
+        public string name;
+        public int[] mats;
+        public string datetime;
 
         public ConstructionJSON(int id, string name, int[] mats, string datetime)
         {
@@ -33,9 +33,9 @@ namespace Logger.Models
         }
     }
 
-    class ConstructionLog
+    class ConstructionLogger
     {
-        public static ConstructionLog Current { get; } = new ConstructionLog();
+        public static ConstructionLogger Current { get; } = new ConstructionLogger();
         KanColleProxy proxy = KanColleClient.Current.Proxy;
 
         //global list of constructed ships
@@ -45,9 +45,10 @@ namespace Logger.Models
         //Variables updated whenever new ship is created
         string shipName;
         int[] materialCost = new int[5];
-        int waitingForShipID = -1;
+        int DockID = -1;
+        bool waitingForShip;
 
-        public ConstructionLog()
+        public ConstructionLogger()
         {
             this.constructedShips = new ObservableCollection<ConstructionJSON>();
             LoadData();
@@ -58,7 +59,8 @@ namespace Logger.Models
         //Gets material cost from request
         private void UpdateCost(NameValueCollection req)
         {
-            this.waitingForShipID = Int32.Parse(req["api_kdock_id"]);
+            this.waitingForShip = true;
+            this.DockID = Int32.Parse(req["api_kdock_id"]);
             this.materialCost[0] = Int32.Parse(req["api_item1"]); //fuel
             this.materialCost[1] = Int32.Parse(req["api_item2"]); //ammo
             this.materialCost[2] = Int32.Parse(req["api_item3"]); //steel
@@ -70,44 +72,47 @@ namespace Logger.Models
         //Gets ship name from api response
         private void FindShip(kcsapi_kdock[] docks)
         {
-            if(this.waitingForShipID != -1)
+            foreach (var dock in docks.Where(dock => this.waitingForShip && dock.api_id == this.DockID))
             {
-                this.shipName = KanColleClient.Current.Master.Ships[docks[this.waitingForShipID].api_created_ship_id].Name;
-                this.constructedShips.Add(new ConstructionJSON(constructedShips.Count + 1, 
-                                                                this.shipName, 
-                                                                this.materialCost, 
+                this.shipName = KanColleClient.Current.Master.Ships[dock.api_created_ship_id].Name;
+                this.constructedShips.Add(new ConstructionJSON(constructedShips.Count + 1,
+                                                                this.shipName,
+                                                                this.materialCost,
                                                                 DateTime.Now.ToString()));
-                this.waitingForShipID = -1;
+                this.DockID = -1;
+                this.SaveData();
+            }
+                if (this.DockID != -1)
+            {
+                
             }
         }
 
         //Loads previously saved JSON data
         private void LoadData()
         {
-            Directory.CreateDirectory(dataPath);
-
-            using(StreamWriter dataWriter = new StreamWriter(Path.Combine(dataPath, "ConstructionLog.json")))
+            var path = Path.Combine(dataPath, "ConstructionLog.json");
+            if (File.Exists(path))
             {
-                List<ConstructionJSON> exportData = constructedShips.ToList();
-
-                string output = JsonConvert.SerializeObject(exportData);
-
-                dataWriter.Write(output);
+                string json = File.ReadAllText(Path.Combine(path));
+                List<ConstructionJSON> exportedData = JsonConvert.DeserializeObject<List<ConstructionJSON>>(json);
+                foreach (ConstructionJSON log in exportedData)
+                {
+                    constructedShips.Add(log);
+                }
             }
         }
 
         //Saves JSON data (perform after each construction)
         private void SaveData()
         {
-            var path = Path.Combine(dataPath, "ConstructionLog.json");
-            if (File.Exists(path))
+            Directory.CreateDirectory(dataPath);
+
+            using (StreamWriter dataWriter = new StreamWriter(Path.Combine(dataPath, "ConstructionLog.json")))
             {
-                string json = File.ReadAllText(Path.Combine(path));
-                List<ConstructionJSON> exportedData = JsonConvert.DeserializeObject<List<ConstructionJSON>>(json);
-                foreach(ConstructionJSON log in exportedData)
-                {
-                    constructedShips.Add(log);
-                }
+                List<ConstructionJSON> exportData = constructedShips.ToList();
+                string output = JsonConvert.SerializeObject(exportData);
+                dataWriter.Write(output);
             }
         }
     }
