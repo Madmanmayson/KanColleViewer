@@ -109,6 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Loggers.cs" />
+    <Compile Include="Models\ConstructionLog.cs" />
     <Compile Include="Models\LoggerSettings.cs" />
     <Compile Include="ViewModels\Contents\ConstructionViewModel.cs" />
     <Compile Include="ViewModels\Contents\DevelopmentViewModel.cs" />
