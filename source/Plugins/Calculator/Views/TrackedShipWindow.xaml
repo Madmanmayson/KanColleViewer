@@ -6,23 +6,58 @@
         xmlns:local="clr-namespace:Calculator.Views"
         xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
         xmlns:kcvc="http://schemes.grabacr.net/winfx/2015/kancolleviewer/controls"
+        xmlns:views="clr-namespace:Calculator.Views"
+        xmlns:viewModels="clr-namespace:Calculator.ViewModels"
+        xmlns:livet="http://schemas.livet-mvvm.net/2011/wpf"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:controls="http://schemes.grabacr.net/winfx/2015/kancolleviewer/controls"
+        Title="{Binding Title}"
         mc:Ignorable="d"
-        Title="Tracked Ships" 
+        d:DataContext="{d:DesignInstance viewModels:TrackedShipWindowViewModel}"
         Height="720" 
         Width="1080"
         Background="{DynamicResource ThemeBrushKey}"
         Foreground="{DynamicResource ActiveForegroundBrushKey}"
-        FontFamily="{DynamicResource DefaultFontFamilyKey}">
+        FontFamily="{DynamicResource DefaultFontFamilyKey}"
+        IsRestoringWindowPlacement="True"
+		SnapsToDevicePixels="True">
 
-    <Window.Resources>
+    <metro:MetroWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Styles/PluginStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </Window.Resources>
-    
+    </metro:MetroWindow.Resources>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="ContentRendered">
+            <livet:LivetCallMethodAction MethodTarget="{Binding}"
+										 MethodName="Initialize" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closed">
+            <livet:DataContextDisposeAction />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0">
+            <controls:AppIcon DockPanel.Dock="Left"
+                              Width="36"
+						  Height="36"
+						  Background="Transparent"
+						  AnchorVisibility="Collapsed"
+						  BandVisibility="Collapsed" />
+            <TextBlock Text="{Binding Title}" HorizontalAlignment="Left" Style="{DynamicResource CaptionTextStyleKey}"/>
+            <metro:SystemButtons DockPanel.Dock="Right" HorizontalAlignment="Right"/>
+        </DockPanel>
         
+        <views:ShipTrackingView Grid.Row="1"/>
     </Grid>
+    
 </metro:MetroWindow>

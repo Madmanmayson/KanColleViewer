@@ -16,6 +16,7 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using Newtonsoft.Json;
 using Grabacr07.KanColleViewer;
+using Livet.Messaging;
 
 namespace Calculator.ViewModels
 {
@@ -114,8 +115,11 @@ namespace Calculator.ViewModels
 
         public void OpenNewWindow()
         {
-            // window = new TrackedShipWindowViewModel(this.TrackedShips);
-            //WindowService.Current.MainWindow.Transition(window, typeof(TrackedShipWindowViewModel));
+            var message = new TransitionMessage("Show/TrackedWindow")
+            {
+                TransitionViewModel = new TrackedShipWindowViewModel()
+            };
+            this.Messenger.RaiseAsync(message);
         }
     }
 }

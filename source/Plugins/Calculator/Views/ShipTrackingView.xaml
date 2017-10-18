@@ -32,15 +32,15 @@
 								BorderBrush="{DynamicResource BorderBrushKey}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="70"/>
+                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="70"/>
+                            <ColumnDefinition Width="55"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
@@ -48,44 +48,46 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Margin="17,0,25,0" Text="{Binding CurrentShip.Info.Name, Mode=OneWay}" MinWidth="100"/>
-                        <TextBlock Grid.Row="1" Margin="17,0,25,0" Text="{Binding CurrentShip.Info.ShipType.Name, Mode=OneWay}"/>
+                        <TextBlock Margin="17,2,25,2" Text="{Binding CurrentShip.Info.Name, Mode=OneWay}" MinWidth="100"/>
+                        <TextBlock Grid.Row="1" Margin="17,2,25,2" Text="{Binding CurrentShip.Info.ShipType.Name, Mode=OneWay}"/>
 
-                        <TextBlock Grid.Column="1" Margin="17,0,0,0" Text="Current"/>
-                        <TextBlock Grid.Column="1" Grid.Row="1" Margin="17,0,0,0" Text="{Binding CurrentShip.Level, Mode=OneWay}" Width="Auto"/>
+                        <TextBlock Grid.Column="1" Margin="17,2,0,2" Text="Current"/>
+                        <TextBlock Grid.Column="1" Grid.Row="1" Margin="17,2,0,2" Text="{Binding CurrentShip.Level, Mode=OneWay}" Width="Auto"/>
 
-                        <TextBlock Grid.Column="2" Margin="25,0,0,0" Text="Target"/>
-                        <TextBlock Grid.Column="2" Grid.Row="1" Margin="25,0,0,0" Text="{Binding export_data.target_level, Mode=OneWay}" Width="Auto"/>
+                        <TextBlock Grid.Column="2" Margin="12.5,2" Text="Target"/>
+                        <TextBlock Grid.Column="2" Grid.Row="1" Margin="12.5,2" Text="{Binding export_data.target_level, Mode=OneWay}" Width="Auto"/>
 
-                        <TextBlock Grid.Column="3" Margin="25,0,0,0" Text="EXP Left"/>
-                        <TextBlock Grid.Column="3" Grid.Row="1" Margin="25,0,0,0" Text="{Binding remaining_Exp, Mode=OneWay}" Width="Auto"/>
+                        <TextBlock Grid.Column="3" Margin="12.5,2" Text="EXP Left"/>
+                        <TextBlock Grid.Column="3" Grid.Row="1" Margin="12.5,2" Text="{Binding remaining_Exp, Mode=OneWay}" Width="Auto"/>
 
-                        <TextBlock Grid.Column="4" Margin="25,0,0,0" Text="Battles" Foreground="Yellow"/>
-                        <TextBlock Grid.Column="4" Grid.Row="1" Margin="25,0,0,0" Text="{Binding remaining_Battles, Mode=OneWay}" Width="Auto" Foreground="Yellow"/>
+                        <TextBlock Grid.Column="4" Margin="12.5,2" Text="Battles" Foreground="Yellow"/>
+                        <TextBlock Grid.Column="4" Grid.Row="1" Margin="12.5,2" Text="{Binding remaining_Battles, Mode=OneWay}" Width="Auto" Foreground="Yellow"/>
 
-                        <TextBlock Grid.Column="5" Margin="25,0,0,0" Text="Map" Background="Transparent"/>
-                        <TextBlock Grid.Column="5" Grid.Row="1" Margin="25,0,0,0" Text="{Binding export_data.selected_map, Mode=OneWay}" Width="Auto"/>
+                        <TextBlock Grid.Column="5" Margin="12.5,2" Text="Map" Background="Transparent"/>
+                        <TextBlock Grid.Column="5" Grid.Row="1" Margin="12.5,2" Text="{Binding export_data.selected_map, Mode=OneWay}" Width="Auto"/>
 
-                        <TextBlock Grid.Column="6" Margin="25,0,0,0" Text="Rank"/>
-                        <TextBlock Grid.Column="6" Grid.Row="1" Margin="25,0,0,0" Text="{Binding export_data.selected_rank, Mode=OneWay}" Width="Auto"/>
+                        <TextBlock Grid.Column="6" Margin="12.5,2" Text="Rank"/>
+                        <TextBlock Grid.Column="6" Grid.Row="1" Margin="12.5,2" Text="{Binding export_data.selected_rank, Mode=OneWay}" Width="Auto"/>
 
-                        <TextBlock Grid.Column="7" Margin="25,0,0,0" Text="Flagship"/>
-                        <TextBlock Grid.Column="7" Grid.Row="1" Margin="25,0,0,0" Text="{Binding export_data.is_flagship, Mode=OneWay}" Width="Auto"/>
+                        <TextBlock Grid.Column="7" Margin="12.5,2" Text="Flagship"/>
+                        <TextBlock Grid.Column="7" Grid.Row="1" Margin="12.5,2" Text="{Binding export_data.is_flagship, Mode=OneWay}" Width="Auto"/>
 
-                        <TextBlock Grid.Column="8" Margin="25,0,0,0" Text="MVP"/>
-                        <TextBlock Grid.Column="8" Grid.Row="1" Margin="25,0,0,0" Text="{Binding export_data.is_mvp, Mode=OneWay}" Width="Auto"/>
+                        <TextBlock Grid.Column="8" Margin="12.5,2" Text="MVP"/>
+                        <TextBlock Grid.Column="8" Grid.Row="1" Margin="12.5,2" Text="{Binding export_data.is_mvp, Mode=OneWay}" Width="Auto"/>
 
-                        <metro2:CallMethodButton Margin="25,0,0,0"
+                        <metro2:CallMethodButton Margin="12.5,2"
                                                          Grid.Column="9"
                                                          Height="22"
 														 Content="Delete"
-														 MethodName="Delete" />
+														 MethodName="Delete"
+                                                 Grid.RowSpan="2"
+                                                 VerticalAlignment="Center" />
 
                         <TextBlock Name="CompletedTrack" 
                                            Grid.ColumnSpan="8" 
                                            Grid.Column="1" 
                                            Grid.RowSpan="2" 
-                                           Background="Blue"
+                                           Background="{DynamicResource ActiveBackgroundBrushKey}"
                                            Visibility="Hidden"
                                            Text="Completed"
                                            Opacity="1"/>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -55,10 +55,10 @@ namespace Grabacr07.KanColleWrapper.Models
 		/// </summary>
 		ReconPlane = 9,
 
-        /// <summary>
-        /// 水上爆撃機, 水上偵察機。
-        /// </summary>
-        ReconSeaplane = 10,
+		/// <summary>
+		/// 水上爆撃機, 水上偵察機。
+		/// </summary>
+		ReconSeaplane = 10,
 
 		/// <summary>
 		/// 電探。
@@ -195,10 +195,10 @@ namespace Grabacr07.KanColleWrapper.Models
 		/// </summary>
 		LandBasedAttacker = 37,
 
-        /// <summary>
-        /// 局地戦闘機。
-        /// </summary>
-        InterceptorFighter = 38,
+		/// <summary>
+		/// 局地戦闘機。
+		/// </summary>
+		InterceptorFighter = 38,
 
 		/// <summary>
 		/// 噴式戦闘爆撃機
@@ -225,9 +225,14 @@ namespace Grabacr07.KanColleWrapper.Models
 		/// </summary>
 		SeaplaneFighter = 43,
 
-        /// <summary>
+		/// <summary>
 		/// 陸軍戦闘機
 		/// </summary>
 		LandBasedFighter = 44,
-    }
+
+		/// <summary>
+		/// 夜間戦闘機
+		/// </summary>
+		NightFighter = 45,
+	}
 }

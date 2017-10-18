@@ -5,37 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using Livet;
 using System.Collections.ObjectModel;
-using Calculator.Models.Raw;
+using Calculator.Models;
+using Grabacr07.KanColleViewer.ViewModels;
 using MetroTrilithon.Mvvm;
 
 namespace Calculator.ViewModels
 {
     class TrackedShipWindowViewModel : WindowViewModel
     {
+        public TrackingData Tracking { get; } = TrackingData.Current;
 
-        #region Tracked Ships
 
-        private ObservableCollection<TrackedShip> _TrackedShips;
-
-        public ObservableCollection<TrackedShip> TrackedShips
+        public TrackedShipWindowViewModel()
         {
-            get { return this._TrackedShips; }
-            set
-            {
-                if (this._TrackedShips != value)
-                {
-                    this._TrackedShips = value;
-                    this.RaisePropertyChanged();
-                }
-            }
+            this.Title = "Tracked Ships";
         }
-
-        #endregion
-
-        public TrackedShipWindowViewModel(ObservableCollection<TrackedShip> TrackedShips)
-        {
-            this.TrackedShips = TrackedShips;
-        }
-
     }
 }
