@@ -17,6 +17,7 @@ using System.Reactive.Subjects;
 using Newtonsoft.Json;
 using Grabacr07.KanColleViewer;
 using Livet.Messaging;
+using System.Diagnostics;
 
 namespace Calculator.ViewModels
 {
@@ -82,24 +83,29 @@ namespace Calculator.ViewModels
                 .Subscribe(_ => this.IsReloading = false);
             this.CompositeDisposable.Add(this.updateSource);
 
-            Thread thread = new Thread(new ThreadStart(InitializePlugin));
+            KanColleClient.Current.Proxy.api_start2.Throttle(TimeSpan.FromSeconds(15)).Subscribe(_ => this.InitializePlugin());
 
-            KanColleClient.Current.Proxy.api_start2.Subscribe(_ => thread.Start());
+            //Thread thread = new Thread(new ThreadStart(InitializePlugin));
+            //KanColleClient.Current.Proxy.api_start2.Subscribe(_ => thread.Start());
 
-            
+
         }
 
         private void InitializePlugin()
         {
-            while(this.homeport == null)
-            {
-                Thread.Sleep(1000);
+            //while(this.homeport == null)
+            //{
+                //Thread.Sleep(1000);
                 this.homeport = KanColleClient.Current.Homeport;
-            }
-            this.CompositeDisposable.Add(new PropertyChangedEventListener(this.homeport.Organization)
+            //}
+            if(this.homeport != null)
             {
-                { () => this.homeport.Organization.Ships, (sender, args) => this.Update() },
-            });
+                this.CompositeDisposable.Add(new PropertyChangedEventListener(this.homeport.Organization)
+                {
+                    { () => this.homeport.Organization.Ships, (sender, args) => this.Update() },
+                });
+            }
+
         }
 
         private void Update()
