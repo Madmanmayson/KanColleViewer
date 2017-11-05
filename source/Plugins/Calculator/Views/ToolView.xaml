@@ -32,46 +32,69 @@
                                                   IsOwned="False" />
         </l:InteractionMessageTrigger>
     </i:Interaction.Triggers>
-    
+
     <DockPanel>
-        <metro2:CallMethodButton DockPanel.Dock="Right"
+        <Grid DockPanel.Dock="Right">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <metro2:CallMethodButton Grid.Row="0"
                 Margin="10"
                 Content="Open in New Window"
                 Height="30"
+                Width="150"
                 VerticalAlignment="Top"
                 HorizontalAlignment="Right"
                 MethodName="OpenNewWindow"/>
-
-
-        <views:CalculatorView DataContext="{Binding Calculator}" 
-                              DockPanel.Dock="Top"/>
-
-        <Grid DockPanel.Dock="Bottom">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
             
-            <Border Margin="8,15,0,0"
-			    BorderThickness="0,.99,0,0"
-			    BorderBrush="{DynamicResource BorderBrushKey}">
-            <TextBlock Margin="17,8"
-                   Text="Tracked Ships:"
-                   Grid.Row="0"
-                   VerticalAlignment="Top"
-                   Style="{DynamicResource EmphaticTextStyleKey}"/>
-        </Border>
-
-        <ScrollViewer Grid.Row="1"
-                      VerticalScrollBarVisibility="Auto"
-                      HorizontalScrollBarVisibility="Auto"
-                      Width="auto"
-                      PanningMode="Both">
-
-                <views:ShipTrackingView/>
-            </ScrollViewer>
-
+            <metro2:CallMethodButton Grid.Row="1"
+                Margin="10"
+                Content="Reload Data/Rebind"
+                Height="30"
+                Width="150"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Right"
+                MethodName="InitializePlugin"/>
         </Grid>
+        
+
+        <ScrollViewer DockPanel.Dock="Left" 
+                      HorizontalScrollBarVisibility="Auto" 
+                      VerticalScrollBarVisibility="Auto"
+                      Width="auto" 
+                      PanningMode="Both">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <views:CalculatorView DataContext="{Binding Calculator}" Grid.Row="0"/>
+
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Margin="8,15,0,0"
+			                BorderThickness="0,.99,0,0"
+			                BorderBrush="{DynamicResource BorderBrushKey}">
+                           
+                        <TextBlock Margin="17,8"
+                           Text="Tracked Ships:"
+                           Grid.Row="0"
+                           VerticalAlignment="Top"
+                           Style="{DynamicResource EmphaticTextStyleKey}"/> 
+                    </Border>
+
+                    <views:ShipTrackingView/>
+
+                </Grid>
+            </Grid>
+        </ScrollViewer>
 
     </DockPanel>
 </UserControl>
