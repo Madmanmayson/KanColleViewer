@@ -25,6 +25,7 @@ namespace Grabacr07.KanColleWrapper.Models.Raw
         public int api_quest_level { get; set; }
         public Api_Enemy_Info api_enemy_info { get; set; }
         public int api_first_clear { get; set; }
+        public int api_mapcell_incentive { get; set; }
         public int[] api_get_flag { get; set; }
         public Api_Get_Ship api_get_ship { get; set; }
         public Api_Get_Eventitem[] api_get_eventitem { get; set; }
