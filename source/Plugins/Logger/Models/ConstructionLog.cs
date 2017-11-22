@@ -40,7 +40,7 @@ namespace Logger.Models
 
         //global list of constructed ships
         private string dataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Smooth and Flat", "KanColleViewer", "Data");
-        ObservableCollection<ConstructionJSON> constructedShips;
+        public ObservableCollection<ConstructionJSON> constructedShips;
 
         //Variables updated whenever new ship is created
         string shipName;

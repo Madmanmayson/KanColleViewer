@@ -115,9 +115,13 @@
     <Compile Include="Loggers.cs" />
     <Compile Include="Models\ConstructionLog.cs" />
     <Compile Include="Models\LoggerSettings.cs" />
+    <Compile Include="ViewModels\ConstructionWindowViewModel.cs" />
     <Compile Include="ViewModels\Contents\ConstructionViewModel.cs" />
     <Compile Include="ViewModels\Contents\DevelopmentViewModel.cs" />
     <Compile Include="ViewModels\ToolViewModel.cs" />
+    <Compile Include="Views\ConstructionWindow.xaml.cs">
+      <DependentUpon>ConstructionWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Contents\Construction.xaml.cs">
       <DependentUpon>Construction.xaml</DependentUpon>
     </Compile>
@@ -200,6 +204,10 @@
     <Page Include="Styles\Common.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ConstructionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Contents\Construction.xaml">
       <SubType>Designer</SubType>
