@@ -13,18 +13,10 @@ using MetroTrilithon.Mvvm;
 namespace Calculator.ViewModels
 {
     class CalculatorViewModel : ViewModel
-    {
-        private Homeport homeport = KanColleClient.Current.Homeport;
-
-        private TrackingData Tracking { get; } = TrackingData.Current;
-        
+    {        
+        //Display Variables
         public IEnumerable<string> MapList { get; private set; }
         public IEnumerable<string> ResultList { get; private set; }
-        private string[] battleResults = { "S", "A", "B", "C", "D", "E" };
-        private int sortieExperience = 0;
-
-        private ToolViewModel masterData;
-
         public ShipCatalogSortWorker SortWorker { get; private set; }
 
         #region Ships
@@ -235,10 +227,13 @@ namespace Calculator.ViewModels
 
         #endregion
 
-        public CalculatorViewModel(ToolViewModel masterData)
+        //Hidden Calculation Variables
+        private string[] battleResults = { "S", "A", "B", "C", "D", "E" };
+        private int sortieExperience = 0;
+
+        public CalculatorViewModel()
         {
-            this.masterData = masterData;
-            this.MapList = this.masterData.sortieExperienceTable.Keys.ToList();
+            this.MapList = SortieExperienceTable.SortieExperience.Keys.ToList();
             this.ResultList = this.battleResults.ToList();
 
             this.SortWorker = new ShipCatalogSortWorker();
@@ -250,12 +245,11 @@ namespace Calculator.ViewModels
 
         public void Update()
         {
-            this.homeport = KanColleClient.Current.Homeport;
-            var list = this.homeport.Organization.Ships.Values;
+            var list = KanColleClient.Current.Homeport.Organization.Ships.Values;
             this.Ships = this.SortWorker.Sort(list).Reverse();
             if(CurrentShip != null)
             {
-                this.CurrentShip = homeport.Organization.Ships[CurrentShip.Id];
+                this.CurrentShip = KanColleClient.Current.Homeport.Organization.Ships[CurrentShip.Id];
             }
         }
 
@@ -266,16 +260,16 @@ namespace Calculator.ViewModels
             //taken from YunYun's calculator plugin
             double multiplier = (this.IsFlagship ? 1.5 : 1) * (this.IsMVP ? 2 : 1) * (this.SelectedResult == "S" ? 1.2 : (this.SelectedResult == "C" ? 0.8 : (this.SelectedResult == "D" ? 0.7 : (this.SelectedResult == "E" ? 0.5 : 1))));
 
-            this.sortieExperience = (int)Math.Round(masterData.sortieExperienceTable[SelectedMap] * multiplier);
-            this.RemainingExperience = this.masterData.experienceTable[TargetLevel] - this.CurrentShip.Exp;
+            this.sortieExperience = (int)Math.Round(SortieExperienceTable.SortieExperience[SelectedMap] * multiplier);
+            this.RemainingExperience = ExperienceTable.experienceByLevel[TargetLevel] - this.CurrentShip.Exp;
             this.RemainingBattles = (int)Math.Ceiling(this.RemainingExperience / (double)this.sortieExperience);
             }
         }
 
         public void Save()
         {
-            Tracking.TrackedShips.Add(new TrackedShip(CurrentShip.Id, TargetLevel, SelectedMap, SelectedResult, IsFlagship, IsMVP));
-            Tracking.SaveData();
+            TrackingData.Current.TrackedShips.Add(new TrackedShip(CurrentShip.Id, TargetLevel, SelectedMap, SelectedResult, IsFlagship, IsMVP));
+            TrackingData.Current.SaveData();
         }
     }
 }

@@ -148,6 +148,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Analyzers\KanColleViewer.PluginAnalyzer.Test\KanColleViewer.PluginAnalyzer.Test.csproj">
+      <Project>{a8509d8c-9eaa-4787-ad0c-b7dd6b251f3a}</Project>
+      <Name>KanColleViewer.PluginAnalyzer.Test</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Analyzers\KanColleViewer.PluginAnalyzer\KanColleViewer.PluginAnalyzer.csproj">
+      <Project>{b84f1251-4042-4adc-955e-415469947538}</Project>
+      <Name>KanColleViewer.PluginAnalyzer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Grabacr07.KanColleViewer.Composition\KanColleViewer.Composition.csproj">
       <Project>{cc139e98-d847-41da-b20f-8aca4564f375}</Project>
       <Name>KanColleViewer.Composition</Name>
@@ -209,7 +217,6 @@
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\..\Analyzers\KanColleViewer.PluginAnalyzer\bin\Debug\KanColleViewer.Composition.dll" />
-    <Analyzer Include="..\..\Analyzers\KanColleViewer.PluginAnalyzer\bin\Debug\KanColleViewer.PluginAnalyzer.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

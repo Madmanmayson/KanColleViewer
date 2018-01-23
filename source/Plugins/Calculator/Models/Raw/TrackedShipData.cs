@@ -1,4 +1,5 @@
 ﻿using Calculator.ViewModels;
+using Grabacr07.KanColleWrapper;
 using Grabacr07.KanColleWrapper.Models;
 using Calculator.Models.Raw;
 using Livet;
@@ -13,6 +14,8 @@ namespace Calculator.Models.Raw
 
     class SavedShip : NotificationObject
     {
+        //Designed to be Editable in a future release so they implement RaisePropertyChanged()
+
         public int ship_id;
         #region target_level
 
@@ -108,6 +111,7 @@ namespace Calculator.Models.Raw
 
     class TrackedShip : NotificationObject
     {
+        //Contained the SavedShip Object
         #region export_data
 
         private SavedShip _export_data;
@@ -127,6 +131,7 @@ namespace Calculator.Models.Raw
 
         #endregion
 
+        //Display Info
         #region remaining_Exp
 
         private int _remaining_Exp;
@@ -165,8 +170,7 @@ namespace Calculator.Models.Raw
 
         #endregion
 
-        public TrackingData Tracking = TrackingData.Current;
-
+        //For implementing editing in a future release
         #region isComplete
 
         private bool _isComplete;
@@ -186,6 +190,7 @@ namespace Calculator.Models.Raw
 
         #endregion
 
+        //Holds Vital Info about the ship from the API
         #region CurrentShip
 
         private Ship _CurrentShip;
@@ -221,31 +226,26 @@ namespace Calculator.Models.Raw
             this.export_data.is_flagship = is_flagship;
             this.export_data.is_mvp = is_mvp;
             this.isComplete = false;
-            this.CurrentShip = this.Tracking.homeport.Organization.Ships[ship_id];
+            this.CurrentShip = KanColleClient.Current.Homeport.Organization.Ships[ship_id];
             this.Update();
         }
 
-        //Loading constructor
+        //Constructor for loading a ship
         public TrackedShip(SavedShip loadedData)
         {
             this.export_data = loadedData;
-            //this.plugin = ToolViewModel.Current;
             this.isComplete = false;
         }
 
         public void Delete()
         {
-            this.Tracking.TrackedShips.Remove(this);
-            this.Tracking.SaveData();
+            TrackingData.Current.TrackedShips.Remove(this);
+            TrackingData.Current.SaveData();
         }
 
         public void Update()
         {
-            if(Tracking == null)
-            {
-                this.Tracking = TrackingData.Current;
-            }
-            if(this.Tracking.homeport.Organization.Ships != null && !isComplete)
+            if(KanColleClient.Current.Homeport.Organization.Ships != null && !isComplete)
             {
                 if (CurrentShip != null && CurrentShip.Level >= export_data.target_level)
                 {
@@ -255,7 +255,7 @@ namespace Calculator.Models.Raw
                 }
                 else
                 {
-                    this.CurrentShip = this.Tracking.homeport.Organization.Ships[export_data.ship_id];
+                    this.CurrentShip = KanColleClient.Current.Homeport.Organization.Ships[export_data.ship_id];
 
                     double multiplier = (this.export_data.is_flagship ? 1.5 : 1) * (this.export_data.is_mvp ? 2 : 1) * (this.export_data.selected_rank == "S" ? 1.2 : (this.export_data.selected_rank == "C" ? 0.8 : (this.export_data.selected_rank == "D" ? 0.7 : (this.export_data.selected_rank == "E" ? 0.5 : 1))));
 

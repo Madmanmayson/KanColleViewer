@@ -18,21 +18,16 @@ using Newtonsoft.Json;
 using Grabacr07.KanColleViewer;
 using Livet.Messaging;
 using System.Diagnostics;
+using MetroTrilithon.Mvvm;
 
 namespace Calculator.ViewModels
 {
     class ToolViewModel : ViewModel
     {
         public static ToolViewModel Current { get; } = new ToolViewModel();
-
-        public TrackingData Tracking { get; } = TrackingData.Current;
         
-        private static string dataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Smooth and Flat", "KanColleViewer", "Data");
-        public Homeport homeport = KanColleClient.Current?.Homeport;
         private readonly Subject<Unit> updateSource = new Subject<Unit>();
 
-        public Dictionary<string, int> sortieExperienceTable = SortieExperienceTable.SortieExperience;
-        public int[] experienceTable = ExperienceTable.experienceByLevel;
 
         #region Calculator
 
@@ -53,62 +48,26 @@ namespace Calculator.ViewModels
 
         #endregion
 
-        #region IsReloading 変更通知プロパティ
-
-        private bool _IsReloading;
-
-        public bool IsReloading
-        {
-            get { return this._IsReloading; }
-            set
-            {
-                if (this._IsReloading != value)
-                {
-                    this._IsReloading = value;
-                    this.RaisePropertyChanged();
-                }
-            }
-        }
-
-        #endregion
+        private bool IsReloading;
 
         public ToolViewModel()
         {
-            this.Calculator = new CalculatorViewModel(this);
+            this.Calculator = new CalculatorViewModel();
 
             this.updateSource
                 .Do(_ => this.IsReloading = true)
-                .Throttle(TimeSpan.FromMilliseconds(500))
+                .Throttle(TimeSpan.FromMilliseconds(1500))
                 .Do(_ => this.UpdateCore())
                 .Subscribe(_ => this.IsReloading = false);
             this.CompositeDisposable.Add(this.updateSource);
 
-            KanColleClient.Current.Proxy.api_start2.Throttle(TimeSpan.FromSeconds(5)).Subscribe(_ => this.InitializePlugin());
-
-            //Thread thread = new Thread(new ThreadStart(InitializePlugin));
-            //KanColleClient.Current.Proxy.api_start2.Subscribe(_ => thread.Start());
-
-
+            KanColleClient.Current
+                .Subscribe(nameof(KanColleClient.IsStarted), InitializePlugin, false);
         }
 
         public void InitializePlugin()
         {
-            if (homeport == null)
-            {
-                //while(this.homeport == null)
-                //{
-                //Thread.Sleep(1000);
-                this.homeport = KanColleClient.Current.Homeport;
-                //}
-                if (this.homeport != null)
-                {
-                    this.CompositeDisposable.Add(new PropertyChangedEventListener(this.homeport.Organization)
-                {
-                    { () => this.homeport.Organization.Ships, (sender, args) => this.Update() },
-                });
-                }
-            }
-
+            KanColleClient.Current.Homeport.Organization.Subscribe(nameof(Organization.Ships), Update, false);
         }
 
         private void Update()
@@ -119,7 +78,7 @@ namespace Calculator.ViewModels
         private void UpdateCore()
         {
             this.Calculator.Update();
-            this.Tracking.UpdateCore();  
+            TrackingData.Current.Update();  
         }
 
         public void OpenNewWindow()

@@ -16,6 +16,7 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using Newtonsoft.Json;
 using Grabacr07.KanColleViewer;
+using MetroTrilithon.Mvvm;
 
 namespace Calculator.Models
 {
@@ -24,7 +25,6 @@ namespace Calculator.Models
 
         public static TrackingData Current { get; } = new TrackingData();
 
-        public Homeport homeport = KanColleClient.Current?.Homeport;
         private string dataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Smooth and Flat", "KanColleViewer", "Data");
 
         #region Tracked Ships
@@ -68,29 +68,16 @@ namespace Calculator.Models
         public TrackingData()
         {
             this.LoadData();
-
-            Thread Initialize = new Thread(new ThreadStart(InitializeTracks));
-
-            KanColleClient.Current.Proxy.api_start2.Subscribe(_ => Initialize.Start());
         }
 
-        private void InitializeTracks()
-        {
-            while (this.homeport == null)
-            {
-                Thread.Sleep(1000);
-                this.homeport = KanColleClient.Current.Homeport;
-            }
-        }
-
-        public void UpdateCore()
+        public void Update()
         {
             IsReloading = true;
             while (IsReloading)
             {
                 foreach (var track in TrackedShips)
                 {
-                    if (homeport.Organization.Ships.Keys.Contains(track.export_data.ship_id))
+                    if (KanColleClient.Current.Homeport.Organization.Ships.Keys.Contains(track.export_data.ship_id))
                     {
                         track.Update();
                         IsReloading = false;
