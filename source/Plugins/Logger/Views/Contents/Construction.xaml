@@ -72,7 +72,9 @@
             <ListView DockPanel.Dock="Bottom" 
                       ItemsSource="{Binding output}"
                       ItemContainerStyle="{DynamicResource GridViewItemContainerStyleKey}"
-				      ScrollViewer.PanningMode="Both">
+				      ScrollViewer.PanningMode="Both"
+                      Padding="50,0,10,0">
+                <!--Copied from Catalog View Style-->
                 <ListView.Resources>
                     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverterKey" />
                     <Style TargetType="{x:Type TextBlock}">
@@ -126,7 +128,69 @@
                                            VerticalAlignment="Center"
                                            TextAlignment="Center"/>
                             </GridViewColumnHeader>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding id, Mode=OneWay}"
+												   Margin="0,3" />
+                                    </DataTemplate>
+                            </GridViewColumn.CellTemplate>
                         </GridViewColumn>
+                        <GridViewColumn Width="75">
+                            <GridViewColumnHeader>
+                                <TextBlock Text="Fuel"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"/>
+                            </GridViewColumnHeader>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ConstructionJSON.id, Mode=OneWay}"
+												   Margin="0,3" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn><GridViewColumn Width="75">
+                            <GridViewColumnHeader>
+                                <TextBlock Text="Ammo"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"/>
+                            </GridViewColumnHeader>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ConstructionJSON.id, Mode=OneWay}"
+												   Margin="0,3" />
+                                    </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="75">
+                            <GridViewColumnHeader>
+                                <TextBlock Text="Steel"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"/>
+                            </GridViewColumnHeader>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ConstructionJSON.id, Mode=OneWay}"
+												   Margin="0,3" />
+                                    </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="75">
+                            <GridViewColumnHeader>
+                                <TextBlock Text="Bauxite"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"/>
+                            </GridViewColumnHeader>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ConstructionJSON.id, Mode=OneWay}"
+												   Margin="0,3" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        
                     </GridView>
                 </ListView.View>
 
