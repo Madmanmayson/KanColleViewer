@@ -48,15 +48,6 @@
                 VerticalAlignment="Top"
                 HorizontalAlignment="Right"
                 MethodName="OpenNewWindow"/>
-            
-            <metro2:CallMethodButton Grid.Row="1"
-                Margin="10"
-                Content="Reload Data/Rebind"
-                Height="30"
-                Width="150"
-                VerticalAlignment="Top"
-                HorizontalAlignment="Right"
-                MethodName="InitializePlugin"/>
         </Grid>
         
 

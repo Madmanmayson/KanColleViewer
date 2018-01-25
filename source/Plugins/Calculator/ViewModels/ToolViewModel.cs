@@ -48,17 +48,14 @@ namespace Calculator.ViewModels
 
         #endregion
 
-        private bool IsReloading;
-
         public ToolViewModel()
         {
             this.Calculator = new CalculatorViewModel();
 
             this.updateSource
-                .Do(_ => this.IsReloading = true)
                 .Throttle(TimeSpan.FromMilliseconds(1500))
-                .Do(_ => this.UpdateCore())
-                .Subscribe(_ => this.IsReloading = false);
+                .Do(_ => this.UpdateCore());
+
             this.CompositeDisposable.Add(this.updateSource);
 
             KanColleClient.Current
