@@ -24,8 +24,8 @@ namespace Calculator.ViewModels
 {
     class ToolViewModel : ViewModel
     {
-        public static ToolViewModel Current { get; } = new ToolViewModel();
-        
+        public TrackingData Tracking { get; } = TrackingData.Current;
+
         private readonly Subject<Unit> updateSource = new Subject<Unit>();
 
 
@@ -64,7 +64,7 @@ namespace Calculator.ViewModels
 
         public void InitializePlugin()
         {
-            KanColleClient.Current.Homeport.Organization.Subscribe(nameof(Organization.Ships), Update, false);
+            KanColleClient.Current.Homeport.Organization.Subscribe(nameof(Organization.Ships), UpdateCore, false);
         }
 
         private void Update()

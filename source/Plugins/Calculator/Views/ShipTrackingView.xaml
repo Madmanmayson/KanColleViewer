@@ -10,7 +10,7 @@
              xmlns:views="clr-namespace:Calculator.Views"
              mc:Ignorable="d" 
              Background="{DynamicResource ThemeBrushKey}"
-             d:DataContext="{d:DesignInstance viewModels:ToolViewModel}"
+             d:DataContext="{d:DesignInstance viewModels:ShipTrackingViewModel}"
              d:DesignHeight="300" d:DesignWidth="1080">
 
     <UserControl.Resources>

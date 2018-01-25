@@ -81,7 +81,7 @@
                            Style="{DynamicResource EmphaticTextStyleKey}"/> 
                     </Border>
 
-                    <views:ShipTrackingView/>
+                    <views:ShipTrackingView Grid.Row="1"/>
 
                 </Grid>
             </Grid>
