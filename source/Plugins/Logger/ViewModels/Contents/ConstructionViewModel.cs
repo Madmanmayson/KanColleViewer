@@ -9,6 +9,7 @@ using Logger.Models;
 using Livet.Messaging;
 using Livet.EventListeners;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace Logger.ViewModels.Contents
 {
@@ -17,7 +18,23 @@ namespace Logger.ViewModels.Contents
         public ConstructionLogger Log = ConstructionLogger.Current;
 
         private Queue<ConstructionJSON> latest = new Queue<ConstructionJSON>();
-        public ObservableCollection<ConstructionJSON> output = new ObservableCollection<ConstructionJSON>();
+
+        #region Output
+        private ObservableCollection<ConstructionJSON> _Output;
+
+        public ObservableCollection<ConstructionJSON> Output
+        {
+            get { return this._Output; }
+            set
+            {
+                if (this._Output != value)
+                {
+                    this._Output = value;
+                    this.RaisePropertyChanged();
+                }
+            }
+        }
+        #endregion
 
         public override string Name
         {
@@ -27,11 +44,7 @@ namespace Logger.ViewModels.Contents
 
         public ConstructionViewModel()
         {
-            this.CompositeDisposable.Add(new PropertyChangedEventListener(Log.constructedShips)
-            {
-                { () => this.Log.constructedShips, (sender, args) => this.Update() },
-            });
-
+            Log.constructedShips.CollectionChanged += Update;
             LoadLatest();
         }
 
@@ -40,7 +53,7 @@ namespace Logger.ViewModels.Contents
             var loadedData = Log.constructedShips.ToArray();
             if (loadedData.Length > 5)
             {
-                for (int i = 1; i >= 5; i++)
+                for (int i = 5; i >=1; i--)
                 {
                     latest.Enqueue(loadedData[loadedData.Length - i]);
                 }
@@ -52,14 +65,14 @@ namespace Logger.ViewModels.Contents
                     latest.Enqueue(loadedData[i - 1]);
                 }
             }
-            this.output = new ObservableCollection<ConstructionJSON>(this.latest);
+            this.Output = new ObservableCollection<ConstructionJSON>(this.latest.Reverse());
         }
 
-        private void Update()
+        private void Update(object sender, NotifyCollectionChangedEventArgs e)
         {
             latest.Dequeue();
             latest.Enqueue(Log.constructedShips.Last());
-            this.output = new ObservableCollection<ConstructionJSON>(this.latest);
+            this.Output = new ObservableCollection<ConstructionJSON>(this.latest.Reverse());
         }
 
         public void ExportCSV()

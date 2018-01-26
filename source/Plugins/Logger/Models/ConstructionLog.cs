@@ -9,15 +9,86 @@ using System.Collections.Specialized;
 using System.Collections.ObjectModel;
 using System.IO;
 using Newtonsoft.Json;
+using Livet;
+using System.ComponentModel;
 
 namespace Logger.Models
 {
-    class ConstructionJSON : IComparable<ConstructionJSON>
+    public class ConstructionJSON : NotificationObject, IComparable<ConstructionJSON>
     {
-        public int id;
-        public string name;
-        public int[] mats;
-        public string datetime;
+
+        #region id
+
+        private int _ID;
+
+        public int id
+        {
+            get { return this._ID; }
+            set
+            {
+                if (this._ID != value)
+                {
+                    this._ID = value;
+                    this.RaisePropertyChanged();
+                }
+            }
+        }
+
+        #endregion
+        #region name
+
+        private string _Name;
+
+        public string name
+        {
+            get { return this._Name; }
+            set
+            {
+                if (this._Name != value)
+                {
+                    this._Name = value;
+                    this.RaisePropertyChanged();
+                }
+            }
+        }
+
+        #endregion
+        #region name
+
+        private int[] _Mats;
+
+        public int[] mats
+        {
+            get { return this._Mats; }
+            set
+            {
+                if (this._Mats != value)
+                {
+                    this._Mats = value;
+                    this.RaisePropertyChanged();
+                }
+            }
+        }
+
+        #endregion
+        #region name
+
+        private string _Datetime;
+
+        public string datetime
+        {
+            get { return this._Datetime; }
+            set
+            {
+                if (this._Datetime != value)
+                {
+                    this._Datetime = value;
+                    this.RaisePropertyChanged();
+                }
+            }
+        }
+
+        #endregion
 
         public ConstructionJSON(int id, string name, int[] mats, string datetime)
         {
@@ -33,7 +104,7 @@ namespace Logger.Models
         }
     }
 
-    class ConstructionLogger
+    public class ConstructionLogger : NotificationObject
     {
         public static ConstructionLogger Current { get; } = new ConstructionLogger();
         KanColleProxy proxy = KanColleClient.Current.Proxy;

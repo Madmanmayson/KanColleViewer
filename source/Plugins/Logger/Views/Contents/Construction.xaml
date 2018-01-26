@@ -9,9 +9,11 @@
              xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
              xmlns:metro2="http://schemes.grabacr.net/winfx/2015/personal/controls"
              xmlns:views="clr-namespace:Logger.Views"
+             xmlns:viewModels="clr-namespace:Logger.ViewModels.Contents"
              mc:Ignorable="d" 
              d:DesignHeight="400" 
              d:DesignWidth="900"
+             d:DataContext="{d:DesignInstance viewModels:ConstructionViewModel}"
              Background="{DynamicResource ThemeBrushKey}">
 
     <UserControl.Resources>
@@ -70,7 +72,7 @@
             </Grid>
 
             <ListView DockPanel.Dock="Bottom" 
-                      ItemsSource="{Binding output}"
+                      ItemsSource="{Binding Output}"
                       ItemContainerStyle="{DynamicResource GridViewItemContainerStyleKey}"
 				      ScrollViewer.PanningMode="Both"
                       Padding="50,0,10,0">
@@ -132,6 +134,20 @@
                                 <DataTemplate>
                                     <TextBlock Text="{Binding id, Mode=OneWay}"
 												   Margin="0,3" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="100">
+                            <GridViewColumnHeader>
+                                <TextBlock Text="Name"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"/>
+                            </GridViewColumnHeader>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding name, Mode=OneWay}"
+												   Margin="0,3" />
                                     </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -144,7 +160,7 @@
                             </GridViewColumnHeader>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding ConstructionJSON.id, Mode=OneWay}"
+                                    <TextBlock Text="{Binding mats[0], Mode=OneWay}"
 												   Margin="0,3" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -157,7 +173,7 @@
                             </GridViewColumnHeader>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding ConstructionJSON.id, Mode=OneWay}"
+                                    <TextBlock Text="{Binding mats[1], Mode=OneWay}"
 												   Margin="0,3" />
                                     </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -171,7 +187,7 @@
                             </GridViewColumnHeader>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding ConstructionJSON.id, Mode=OneWay}"
+                                    <TextBlock Text="{Binding mats[2], Mode=OneWay}"
 												   Margin="0,3" />
                                     </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -185,7 +201,7 @@
                             </GridViewColumnHeader>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding ConstructionJSON.id, Mode=OneWay}"
+                                    <TextBlock Text="{Binding mats[3], Mode=OneWay}"
 												   Margin="0,3" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
