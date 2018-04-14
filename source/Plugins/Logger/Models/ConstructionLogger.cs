@@ -30,6 +30,7 @@ namespace Logger.Models
         private int[] materialCost = new int[5];
         private int DockID = -1;
         private bool waitingForShip;
+		private string secretary; 
 
         public ConstructionLogger()
         {
@@ -49,6 +50,7 @@ namespace Logger.Models
             this.materialCost[2] = Int32.Parse(req["api_item3"]); //steel
             this.materialCost[3] = Int32.Parse(req["api_item4"]); //baux
             this.materialCost[4] = Int32.Parse(req["api_item5"]); //construction mats
+			this.secretary = KanColleClient.Current.Homeport.Organization.Fleets[1].Ships[0].Info.Name;
 
         }
 
@@ -61,7 +63,8 @@ namespace Logger.Models
                 this.LogData.Add(new ConstructionJSON(LogData.Count + 1,
                                                                 this.shipName,
                                                                 this.materialCost,
-                                                                DateTime.Now.ToString()));
+                                                                DateTime.Now.ToString(),
+																this.secretary));
                 this.DockID = -1;
                 this.SaveData();
             }

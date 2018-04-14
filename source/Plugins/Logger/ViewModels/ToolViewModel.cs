@@ -16,7 +16,7 @@ namespace Logger.ViewModels
 
         //Tab Items
         public ConstructionViewModel Construction { get; }
-        public DevelopmentViewModel Development { get; }
+        public ConstructionViewModel Development { get; }
 
         public IList<TabItemViewModel> LogItems { get; set; }
 
@@ -44,7 +44,7 @@ namespace Logger.ViewModels
             this.LogItems = new List<TabItemViewModel>
             {
                 (this.Construction = new ConstructionViewModel("Construction", ConstructionLogger.Current).AddTo(this)),
-                (this.Development = new DevelopmentViewModel().AddTo(this)),
+                (this.Development = new ConstructionViewModel("Development", DevelopmentLogger.Current).AddTo(this)),
             };
 
             this.SelectedItem = this.LogItems.FirstOrDefault();

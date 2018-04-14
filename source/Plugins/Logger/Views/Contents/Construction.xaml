@@ -54,13 +54,13 @@
                            TextWrapping="NoWrap"
                            Style="{DynamicResource EmphaticTextStyleKey}"/>
 
-                <metro2:CallMethodButton Grid.Column="1"
+                <!--<metro2:CallMethodButton Grid.Column="1"
                 Margin="10"
                 Content="Export to CSV"
                 Height="30"
                 VerticalAlignment="Top"
                 HorizontalAlignment="Right"
-                MethodName="ExportLog"/>
+                MethodName="ExportLog"/>-->
 
                 <metro2:CallMethodButton Grid.Column="2"
                 Margin="10"
@@ -78,7 +78,7 @@
 					  ScrollViewer.VerticalScrollBarVisibility="Hidden"
 					  HorizontalAlignment="Left"
                       Padding="50,0,10,0"
-					  Width="515">
+					  Width="Auto">
                 <!--Copied from Catalog View Style-->
                 <ListView.Resources>
                     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverterKey" />
@@ -154,7 +154,21 @@
                                     </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Width="75">
+						<GridViewColumn Width="100">
+							<GridViewColumnHeader>
+								<TextBlock Text="Secretary"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"/>
+							</GridViewColumnHeader>
+							<GridViewColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding secretary, Mode=OneWay}"
+												   Margin="0,3" />
+								</DataTemplate>
+							</GridViewColumn.CellTemplate>
+						</GridViewColumn>
+						<GridViewColumn Width="75">
                             <GridViewColumnHeader>
                                 <TextBlock Text="Fuel"
                                            HorizontalAlignment="Center"
