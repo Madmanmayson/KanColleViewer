@@ -72,22 +72,26 @@ namespace Calculator.Models
 
         public void Update()
         {
-            IsReloading = true;
-            while (IsReloading)
+            if (TrackedShips.Count != 0)
             {
-                foreach (var track in TrackedShips)
+                IsReloading = true;
+                while (IsReloading)
                 {
-                    if (KanColleClient.Current.Homeport.Organization.Ships.Keys.Contains(track.export_data.ship_id))
+                    var ships = KanColleClient.Current.Homeport.Organization.Ships;
+                    foreach (var track in TrackedShips)
                     {
-                        track.Update();
-                        IsReloading = false;
-                    }
-                    else
-                    {
-                        Application.Current.Dispatcher.Invoke(new Action(() => this.TrackedShips.Remove(track)));
-                        this.SaveData();
-                        IsReloading = true;
-                        break;
+                        if (KanColleClient.Current.Homeport.Organization.Ships.Keys.Contains(track.export_data.ship_id))
+                        {
+                            track.Update();
+                            IsReloading = false;
+                        }
+                        else
+                        {
+                            Application.Current.Dispatcher.Invoke(new Action(() => this.TrackedShips.Remove(track)));
+                            this.SaveData();
+                            IsReloading = true;
+                            break;
+                        }
                     }
                 }
             }
