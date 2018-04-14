@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,114 +14,26 @@ using System.ComponentModel;
 
 namespace Logger.Models
 {
-    public class ConstructionJSON : NotificationObject, IComparable<ConstructionJSON>
-    {
-
-        #region id
-
-        private int _ID;
-
-        public int id
-        {
-            get { return this._ID; }
-            set
-            {
-                if (this._ID != value)
-                {
-                    this._ID = value;
-                    this.RaisePropertyChanged();
-                }
-            }
-        }
-
-        #endregion
-        #region name
-
-        private string _Name;
-
-        public string name
-        {
-            get { return this._Name; }
-            set
-            {
-                if (this._Name != value)
-                {
-                    this._Name = value;
-                    this.RaisePropertyChanged();
-                }
-            }
-        }
-
-        #endregion
-        #region name
-
-        private int[] _Mats;
-
-        public int[] mats
-        {
-            get { return this._Mats; }
-            set
-            {
-                if (this._Mats != value)
-                {
-                    this._Mats = value;
-                    this.RaisePropertyChanged();
-                }
-            }
-        }
-
-        #endregion
-        #region name
-
-        private string _Datetime;
-
-        public string datetime
-        {
-            get { return this._Datetime; }
-            set
-            {
-                if (this._Datetime != value)
-                {
-                    this._Datetime = value;
-                    this.RaisePropertyChanged();
-                }
-            }
-        }
-
-        #endregion
-
-        public ConstructionJSON(int id, string name, int[] mats, string datetime)
-        {
-            this.id = id;
-            this.name = name;
-            this.mats = mats;
-            this.datetime = datetime;
-        }
-
-        public int CompareTo(ConstructionJSON other)
-        {
-            return other.id - this.id;
-        }
-    }
-
-    public class ConstructionLogger : NotificationObject
-    {
+    public class ConstructionLogger : NotificationObject, ILogger
+	{
+		//Public variables for interface
         public static ConstructionLogger Current { get; } = new ConstructionLogger();
-        KanColleProxy proxy = KanColleClient.Current.Proxy;
+		public ObservableCollection<ConstructionJSON> LogData { get; set; }
 
-        //global list of constructed ships
+		KanColleProxy proxy = KanColleClient.Current.Proxy;
+
+        //Data save location
         private string dataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Smooth and Flat", "KanColleViewer", "Data");
-        public ObservableCollection<ConstructionJSON> constructedShips;
-
+		
         //Variables updated whenever new ship is created
-        string shipName;
-        int[] materialCost = new int[5];
-        int DockID = -1;
-        bool waitingForShip;
+        private string shipName;
+        private int[] materialCost = new int[5];
+        private int DockID = -1;
+        private bool waitingForShip;
 
         public ConstructionLogger()
         {
-            this.constructedShips = new ObservableCollection<ConstructionJSON>();
+            this.LogData = new ObservableCollection<ConstructionJSON>();
             LoadData();
             proxy.api_req_kousyou_createship.TryParse<kcsapi_createship>().Subscribe(x => this.UpdateCost(x.Request));
             proxy.api_get_member_kdock.TryParse<kcsapi_kdock[]>().Subscribe(x => this.FindShip(x.Data));
@@ -146,7 +58,7 @@ namespace Logger.Models
             foreach (var dock in docks.Where(dock => this.waitingForShip && dock.api_id == this.DockID))
             {
                 this.shipName = KanColleClient.Current.Master.Ships[dock.api_created_ship_id].Name;
-                this.constructedShips.Add(new ConstructionJSON(constructedShips.Count + 1,
+                this.LogData.Add(new ConstructionJSON(LogData.Count + 1,
                                                                 this.shipName,
                                                                 this.materialCost,
                                                                 DateTime.Now.ToString()));
@@ -169,7 +81,7 @@ namespace Logger.Models
                 List<ConstructionJSON> exportedData = JsonConvert.DeserializeObject<List<ConstructionJSON>>(json);
                 foreach (ConstructionJSON log in exportedData)
                 {
-                    constructedShips.Add(log);
+                    LogData.Add(log);
                 }
             }
         }
@@ -181,7 +93,7 @@ namespace Logger.Models
 
             using (StreamWriter dataWriter = new StreamWriter(Path.Combine(dataPath, "ConstructionLog.json")))
             {
-                List<ConstructionJSON> exportData = constructedShips.ToList();
+                List<ConstructionJSON> exportData = LogData.ToList();
                 string output = JsonConvert.SerializeObject(exportData);
                 dataWriter.Write(output);
             }

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Logger.Views.Contents.Construction"
+<UserControl x:Class="Logger.Views.Contents.Construction"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -48,7 +48,7 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Margin="10"
-                           Text="Latest Constructions"
+                           Text="{Binding Header}"
                            Grid.Row="0"
                            VerticalAlignment="Center"
                            TextWrapping="NoWrap"
@@ -75,7 +75,10 @@
                       ItemsSource="{Binding Output}"
                       ItemContainerStyle="{DynamicResource GridViewItemContainerStyleKey}"
 				      ScrollViewer.PanningMode="Both"
-                      Padding="50,0,10,0">
+					  ScrollViewer.VerticalScrollBarVisibility="Hidden"
+					  HorizontalAlignment="Left"
+                      Padding="50,0,10,0"
+					  Width="515">
                 <!--Copied from Catalog View Style-->
                 <ListView.Resources>
                     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverterKey" />

@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Livet;
 using Grabacr07.KanColleViewer.ViewModels;
+using Logger.Models;
 using Logger.ViewModels.Contents;
 using MetroTrilithon.Mvvm;
 
@@ -42,7 +43,7 @@ namespace Logger.ViewModels
         {
             this.LogItems = new List<TabItemViewModel>
             {
-                (this.Construction = new ConstructionViewModel().AddTo(this)),
+                (this.Construction = new ConstructionViewModel("Construction", ConstructionLogger.Current).AddTo(this)),
                 (this.Development = new DevelopmentViewModel().AddTo(this)),
             };
 

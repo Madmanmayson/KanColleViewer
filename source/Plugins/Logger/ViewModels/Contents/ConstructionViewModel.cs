@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +15,9 @@ namespace Logger.ViewModels.Contents
 {
     class ConstructionViewModel : TabItemViewModel
     {
-        public ConstructionLogger Log = ConstructionLogger.Current;
+		public int DISPLAY_QUANTITY = 15;
+
+		public ILogger Log;
 
         private Queue<ConstructionJSON> latest = new Queue<ConstructionJSON>();
 
@@ -38,22 +40,27 @@ namespace Logger.ViewModels.Contents
 
         public override string Name
         {
-            get { return "Construction"; }
-            protected set { throw new NotImplementedException(); }
+			get;
+			protected set; 
         }
 
-        public ConstructionViewModel()
+		public string Header { get; set; }
+
+        public ConstructionViewModel(string title, ILogger logger)
         {
-            Log.constructedShips.CollectionChanged += Update;
+			this.Log = logger;
+			this.Name = title;
+			this.Header = "Latest " + title + "s";
+            logger.LogData.CollectionChanged += Update;
             LoadLatest();
         }
 
         private void LoadLatest()
         {
-            var loadedData = Log.constructedShips.ToArray();
-            if (loadedData.Length > 5)
+            var loadedData = Log.LogData.ToArray();
+            if (loadedData.Length > DISPLAY_QUANTITY)
             {
-                for (int i = 5; i >=1; i--)
+                for (int i = DISPLAY_QUANTITY; i >=1; i--)
                 {
                     latest.Enqueue(loadedData[loadedData.Length - i]);
                 }
@@ -65,13 +72,13 @@ namespace Logger.ViewModels.Contents
                     latest.Enqueue(loadedData[i - 1]);
                 }
             }
-            this.Output = new ObservableCollection<ConstructionJSON>(this.latest.Reverse());
+            this.Output = new ObservableCollection<ConstructionJSON>(this.latest);
         }
 
         private void Update(object sender, NotifyCollectionChangedEventArgs e)
         {
-            latest.Dequeue();
-            latest.Enqueue(Log.constructedShips.Last());
+			if(latest.Count >= DISPLAY_QUANTITY) latest.Dequeue();
+            latest.Enqueue(Log.LogData.Last());
             this.Output = new ObservableCollection<ConstructionJSON>(this.latest.Reverse());
         }
 
