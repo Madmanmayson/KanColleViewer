@@ -120,16 +120,12 @@
     <Compile Include="Models\LoggerSettings.cs" />
     <Compile Include="ViewModels\ConstructionWindowViewModel.cs" />
     <Compile Include="ViewModels\Contents\ConstructionViewModel.cs" />
-    <Compile Include="ViewModels\Contents\DevelopmentViewModel.cs" />
     <Compile Include="ViewModels\ToolViewModel.cs" />
     <Compile Include="Views\ConstructionWindow.xaml.cs">
       <DependentUpon>ConstructionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Contents\Construction.xaml.cs">
       <DependentUpon>Construction.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Contents\Development.xaml.cs">
-      <DependentUpon>Development.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoggerView.xaml.cs">
       <DependentUpon>LoggerView.xaml</DependentUpon>
@@ -213,10 +209,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Contents\Construction.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Contents\Development.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
