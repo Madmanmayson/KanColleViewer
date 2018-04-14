@@ -19,6 +19,10 @@ build/
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
 
+*.lock
+*.ide
+*.ide-shm
+*.ide-wal
 *_i.c
 *_p.c
 *.ilk
