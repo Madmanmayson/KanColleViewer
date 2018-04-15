@@ -105,7 +105,8 @@ namespace Logger.Models
 		{
 			this.id = id;
 			this.name = name;
-			this.mats = mats;
+			this.mats = new int[5];
+			Array.Copy(mats, this.mats, mats.Length);
 			this.datetime = datetime;
 			this.secretary = secretary;
 		}

@@ -69,10 +69,10 @@ namespace Logger.ViewModels.Contents
             {
                 for(int i = loadedData.Length; i > 0; i--)
                 {
-                    latest.Enqueue(loadedData[i - 1]);
+                    latest.Enqueue(loadedData[loadedData.Length - i]);
                 }
             }
-            this.Output = new ObservableCollection<ConstructionJSON>(this.latest);
+            this.Output = new ObservableCollection<ConstructionJSON>(this.latest.Reverse());
         }
 
         private void Update(object sender, NotifyCollectionChangedEventArgs e)
