@@ -1,4 +1,4 @@
-﻿<metro:MetroWindow x:Class="Grabacr07.KanColleViewer.Views.KanColleWindow"
+<metro:MetroWindow x:Class="Grabacr07.KanColleViewer.Views.KanColleWindow"
 				   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 				   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 				   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
@@ -115,44 +115,33 @@
 
             <DockPanel Grid.Row="1">
                 <DockPanel DockPanel.Dock="{Binding BrowserDock}">
-                    <controls:KanColleHost x:Name="kanColleHost"
+				<controls:KanColleHost x:Name="kanColleHost"
 									   x:FieldModifier="private"
 									   DockPanel.Dock="{Binding BrowserDock2}"
 									   ZoomFactor="{Binding ZoomFactor.Current}"
 									   UserStyleSheet="{Binding Source={x:Static settings:GeneralSettings.UserStyleSheet}, Path=Value}"
 									   OwnerSizeChangeRequested="HandleKanColleHostSizeChangeRequested">
-                        <i:Interaction.Triggers>
-                            <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
+					<i:Interaction.Triggers>
+						<livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
 														 MessageKey="WebBrowser.Zoom">
-                                <behaviors:ZoomAction />
-                            </livet:InteractionMessageTrigger>
-                        </i:Interaction.Triggers>
-                        <WebBrowser Source="about:blank" Name="kancolle">
-                            <i:Interaction.Behaviors>
-                                <behaviors:NavigatorBehavior Navigator="{Binding Navigator}" />
-                                <mtti:TaskbarThumbnailBehavior />
-                            </i:Interaction.Behaviors>
-                            <i:Interaction.Triggers>
-                                <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
+							<behaviors:ZoomAction />
+						</livet:InteractionMessageTrigger>
+					</i:Interaction.Triggers>
+					<WebBrowser Source="about:blank" Name="kancolle">
+						<i:Interaction.Behaviors>
+							<behaviors:NavigatorBehavior Navigator="{Binding Navigator}" />
+							<mtti:TaskbarThumbnailBehavior />
+						</i:Interaction.Behaviors>
+						<i:Interaction.Triggers>
+							<livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
 															 MessageKey="Screenshot.Save">
-                                    <behaviors:ScreenshotAction />
-                                </livet:InteractionMessageTrigger>
-                            </i:Interaction.Triggers>
-                        </WebBrowser>
-                    </controls:KanColleHost>
-                <views:PopupNonTopmost PlacementTarget="{Binding ElementName=kancolle}" 
-                                       Placement="Center" 
-                                       x:Name="myPopup" 
-                                       AllowsTransparency="True" 
-                                       IsHitTestVisible="False"
-                                       IsOpen="true">
-                    <TextBlock Background="Transparent" 
-                               Height="200" 
-                               Width="200"
-                               IsHitTestVisible="False"/>
-                </views:PopupNonTopmost>
+								<behaviors:ScreenshotAction />
+							</livet:InteractionMessageTrigger>
+						</i:Interaction.Triggers>
+					</WebBrowser>
+				</controls:KanColleHost>
 
-                <DockPanel x:Name="toolbarArea"
+				<DockPanel x:Name="toolbarArea"
 						   x:FieldModifier="private"
 						   DockPanel.Dock="Top"
 						   MaxWidth="{Binding ToolAreaMaxWidth}">

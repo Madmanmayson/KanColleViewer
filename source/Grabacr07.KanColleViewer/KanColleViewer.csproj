@@ -352,7 +352,6 @@
     <Compile Include="Views\StatusBar.xaml.cs">
       <DependentUpon>StatusBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TranslationPopup.cs" />
     <Compile Include="Win32\INTERNET_CACHE_ENTRY_INFOA.cs" />
     <Compile Include="Win32\WinInet.cs" />
     <Compile Include="Win32\DVTARGETDEVICE.cs" />
