@@ -1,12 +1,217 @@
-﻿<Window x:Class="Logger.Views.ConstructionWindow"
+<metro:MetroWindow x:Class="Logger.Views.ConstructionWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
+		xmlns:livet="http://schemas.livet-mvvm.net/2011/wpf"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:controls="http://schemes.grabacr.net/winfx/2015/kancolleviewer/controls"
         xmlns:local="clr-namespace:Logger.Views"
+		xmlns:viewModels="clr-namespace:Logger.ViewModels"
         mc:Ignorable="d"
-        Title="ConstructionWindow" Height="300" Width="300">
-    <Grid>
-        
-    </Grid>
-</Window>
+        Title="{Binding Title}" 
+		Height="300"
+		Width="900"
+		d:DataContext="{d:DesignInstance viewModels:ConstructionWindowViewModel}"
+		Background="{DynamicResource ThemeBrushKey}"
+        Foreground="{DynamicResource ActiveForegroundBrushKey}"
+        FontFamily="{DynamicResource DefaultFontFamilyKey}">
+
+	<metro:MetroWindow.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="../Styles/Common.xaml"/>
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</metro:MetroWindow.Resources>
+
+	<i:Interaction.Triggers>
+		<i:EventTrigger EventName="ContentRendered">
+			<livet:LivetCallMethodAction MethodTarget="{Binding}"
+										 MethodName="Initialize" />
+		</i:EventTrigger>
+		<i:EventTrigger EventName="Closed">
+			<livet:DataContextDisposeAction />
+		</i:EventTrigger>
+	</i:Interaction.Triggers>
+
+	<Grid>
+
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+
+		<DockPanel Grid.Row="0">
+			<controls:AppIcon DockPanel.Dock="Left"
+                              Width="36"
+						  Height="36"
+						  Background="Transparent"
+						  AnchorVisibility="Collapsed"
+						  BandVisibility="Collapsed" />
+			<TextBlock Text="{Binding Title}" HorizontalAlignment="Left" Style="{DynamicResource CaptionTextStyleKey}"/>
+			<metro:SystemButtons DockPanel.Dock="Right" HorizontalAlignment="Right"/>
+		</DockPanel>
+
+		<ListView DockPanel.Dock="Bottom" Grid.Row="1" 
+                      ItemsSource="{Binding Output}"
+                      ItemContainerStyle="{DynamicResource GridViewItemContainerStyleKey}"
+				      ScrollViewer.PanningMode="Both"
+					  ScrollViewer.VerticalScrollBarVisibility="Auto"
+					  HorizontalAlignment="Left"
+                      Padding="50,0,10,0"
+					  Width="Auto">
+			<!--Copied from Catalog View Style-->
+			<ListView.Resources>
+				<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverterKey" />
+				<Style TargetType="{x:Type TextBlock}">
+					<Setter Property="Margin"
+									Value="5,4" />
+				</Style>
+				<Style TargetType="{x:Type GridViewColumnHeader}">
+					<Setter Property="OverridesDefaultStyle"
+									Value="True" />
+					<Setter Property="BorderThickness"
+									Value="0,0,0,.99" />
+					<Setter Property="BorderBrush"
+									Value="{DynamicResource BorderBrushKey}" />
+					<Setter Property="Background"
+									Value="{DynamicResource BackgroundBrushKey}" />
+					<Setter Property="Template">
+						<Setter.Value>
+							<ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+								<Grid>
+									<Border BorderThickness="{TemplateBinding BorderThickness}"
+													BorderBrush="{TemplateBinding BorderBrush}"
+													Background="{TemplateBinding Background}">
+										<ContentPresenter Margin="{TemplateBinding Padding}" />
+									</Border>
+									<Thumb x:Name="PART_HeaderGripper"
+												   HorizontalAlignment="Right"
+												   BorderBrush="{TemplateBinding BorderBrush}"
+												   Margin="0,0,-6,0">
+										<Thumb.Template>
+											<ControlTemplate TargetType="{x:Type Thumb}">
+												<Border Background="Transparent"
+																Width="13">
+													<Rectangle Width=".99"
+																	   Stroke="{TemplateBinding BorderBrush}" />
+												</Border>
+											</ControlTemplate>
+										</Thumb.Template>
+									</Thumb>
+								</Grid>
+							</ControlTemplate>
+						</Setter.Value>
+					</Setter>
+				</Style>
+			</ListView.Resources>
+			<ListView.View>
+				<GridView>
+					<GridViewColumn Width="50">
+						<GridViewColumnHeader>
+							<TextBlock Text="ID"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"/>
+						</GridViewColumnHeader>
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding id, Mode=OneWay}"
+												   Margin="0,3" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn Width="100">
+						<GridViewColumnHeader>
+							<TextBlock Text="Name"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"/>
+						</GridViewColumnHeader>
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding name, Mode=OneWay}"
+												   Margin="0,3" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn Width="100">
+						<GridViewColumnHeader>
+							<TextBlock Text="Secretary"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"/>
+						</GridViewColumnHeader>
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding secretary, Mode=OneWay}"
+												   Margin="0,3" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn Width="75">
+						<GridViewColumnHeader>
+							<TextBlock Text="Fuel"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"/>
+						</GridViewColumnHeader>
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding mats[0], Mode=OneWay}"
+												   Margin="0,3" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn Width="75">
+						<GridViewColumnHeader>
+							<TextBlock Text="Ammo"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"/>
+						</GridViewColumnHeader>
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding mats[1], Mode=OneWay}"
+												   Margin="0,3" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn Width="75">
+						<GridViewColumnHeader>
+							<TextBlock Text="Steel"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"/>
+						</GridViewColumnHeader>
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding mats[2], Mode=OneWay}"
+												   Margin="0,3" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn Width="75">
+						<GridViewColumnHeader>
+							<TextBlock Text="Bauxite"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"/>
+						</GridViewColumnHeader>
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding mats[3], Mode=OneWay}"
+												   Margin="0,3" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+
+				</GridView>
+			</ListView.View>
+
+		</ListView>
+	</Grid>
+</metro:MetroWindow>

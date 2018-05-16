@@ -91,7 +91,7 @@ namespace Logger.ViewModels.Contents
         {
             var message = new TransitionMessage("Show/TrackedWindow")
             {
-                TransitionViewModel = new ConstructionWindowViewModel()
+                TransitionViewModel = new ConstructionWindowViewModel(this.Header, this.Log)
             };
             this.Messenger.RaiseAsync(message);
         }

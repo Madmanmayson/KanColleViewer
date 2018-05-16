@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,11 +17,13 @@ namespace Logger.Views
     /// <summary>
     /// Interaction logic for ConstructionWindow.xaml
     /// </summary>
-    public partial class ConstructionWindow : Window
+    public partial class ConstructionWindow
     {
         public ConstructionWindow()
         {
             InitializeComponent();
-        }
+
+			Application.Current.MainWindow.Closed += (sender, args) => this.Close();
+		}
     }
 }
