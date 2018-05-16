@@ -6,13 +6,14 @@
 		xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
 		xmlns:livet="http://schemas.livet-mvvm.net/2011/wpf"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+		xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:controls="http://schemes.grabacr.net/winfx/2015/kancolleviewer/controls"
         xmlns:local="clr-namespace:Logger.Views"
 		xmlns:viewModels="clr-namespace:Logger.ViewModels"
         mc:Ignorable="d"
         Title="{Binding Title}" 
-		Height="300"
-		Width="900"
+		Height="750"
+		Width="800"
 		d:DataContext="{d:DesignInstance viewModels:ConstructionWindowViewModel}"
 		Background="{DynamicResource ThemeBrushKey}"
         Foreground="{DynamicResource ActiveForegroundBrushKey}"
@@ -55,7 +56,130 @@
 			<metro:SystemButtons DockPanel.Dock="Right" HorizontalAlignment="Right"/>
 		</DockPanel>
 
-		<ListView DockPanel.Dock="Bottom" Grid.Row="1" 
+		<Grid Grid.Row="1" Margin="50,10">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="Auto"/>
+			</Grid.ColumnDefinitions>
+
+			<TextBlock Grid.ColumnSpan="4"
+					   Text="Filters:" 
+					   HorizontalAlignment="Left" 
+					   FontSize="20"
+					   Style="{DynamicResource EmphaticTextStyleKey}"/>
+
+			<TextBlock Margin="0,5,10,5" Grid.Row="1"
+					   Text="Name:" 
+					   HorizontalAlignment="right" 
+					   Style="{DynamicResource CaptionTextStyleKey}"/>
+
+			<metro:PromptTextBox Margin="0,5"
+								 Grid.Row="1"
+								 Grid.Column="1"
+								 Grid.ColumnSpan="3"
+								 MinWidth="150"
+								 Text="{Binding Filter_Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+								 HorizontalAlignment="Left"
+								 Prompt="Name"/>
+
+			<TextBlock Margin="25,5,10,5" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2"
+					   Text="Secretary:" 
+					   HorizontalAlignment="Right" 
+					   Style="{DynamicResource CaptionTextStyleKey}"/>
+
+			<metro:PromptTextBox Margin="0,5"
+								 Grid.Row="1"
+								 Grid.Column="6"
+								 Grid.ColumnSpan="2"
+								 MinWidth="150"
+								 Text="{Binding Filter_Secretary, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+								 HorizontalAlignment="Left"
+								 Prompt="Secretary"/>
+
+			<Button Grid.Row="1"
+					Grid.Column="8"
+					Margin="25,5"
+					Content="Reset"
+					VerticalAlignment="Center">
+				<i:Interaction.Triggers>
+					<i:EventTrigger EventName="Click">
+						<ei:CallMethodAction TargetObject="{Binding}"
+                                             MethodName="Reset" />
+					</i:EventTrigger>
+				</i:Interaction.Triggers>
+			</Button>
+
+			<TextBlock Margin="25,5,10,5" Grid.Row="2" Grid.Column="0"
+					   Text="Fuel:" 
+					   HorizontalAlignment="right" 
+					   Style="{DynamicResource CaptionTextStyleKey}"/>
+
+			<metro:PromptTextBox Margin="0,5"
+								 Grid.Row="2"
+								 Grid.Column="1"
+								 MinWidth="50"
+								 Text="{Binding Filter_Fuel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+								 PreviewTextInput="NumbersOnly"
+								 HorizontalAlignment="Left"
+								 Prompt="Fuel"/>
+
+			<TextBlock Margin="25,5,10,5" Grid.Row="2" Grid.Column="2"
+					   Text="Steel:" 
+					   HorizontalAlignment="right" 
+					   Style="{DynamicResource CaptionTextStyleKey}"/>
+
+			<metro:PromptTextBox Margin="0,5"
+								 Grid.Row="2"
+								 Grid.Column="3"
+								 MinWidth="50"
+								 Text="{Binding Filter_Steel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+								 PreviewTextInput="NumbersOnly"
+								 HorizontalAlignment="Left"
+								 Prompt="Steel"/>
+
+			<TextBlock Margin="25,5,10,5" Grid.Row="2" Grid.Column="4"
+					   Text="Ammo:" 
+					   HorizontalAlignment="right" 
+					   Style="{DynamicResource CaptionTextStyleKey}"/>
+
+			<metro:PromptTextBox Margin="0,5"
+								 Grid.Row="2"
+								 Grid.Column="5"
+								 MinWidth="50"
+								 Text="{Binding Filter_Ammo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+								 PreviewTextInput="NumbersOnly"
+								 HorizontalAlignment="Left"
+								 Prompt="Ammo"/>
+
+			<TextBlock Margin="25,5,0,5" Grid.Row="2" Grid.Column="6"
+					   Text="Baux:" 
+					   HorizontalAlignment="left" 
+					   Style="{DynamicResource CaptionTextStyleKey}"/>
+
+			<metro:PromptTextBox Margin="0,5"
+								 Grid.Row="2"
+								 Grid.Column="7"
+								 MinWidth="50"
+								 Text="{Binding Filter_Baux, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+								 PreviewTextInput="NumbersOnly"
+								 HorizontalAlignment="Left"
+								 Prompt="Bauxite"/>
+
+		</Grid>
+
+		<ListView DockPanel.Dock="Bottom" Grid.Row="2" 
                       ItemsSource="{Binding Output}"
                       ItemContainerStyle="{DynamicResource GridViewItemContainerStyleKey}"
 				      ScrollViewer.PanningMode="Both"

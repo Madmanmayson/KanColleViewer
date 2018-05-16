@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Livet;
@@ -134,12 +134,13 @@ namespace Calculator.ViewModels
                 if (this._TargetLevel != value)
                 {
                     this._TargetLevel = value;
-                    if(this._TargetLevel > CurrentShip.Level)
+					if (this._TargetLevel > 165)
+					{
+						this._TargetLevel = 165;
+					}
+
+					if (CurrentShip != null && this._TargetLevel > CurrentShip.Level)
                     {
-                        if(this._TargetLevel > 165)
-                        {
-                            this._TargetLevel = 165;
-                        }
                         this.UpdateExperience();
                     }
                     this.RaisePropertyChanged();
