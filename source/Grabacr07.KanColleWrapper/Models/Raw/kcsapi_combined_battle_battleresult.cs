@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,7 +39,14 @@ namespace Grabacr07.KanColleWrapper.Models.Raw
         public int api_escape_flag { get; set; }
         public Api_Escape api_escape { get; set; }
         public Api_Landing_HP api_landing_hp { get; set; }
+		public Api_Get_UseItem api_get_useitem { get; set; }
     }
+
+	public class Api_Get_UseItem
+	{
+		public int api_useitem_id;
+		public string api_useitem_name;
+	}
 
     public class Api_Landing_HP
     {
