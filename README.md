@@ -3,7 +3,7 @@
 
 [![Release](https://img.shields.io/github/release/Madmanmayson/KanColleViewer.svg?style=flat-square)](https://github.com/Madmanmayson/KanColleViewer/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/Madmanmayson/KanColleViewer/latest/total.svg?style=flat-square)](https://github.com/Madmanmayson/KanColleViewer/releases/latest)
-[![License](https://img.shields.io/github/license/Yuubari/KanColleViewer.svg?style=flat-square)](https://github.com/Yuubari/KanColleViewer/blob/develop/LICENSE.txt)
+[![License](https://img.shields.io/github/license/Madmanmayson/KanColleViewer.svg?style=flat-square)](https://github.com/Madmanmayson/KanColleViewer/blob/develop/LICENSE.txt)
 
 
 KanColleViewer! is a Windows-only browser tool that provides a more informative interface for DMM.com's Kantai Collection ~KanColle~ browser game.
