@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Grabacr07.KanColleViewer.Views.StartContent"
+<UserControl x:Class="Grabacr07.KanColleViewer.Views.StartContent"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
@@ -260,24 +260,8 @@
 						</Paragraph>
 						<Paragraph>
 							<InlineUIContainer>
-								<StackPanel Orientation="Horizontal">
-									<metro2:CallMethodButton Content="{Binding DeleteInternetCacheButtonContent}"
-															 MethodName="DeleteInternetCache"
-															 IsEnabled="{Binding CanDeleteInternetCache}"
-															 HorizontalAlignment="Left"
-															 Padding="30,5"
-															 Margin="0,0,5,0"
-															 SnapsToDevicePixels="True" />
-									<metro2:CallMethodButton Content="{Binding SetRegionCookieButtonContent}"
-															 MethodName="SetRegionCookie"
-															 IsEnabled="{Binding CanSetRegionCookie}"
-															 HorizontalAlignment="Center"
-															 Padding="30,5"
-															 Margin="5,0,0,0"
-															 SnapsToDevicePixels="True"
-															 ToolTip="{Binding Resources.StartContent_SetRegionCookieToolTip, Source={x:Static models:ResourceService.Current}}"
-															 ToolTipService.ShowOnDisabled="True"/>
-								</StackPanel>
+								<CheckBox IsChecked="{Binding ClearCacheOnNextStartup}"
+										  Content="次回起動時にキャッシュを削除する" />
 							</InlineUIContainer>
 							<LineBreak />
 							<InlineUIContainer>

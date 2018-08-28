@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Grabacr07.KanColleViewer.Views.Settings.Network"
+<UserControl x:Class="Grabacr07.KanColleViewer.Views.Settings.Network"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
@@ -47,8 +47,8 @@
 		<TextBlock Style="{DynamicResource DetailTextStyleKey}"
 				   IsEnabled="{Binding ProxyType, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=SystemProxy}"
 					   Margin="20,2,0,0">
-				<Run Text="{Binding Resources.Settings_Network_ProxyIEDesc, Source={x:Static models:ResourceService.Current}, Mode=OneWay}" />
-		</TextBlock>
+				<Run Text="「インターネット オプション」の設定を用いて通信を行います。" />
+			</TextBlock>
 
 			<Border Height="8" />
 		<RadioButton x:Name="CheckUseSpecificProxy"
@@ -231,10 +231,14 @@
 			<Border Height="8" />
 		<StackPanel Orientation="Horizontal"
 						HorizontalAlignment="Right">
-			<metro2:CallMethodButton MethodTarget="{Binding}"
-									 MethodName="Apply"
-									 Content="{Binding Resources.Common_Apply, Source={x:Static models:ResourceService.Current}, Mode=OneWay}"
-									 MinWidth="110"
+				<TextBlock Text="※反映にはアプリケーションの再起動が必要です。"
+						   Style="{DynamicResource DetailTextStyleKey}"
+						   Margin="16,8" />
+
+				<metro2:CallMethodButton MethodTarget="{Binding}"
+										 MethodName="Apply"
+										 Content="保存"
+										 MinWidth="110"
 										 Padding="16,6" />
 				<Border Width="8" />
 			<metro2:CallMethodButton MethodTarget="{Binding}"

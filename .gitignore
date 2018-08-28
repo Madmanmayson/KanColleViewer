@@ -149,3 +149,9 @@ $RECYCLE.BIN/
 
 # Mac crap
 .DS_Store
+
+# Visual Studio local files
+.vs
+
+# Application Insights Key
+*.InstrumentationKey.cs
