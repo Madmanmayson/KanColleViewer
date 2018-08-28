@@ -260,8 +260,20 @@
 						</Paragraph>
 						<Paragraph>
 							<InlineUIContainer>
-								<CheckBox IsChecked="{Binding ClearCacheOnNextStartup}"
-										  Content="次回起動時にキャッシュを削除する" />
+								<StackPanel Orientation="Horizontal">
+									<CheckBox IsChecked="{Binding ClearCacheOnNextStartup}"
+										  Content="Clear Cache next reboot" />
+									<metro2:CallMethodButton Content="Set Region Cookie"
+															 MethodName="SetRegionCookie"
+															 IsEnabled="{Binding CanSetRegionCookie}"
+															 HorizontalAlignment="Center"
+															 Padding="5,5"
+															 Margin="35,0,0,0"
+															 SnapsToDevicePixels="True"
+															 ToolTip="{Binding Resources.StartContent_SetRegionCookieToolTip, Source={x:Static models:ResourceService.Current}}"
+															 ToolTipService.ShowOnDisabled="True"/>
+								</StackPanel>
+								
 							</InlineUIContainer>
 							<LineBreak />
 							<InlineUIContainer>
