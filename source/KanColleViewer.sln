@@ -1,7 +1,5 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.0
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -93,6 +91,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleInfoPlugin", "Plugins
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventMapHpViewer", "Plugins\EventMapHpViewer\EventMapHpViewer\EventMapHpViewer.csproj", "{912029C5-C147-459B-A735-3D559B2F193D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C5F0111F-3F68-4A74-BB20-BB762564D080} = {C5F0111F-3F68-4A74-BB20-BB762564D080}
+		{B84F1251-4042-4ADC-955E-415469947538} = {B84F1251-4042-4ADC-955E-415469947538}
+		{0BC8CF79-76D9-46AD-867F-FEC6C6AD4594} = {0BC8CF79-76D9-46AD-867F-FEC6C6AD4594}
+		{CC139E98-D847-41DA-B20F-8ACA4564F375} = {CC139E98-D847-41DA-B20F-8ACA4564F375}
+		{978239D0-3129-4C54-AAC6-493F0DE48BF5} = {978239D0-3129-4C54-AAC6-493F0DE48BF5}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator", "Plugins\Calculator\Calculator.csproj", "{DD40DB28-0A9B-4151-8A10-F9A2195AD78F}"
 EndProject
