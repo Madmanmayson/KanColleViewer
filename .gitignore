@@ -155,3 +155,5 @@ $RECYCLE.BIN/
 
 # Application Insights Key
 *.InstrumentationKey.cs
+
+source/Grabacr07\.KanColleViewer/bin/Debug/Plugins/EventMapHpViewer\.dll
